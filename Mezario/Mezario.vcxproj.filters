@@ -18,5 +18,16 @@
     <ClCompile Include="Mezario.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Playground.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Mezario.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Playground.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

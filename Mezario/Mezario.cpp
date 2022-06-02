@@ -1,8 +1,13 @@
-// Mezario.cpp : This file contains the 'main' function. Program execution begins and ends there.
+#include "Mezario.h"
+#include "Playground.h"
 
-#include <iostream>
-
+/// <summary>
+/// The main function, where the program execution begins and ends.
+/// </summary>
+/// <returns></returns>
 int main()
 {
-    std::cout << "Hello Mezario!\n";
+    Playground* playground = new Playground( 25 , 50);
+    playground->PrintToConsole();
+
 }
