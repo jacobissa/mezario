@@ -5,6 +5,11 @@ struct Position
 {
 	int x;
 	int y;
+
+	inline bool operator==(Position position)
+	{
+		return ( position.x == x && position.y == y );
+	}
 };
 
 enum Cell : char
