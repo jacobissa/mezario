@@ -41,22 +41,22 @@ void Playground::Initialize()
 		{
 			if ( x == 0 || x == mi_width - 1 || y == 0 || y == mi_height - 1 )
 			{
-				SetValue({ x, y } , Cell::Wall);
+				SetValue(Position{ x, y } , Cell::e_cell_wall);
 			}
 			else
 			{
-				SetValue({ x, y } , Cell::Blank);
+				SetValue(Position{ x, y } , Cell::e_cell_blank);
 			}
 				
 		}
 	}
 }
 
-void Playground::SetValue(Position position , char c_value)
+void Playground::SetValue(Position position , enum Cell e_cell)
 {
 	if ( IsInBounds(position) )
 	{
-		matrix[position.y][position.x] = c_value;
+		matrix[position.y][position.x] = e_cell;
 	}
 }
 

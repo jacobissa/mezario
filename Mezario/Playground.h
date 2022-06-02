@@ -12,7 +12,7 @@ public:
 
 private:
 	void Initialize();
-	void SetValue(Position position , char c_value);
+	void SetValue(Position position , enum Cell e_cell);
 	char GetValue(Position position);
 	bool IsInBounds(Position position);
 

@@ -9,6 +9,7 @@ struct Position
 
 enum Cell : char
 {
-	Blank = ' ' ,
-	Wall = '#' ,
+	e_cell_blank = ' ' ,
+	e_cell_wall = '#' ,
+	e_cell_player = '@' ,
 };

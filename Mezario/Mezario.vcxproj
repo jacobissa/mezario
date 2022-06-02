@@ -128,10 +128,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Mezario.cpp" />
+    <ClCompile Include="Player.cpp" />
     <ClCompile Include="Playground.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Mezario.h" />
+    <ClInclude Include="Player.h" />
     <ClInclude Include="Playground.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
