@@ -39,7 +39,15 @@ void Playground::Initialize()
 	{
 		for ( int x = 0; x < mi_width; x++ )
 		{
-			SetValue({ x, y } , '_');
+			if ( x == 0 || x == mi_width - 1 || y == 0 || y == mi_height - 1 )
+			{
+				SetValue({ x, y } , Cell::Wall);
+			}
+			else
+			{
+				SetValue({ x, y } , Cell::Blank);
+			}
+				
 		}
 	}
 }
@@ -62,5 +70,5 @@ char Playground::GetValue(Position position)
 
 bool Playground::IsInBounds(Position position)
 {
-	return position.x >= 0 && position.x < mi_width && position.y >= 0 && position.y < mi_height;
+	return position.x >= 0 && position.x < mi_width&& position.y >= 0 && position.y < mi_height;
 }
