@@ -1,4 +1,8 @@
-#ifndef MEZARIO_H
-#define MEZARIO_H
-#endif
+#pragma once
 #include <iostream>
+
+struct Position
+{
+	int x;
+	int y;
+};

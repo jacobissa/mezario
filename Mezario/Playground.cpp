@@ -27,7 +27,7 @@ void Playground::PrintToConsole()
 	{
 		for ( int x = 0; x < mi_width; x++ )
 		{
-			std::cout << GetValue(y,x);
+			std::cout << GetValue({ x, y });
 		}
 		std::cout << std::endl;
 	}
@@ -39,28 +39,28 @@ void Playground::Initialize()
 	{
 		for ( int x = 0; x < mi_width; x++ )
 		{
-			SetValue(y , x , '#');
+			SetValue({ x, y } , '_');
 		}
 	}
 }
 
-void Playground::SetValue(int y , int x , char value)
+void Playground::SetValue(Position position , char c_value)
 {
-	if ( IsInBounds(y , x) )
+	if ( IsInBounds(position) )
 	{
-		matrix[y][x] = value;
+		matrix[position.y][position.x] = c_value;
 	}
 }
 
-char Playground::GetValue(int y , int x)
+char Playground::GetValue(Position position)
 {
-	if ( IsInBounds(y , x) )
+	if ( IsInBounds(position) )
 	{
-		return matrix[y][x];
+		return matrix[position.y][position.x];
 	}
 }
 
-bool Playground::IsInBounds(int y , int x)
+bool Playground::IsInBounds(Position position)
 {
-	return x >= 0 && x < mi_width && y >= 0 && y < mi_height;
+	return position.x >= 0 && position.x < mi_width && position.y >= 0 && position.y < mi_height;
 }
