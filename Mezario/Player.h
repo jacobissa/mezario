@@ -5,7 +5,6 @@ class Player
 {
 public:
 	Player(Position position);
-
 public:
 	Position GetCurrentPosition();
 	Position GetPreviousPosition();

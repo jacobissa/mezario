@@ -5,7 +5,7 @@
 class Playground
 {
 public:
-	Playground(const int i_height , const int i_width, Player* player);
+	Playground(const int i_height , const int i_width, Player* ptr_player);
 	~Playground();
 
 public:
@@ -19,9 +19,9 @@ private:
 	bool IsInBounds(Position position);
 
 private:
-	char** matrix = 0;
+	char** mptr_matrix = 0;
 	int mi_height = 0;
 	int mi_width = 0;
-	Player* m_player;
+	Player* mptr_player;
 };
 

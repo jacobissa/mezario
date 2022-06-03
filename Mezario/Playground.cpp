@@ -1,26 +1,25 @@
 #include "Playground.h"
 
-Playground::Playground(const int i_height , const int i_width, Player* player)
+Playground::Playground(const int i_height , const int i_width , Player* ptr_player)
 	: mi_height(i_height)
 	, mi_width(i_width)
-	, m_player(player)
+	, mptr_player(ptr_player)
 {
-	matrix = new char* [mi_height];
+	mptr_matrix = new char* [mi_height];
 	for ( int y = 0; y < mi_height; y++ )
 	{
-		matrix[y] = new char[mi_width];
+		mptr_matrix[y] = new char[mi_width];
 	}
 	Initialize();
-	UpdatePlayer();
 }
 
 Playground::~Playground()
 {
 	for ( int y = 0; y < mi_height; y++ )
 	{
-		delete[] matrix[y];
+		delete[] mptr_matrix[y];
 	}
-	delete[] matrix;
+	delete[] mptr_matrix;
 }
 
 void Playground::PrintToConsole()
@@ -30,7 +29,7 @@ void Playground::PrintToConsole()
 	{
 		for ( int x = 0; x < mi_width; x++ )
 		{
-			std::cout << GetValue(Position{ x, y });
+			std::cout << GetValue(Position(x , y));
 		}
 		std::cout << std::endl;
 	}
@@ -38,13 +37,13 @@ void Playground::PrintToConsole()
 
 void Playground::UpdatePlayer()
 {
-	Position position_player_current = m_player->GetCurrentPosition();
-	Position position_player_previous = m_player->GetPreviousPosition();
+	Position position_player_current = mptr_player->GetCurrentPosition();
+	Position position_player_previous = mptr_player->GetPreviousPosition();
 	for ( int y = 0; y < mi_height; y++ )
 	{
 		for ( int x = 0; x < mi_width; x++ )
 		{
-			Position position_cell = Position{ x, y };
+			Position position_cell = Position(x , y);
 			if ( position_cell == position_player_current )
 			{
 				SetValue(position_cell , Cell::e_cell_player);
@@ -63,7 +62,7 @@ void Playground::Initialize()
 	{
 		for ( int x = 0; x < mi_width; x++ )
 		{
-			Position position_cell = Position{ x, y };
+			Position position_cell = Position(x , y);
 
 			if ( x == 0 || x == mi_width - 1 || y == 0 || y == mi_height - 1 )
 			{
@@ -72,7 +71,7 @@ void Playground::Initialize()
 			else
 			{
 				SetValue(position_cell , Cell::e_cell_blank);
-			}	
+			}
 		}
 	}
 }
@@ -81,7 +80,7 @@ void Playground::SetValue(Position position , enum Cell e_cell)
 {
 	if ( IsInBounds(position) )
 	{
-		matrix[position.y][position.x] = e_cell;
+		mptr_matrix[position.y][position.x] = e_cell;
 	}
 }
 
@@ -89,8 +88,11 @@ char Playground::GetValue(Position position)
 {
 	if ( IsInBounds(position) )
 	{
-		return matrix[position.y][position.x];
+		return mptr_matrix[position.y][position.x];
 	}
+	std::cout << std::endl << std::endl << "Error: Invalid request to Playground::GetValue." << std::endl;
+	std::cout << "Position (" << position.x << " , " << position.y << ") ist out of bounds!" << std::endl;
+	std::exit(EXIT_FAILURE);
 }
 
 bool Playground::IsInBounds(Position position)
