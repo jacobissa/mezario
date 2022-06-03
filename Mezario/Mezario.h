@@ -2,6 +2,8 @@
 #define MEZARIO_H
 
 #include <iostream>
+#include <Windows.h>
+
 
 struct Position
 {
