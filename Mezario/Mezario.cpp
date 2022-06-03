@@ -6,16 +6,18 @@ int main()
 {
 	const int i_width = 100;
 	const int i_height = 25;
-	Player* ptr_player = new Player(Position( 1,10 ));
-	Playground* ptr_playground = new Playground(i_height , i_width , ptr_player);
+	Player* ptr_player = new Player(Position(1 , 10));
+	Enemy* ptr_enemy = new Enemy(Position(99 , 24));
+	Playground* ptr_playground = new Playground(i_height , i_width , ptr_player , ptr_enemy);
 
 	for ( int y = 1; y < i_height - 1; y++ )
 	{
 		for ( int x = 1; x < i_width - 1; x++ )
-		{			
-			ptr_player->MoveTo(Position( x,y ));
+		{
+			ptr_player->MoveTo(Position(x , y));
+			ptr_enemy->MoveTo(Position(i_width - x - 1 , i_height - y - 1));
 			ptr_playground->PrintToConsole();
-			
+
 		}
 	}
 

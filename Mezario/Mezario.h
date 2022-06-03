@@ -23,4 +23,5 @@ enum Cell : char
 	e_cell_blank = ' ' ,
 	e_cell_wall = '#' ,
 	e_cell_player = '@' ,
+	e_cell_enemy = '%',
 };

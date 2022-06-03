@@ -1,9 +1,10 @@
 #include "Playground.h"
 
-Playground::Playground(const int i_height , const int i_width , Player* ptr_player)
+Playground::Playground(const int i_height , const int i_width , Player* ptr_player, Enemy* ptr_enemy)
 	: mi_height(i_height)
 	, mi_width(i_width)
 	, mptr_player(ptr_player)
+	, mptr_enemy(ptr_enemy)
 {
 	mptr_matrix = new char* [mi_height];
 	for ( int y = 0; y < mi_height; y++ )
@@ -25,6 +26,7 @@ Playground::~Playground()
 void Playground::PrintToConsole()
 {
 	UpdatePlayer();
+	UpdateEnemy();
 	for ( int y = 0; y < mi_height; y++ )
 	{
 		for ( int x = 0; x < mi_width; x++ )
@@ -49,6 +51,27 @@ void Playground::UpdatePlayer()
 				SetValue(position_cell , Cell::e_cell_player);
 			}
 			else if ( position_cell == position_player_previous )
+			{
+				SetValue(position_cell , Cell::e_cell_blank);
+			}
+		}
+	}
+}
+
+void Playground::UpdateEnemy()
+{
+	Position position_enemy_current = mptr_enemy->GetCurrentPosition();
+	Position position_enemy_previous = mptr_enemy->GetPreviousPosition();
+	for ( int y = 0; y < mi_height; y++ )
+	{
+		for ( int x = 0; x < mi_width; x++ )
+		{
+			Position position_cell = Position(x , y);
+			if ( position_cell == position_enemy_current )
+			{
+				SetValue(position_cell , Cell::e_cell_enemy);
+			}
+			else if ( position_cell == position_enemy_previous )
 			{
 				SetValue(position_cell , Cell::e_cell_blank);
 			}
