@@ -2,13 +2,14 @@
 #include "Playground.h"
 #include "Player.h"
 
-int main()
+
+void PlayGame()
 {
 	const int i_width = 100;
 	const int i_height = 25;
-	Player* ptr_player = new Player(Position(1 , 10));
-	Enemy* ptr_enemy = new Enemy(Position(99 , 24));
-	Playground* ptr_playground = new Playground(i_height , i_width , ptr_player , ptr_enemy);
+	PlayerPtr ptr_player = std::make_shared<Player>(Position(1 , 10));
+	EnemyPtr ptr_enemy = std::make_shared<Enemy>(Position(99 , 24));
+	PlaygroundPtr ptr_playground = std::make_shared<Playground>(i_height , i_width , ptr_player , ptr_enemy);
 
 	for ( int y = 1; y < i_height - 1; y++ )
 	{
@@ -19,6 +20,9 @@ int main()
 			ptr_playground->PrintToConsole();
 		}
 	}
+}
 
-	delete ptr_playground;
+int main()
+{
+	PlayGame();
 }
