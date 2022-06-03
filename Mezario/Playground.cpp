@@ -25,8 +25,6 @@ Playground::~Playground()
 
 void Playground::PrintToConsole()
 {
-	UpdateCreatre(mptr_player);
-	UpdateCreatre(mptr_enemy);
 	for ( int y = 0; y < mi_height; y++ )
 	{
 		for ( int x = 0; x < mi_width; x++ )
@@ -37,25 +35,10 @@ void Playground::PrintToConsole()
 	}
 }
 
-void Playground::UpdateCreatre(CreaturePtr creature)
+void Playground::UpdateCreatures()
 {
-	Position position_current = creature->GetCurrentPosition();
-	Position position_previous = creature->GetPreviousPosition();
-	for ( int y = 0; y < mi_height; y++ )
-	{
-		for ( int x = 0; x < mi_width; x++ )
-		{
-			Position position_cell = Position(x , y);
-			if ( position_cell == position_current )
-			{
-				SetValue(position_cell , creature->GetCell());
-			}
-			else if ( position_cell == position_previous )
-			{
-				SetValue(position_cell , Cell::e_cell_blank);
-			}
-		}
-	}
+	UpdateCreatre(mptr_player);
+	UpdateCreatre(mptr_enemy);
 }
 
 void Playground::Initialize()
@@ -99,5 +82,26 @@ char Playground::GetValue(Position position)
 
 bool Playground::IsInBounds(Position position)
 {
-	return position.x >= 0 && position.x < mi_width&& position.y >= 0 && position.y < mi_height;
+	return position.x >= 0 && position.x < mi_width && position.y >= 0 && position.y < mi_height;
+}
+
+void Playground::UpdateCreatre(CreaturePtr creature)
+{
+	Position position_current = creature->GetCurrentPosition();
+	Position position_previous = creature->GetPreviousPosition();
+	for ( int y = 0; y < mi_height; y++ )
+	{
+		for ( int x = 0; x < mi_width; x++ )
+		{
+			Position position_cell = Position(x , y);
+			if ( position_cell == position_current )
+			{
+				SetValue(position_cell , creature->GetCell());
+			}
+			else if ( position_cell == position_previous )
+			{
+				SetValue(position_cell , Cell::e_cell_blank);
+			}
+		}
+	}
 }

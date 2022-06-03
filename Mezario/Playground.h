@@ -13,13 +13,14 @@ public:
 
 public:
 	void PrintToConsole();
-	void UpdateCreatre(CreaturePtr creature);
+	void UpdateCreatures();
 
 private:
 	void Initialize();
 	void SetValue(Position position , enum Cell e_cell);
 	char GetValue(Position position);
 	bool IsInBounds(Position position);
+	void UpdateCreatre(CreaturePtr creature);
 
 private:
 	char** mptr_matrix = 0;

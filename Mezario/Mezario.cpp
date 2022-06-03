@@ -11,19 +11,33 @@ void PlayGame()
 
 	const int i_width = 100;
 	const int i_height = 25;
-	PlayerPtr ptr_player = std::make_shared<Player>(Position(1 , 1));
-	EnemyPtr ptr_enemy = std::make_shared<Enemy>(Position(98 , 23));
+	Position position_player(1 , 1);
+	Position position_enemy(i_width -2 , i_height - 2);
+	PlayerPtr ptr_player = std::make_shared<Player>(position_player);
+	EnemyPtr ptr_enemy = std::make_shared<Enemy>(position_enemy);
 	PlaygroundPtr ptr_playground = std::make_shared<Playground>(i_height , i_width , ptr_player , ptr_enemy);
 
 	for ( int y = 1; y < i_height - 1; y++ )
 	{
-		for ( int x = 1; x < i_width - 1; x++ )
+		for ( int x = 1; x < i_width - 2; x++ )
 		{
 			SetConsoleCursorPosition(h_console , cursor_position);
-			ptr_player->MoveTo(Position(x , y));
-			ptr_enemy->MoveTo(Position(i_width - x - 1 , i_height - y - 1));
+			if ( y % 2  == 0)
+			{
+				ptr_player->MoveTo(position_player.GoLeft());
+				ptr_enemy->MoveTo(position_enemy.GoRight());
+			}
+			else
+			{
+				ptr_player->MoveTo(position_player.GoRight());
+				ptr_enemy->MoveTo(position_enemy.GoLeft());
+			}
+			ptr_playground->UpdateCreatures();
 			ptr_playground->PrintToConsole();
 		}
+		ptr_player->MoveTo(position_player.GoDown());
+		ptr_enemy->MoveTo(position_enemy.GoUp());
+		ptr_playground->UpdateCreatures();
 	}
 }
 

@@ -20,6 +20,27 @@ struct Position
 	{
 		return ( position.x == x && position.y == y );
 	}
+
+	inline Position GoLeft()
+	{
+		x--;
+		return { x , y };
+	}
+	inline Position GoRight()
+	{
+		x++;
+		return { x , y };
+	}
+	inline Position GoUp()
+	{
+		y--;
+		return { x , y };
+	}
+	inline Position GoDown()
+	{
+		y++;
+		return { x , y };
+	}
 };
 
 enum Cell : char
@@ -27,7 +48,7 @@ enum Cell : char
 	e_cell_blank = ' ' ,
 	e_cell_wall = '#' ,
 	e_cell_player = '@' ,
-	e_cell_enemy = '%',
+	e_cell_enemy = '%' ,
 };
 
 #endif // !MEZARIO_H
