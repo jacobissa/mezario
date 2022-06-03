@@ -1,4 +1,6 @@
-#pragma once
+#ifndef CREATURE_H
+#define CREATURE_H
+
 #include "Mezario.h"
 
 class Creature
@@ -21,3 +23,4 @@ private:
 };
 using CreaturePtr = std::shared_ptr<Creature>;
 
+#endif // !CREATURE_H

@@ -1,4 +1,6 @@
-#pragma once
+#ifndef MEZARIO_H
+#define MEZARIO_H
+
 #include <iostream>
 
 struct Position
@@ -25,3 +27,5 @@ enum Cell : char
 	e_cell_player = '@' ,
 	e_cell_enemy = '%',
 };
+
+#endif // !MEZARIO_H

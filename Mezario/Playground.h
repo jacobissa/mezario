@@ -1,4 +1,6 @@
-#pragma once
+#ifndef PLAYGROUND_H
+#define PLAYGROUND_H
+
 #include "Mezario.h"
 #include "Player.h"
 #include "Enemy.h"
@@ -28,3 +30,4 @@ private:
 };
 using PlaygroundPtr = std::shared_ptr<Playground>;
 
+#endif // !PLAYGROUND_H
