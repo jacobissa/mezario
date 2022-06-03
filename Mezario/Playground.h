@@ -11,8 +11,7 @@ public:
 
 public:
 	void PrintToConsole();
-	void UpdatePlayer();
-	void UpdateEnemy();
+	void UpdateCreatre(Creature* creature);
 
 private:
 	void Initialize();

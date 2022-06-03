@@ -6,6 +6,11 @@ Creature::Creature(Position position)
 {
 }
 
+Cell Creature::GetCell()
+{
+	return me_cell;
+}
+
 Position Creature::GetCurrentPosition()
 {
 	return m_position_current;

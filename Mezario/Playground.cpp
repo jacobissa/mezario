@@ -25,8 +25,8 @@ Playground::~Playground()
 
 void Playground::PrintToConsole()
 {
-	UpdatePlayer();
-	UpdateEnemy();
+	UpdateCreatre(mptr_player);
+	UpdateCreatre(mptr_enemy);
 	for ( int y = 0; y < mi_height; y++ )
 	{
 		for ( int x = 0; x < mi_width; x++ )
@@ -37,41 +37,20 @@ void Playground::PrintToConsole()
 	}
 }
 
-void Playground::UpdatePlayer()
+void Playground::UpdateCreatre(Creature* creature)
 {
-	Position position_player_current = mptr_player->GetCurrentPosition();
-	Position position_player_previous = mptr_player->GetPreviousPosition();
+	Position position_current = creature->GetCurrentPosition();
+	Position position_previous = creature->GetPreviousPosition();
 	for ( int y = 0; y < mi_height; y++ )
 	{
 		for ( int x = 0; x < mi_width; x++ )
 		{
 			Position position_cell = Position(x , y);
-			if ( position_cell == position_player_current )
+			if ( position_cell == position_current )
 			{
-				SetValue(position_cell , Cell::e_cell_player);
+				SetValue(position_cell , creature->GetCell());
 			}
-			else if ( position_cell == position_player_previous )
-			{
-				SetValue(position_cell , Cell::e_cell_blank);
-			}
-		}
-	}
-}
-
-void Playground::UpdateEnemy()
-{
-	Position position_enemy_current = mptr_enemy->GetCurrentPosition();
-	Position position_enemy_previous = mptr_enemy->GetPreviousPosition();
-	for ( int y = 0; y < mi_height; y++ )
-	{
-		for ( int x = 0; x < mi_width; x++ )
-		{
-			Position position_cell = Position(x , y);
-			if ( position_cell == position_enemy_current )
-			{
-				SetValue(position_cell , Cell::e_cell_enemy);
-			}
-			else if ( position_cell == position_enemy_previous )
+			else if ( position_cell == position_previous )
 			{
 				SetValue(position_cell , Cell::e_cell_blank);
 			}

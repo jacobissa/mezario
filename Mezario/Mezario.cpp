@@ -17,7 +17,6 @@ int main()
 			ptr_player->MoveTo(Position(x , y));
 			ptr_enemy->MoveTo(Position(i_width - x - 1 , i_height - y - 1));
 			ptr_playground->PrintToConsole();
-
 		}
 	}
 
