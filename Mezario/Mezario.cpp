@@ -12,17 +12,19 @@ void PlayGame()
 	const int i_width = 100;
 	const int i_height = 25;
 	Position position_player(1 , 1);
-	Position position_enemy(i_width -2 , i_height - 2);
+	Position position_enemy(i_width - 2 , i_height - 2);
 	PlayerPtr ptr_player = std::make_shared<Player>(position_player);
+	std::vector<EnemyPtr> vec_enemy;
 	EnemyPtr ptr_enemy = std::make_shared<Enemy>(position_enemy);
-	PlaygroundPtr ptr_playground = std::make_shared<Playground>(i_height , i_width , ptr_player , ptr_enemy);
+	vec_enemy.emplace_back(ptr_enemy);
+	PlaygroundPtr ptr_playground = std::make_shared<Playground>(i_height , i_width , ptr_player , vec_enemy);
 
 	for ( int y = 1; y < i_height - 1; y++ )
 	{
 		for ( int x = 1; x < i_width - 2; x++ )
 		{
 			SetConsoleCursorPosition(h_console , cursor_position);
-			if ( y % 2  == 0)
+			if ( y % 2 == 0 )
 			{
 				ptr_player->MoveTo(position_player.GoLeft());
 				ptr_enemy->MoveTo(position_enemy.GoRight());

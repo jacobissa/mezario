@@ -1,10 +1,10 @@
 #include "Playground.h"
 
-Playground::Playground(const int i_height , const int i_width , PlayerPtr ptr_player, EnemyPtr ptr_enemy)
+Playground::Playground(const int i_height , const int i_width , PlayerPtr& ptr_player, std::vector<EnemyPtr>& vec_enemy)
 	: mi_height(i_height)
 	, mi_width(i_width)
 	, mptr_player(ptr_player)
-	, mptr_enemy(ptr_enemy)
+	, mvec_enemy(vec_enemy)
 {
 	mptr_matrix = new char* [mi_height];
 	for ( int y = 0; y < mi_height; y++ )
@@ -38,7 +38,11 @@ void Playground::PrintToConsole()
 void Playground::UpdateCreatures()
 {
 	UpdateCreatre(mptr_player);
-	UpdateCreatre(mptr_enemy);
+
+	for (const EnemyPtr& ptr_enemy : mvec_enemy)
+	{
+		UpdateCreatre(ptr_enemy);
+	}
 }
 
 void Playground::Initialize()

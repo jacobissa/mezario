@@ -8,7 +8,7 @@
 class Playground
 {
 public:
-	Playground(const int i_height , const int i_width , PlayerPtr ptr_player , EnemyPtr ptr_enemy);
+	Playground(const int i_height , const int i_width , PlayerPtr& ptr_player , std::vector<EnemyPtr>& vec_enemy);
 	~Playground();
 
 public:
@@ -27,7 +27,7 @@ private:
 	int mi_height = 0;
 	int mi_width = 0;
 	PlayerPtr mptr_player;
-	EnemyPtr mptr_enemy;
+	std::vector<EnemyPtr> mvec_enemy;
 };
 using PlaygroundPtr = std::shared_ptr<Playground>;
 

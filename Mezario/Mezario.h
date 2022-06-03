@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <Windows.h>
+#include <vector>
 
 
 struct Position
@@ -16,30 +17,30 @@ struct Position
 		this->y = y;
 	}
 
-	inline bool operator==(Position position)
+	bool operator==(Position position)
 	{
 		return ( position.x == x && position.y == y );
 	}
 
-	inline Position GoLeft()
+	Position GoLeft()
 	{
 		x--;
-		return { x , y };
+		return *this;
 	}
-	inline Position GoRight()
+	Position GoRight()
 	{
 		x++;
-		return { x , y };
+		return *this;
 	}
-	inline Position GoUp()
+	Position GoUp()
 	{
 		y--;
-		return { x , y };
+		return *this;
 	}
-	inline Position GoDown()
+	Position GoDown()
 	{
 		y++;
-		return { x , y };
+		return *this;
 	}
 };
 
