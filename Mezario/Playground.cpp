@@ -1,11 +1,13 @@
 #include "Playground.h"
 
-Playground::Playground(const int i_height , const int i_width , PlayerPtr& ptr_player, std::vector<EnemyPtr>& vec_enemy)
+Playground::Playground(const int i_height , const int i_width , const int i_probability_wall , PlayerPtr& ptr_player , std::vector<EnemyPtr>& vec_enemy)
 	: mi_height(i_height)
 	, mi_width(i_width)
+	, mi_probability_wall(i_probability_wall)
 	, mptr_player(ptr_player)
 	, mvec_enemy(vec_enemy)
 {
+	m_position_exit = Position(i_width - 1 , i_height - 4);
 	mptr_matrix = new char* [mi_height];
 	for ( int y = 0; y < mi_height; y++ )
 	{
@@ -39,7 +41,7 @@ void Playground::UpdateCreatures()
 {
 	UpdateCreatre(mptr_player);
 
-	for (const EnemyPtr& ptr_enemy : mvec_enemy)
+	for ( const EnemyPtr& ptr_enemy : mvec_enemy )
 	{
 		UpdateCreatre(ptr_enemy);
 	}
@@ -47,13 +49,23 @@ void Playground::UpdateCreatures()
 
 void Playground::Initialize()
 {
+	Position position_player = mptr_player->GetCurrentPosition();
+
 	for ( int y = 0; y < mi_height; y++ )
 	{
 		for ( int x = 0; x < mi_width; x++ )
 		{
 			Position position_cell = Position(x , y);
-
-			if ( x == 0 || x == mi_width - 1 || y == 0 || y == mi_height - 1 )
+			int i_probability = rand() % 100;
+			if ( position_cell == position_player || position_cell == m_position_exit )
+			{
+				SetValue(position_cell , Cell::e_cell_blank);
+			}
+			else if ( x == 0 || x == mi_width - 1 || y == 0 || y == mi_height - 1 )
+			{
+				SetValue(position_cell , Cell::e_cell_wall);
+			}
+			else if ( i_probability < mi_probability_wall )
 			{
 				SetValue(position_cell , Cell::e_cell_wall);
 			}
@@ -86,7 +98,7 @@ char Playground::GetValue(Position position)
 
 bool Playground::IsInBounds(Position position)
 {
-	return position.x >= 0 && position.x < mi_width && position.y >= 0 && position.y < mi_height;
+	return position.x >= 0 && position.x < mi_width&& position.y >= 0 && position.y < mi_height;
 }
 
 void Playground::UpdateCreatre(CreaturePtr creature)
