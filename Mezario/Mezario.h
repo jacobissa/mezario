@@ -42,6 +42,60 @@ struct Position
 		y++;
 		return *this;
 	}
+	Position GoRandom()
+	{
+		switch ( rand() % 4 )
+		{
+			case 0:
+				{
+					x++;
+				}
+				break;
+			case 1:
+				{
+					x--;
+				}
+				break;
+			case 2:
+				{
+					y++;
+				}
+				break;
+			case 3:
+				{
+					y--;
+				}
+				break;
+		}
+		return *this;
+	}
+	Position GetRandomnNeighbour()
+	{
+		switch ( rand() % 4 )
+		{
+			case 0:
+				{
+					return Position(x + 1 , y);
+				}
+				break;
+			case 1:
+				{
+					return Position(x - 1 , y);
+				}
+				break;
+			case 2:
+				{
+					return Position(x , y + 1);
+				}
+				break;
+			case 3:
+				{
+					return Position(x , y - 1);
+				}
+				break;
+		}
+		return *this;
+	}
 };
 
 enum Cell : char
