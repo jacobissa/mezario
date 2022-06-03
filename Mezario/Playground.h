@@ -6,12 +6,12 @@
 class Playground
 {
 public:
-	Playground(const int i_height , const int i_width , Player* ptr_player , Enemy* ptr_enemy);
+	Playground(const int i_height , const int i_width , PlayerPtr ptr_player , EnemyPtr ptr_enemy);
 	~Playground();
 
 public:
 	void PrintToConsole();
-	void UpdateCreatre(Creature* creature);
+	void UpdateCreatre(CreaturePtr creature);
 
 private:
 	void Initialize();
@@ -23,7 +23,8 @@ private:
 	char** mptr_matrix = 0;
 	int mi_height = 0;
 	int mi_width = 0;
-	Player* mptr_player;
-	Enemy* mptr_enemy;
+	PlayerPtr mptr_player;
+	EnemyPtr mptr_enemy;
 };
+using PlaygroundPtr = std::shared_ptr<Playground>;
 

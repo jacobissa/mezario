@@ -19,4 +19,5 @@ private:
 	Position m_position_current;
 	Position m_position_previous;
 };
+using CreaturePtr = std::shared_ptr<Creature>;
 

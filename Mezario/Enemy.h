@@ -7,4 +7,4 @@ public:
 	Enemy(Position position);
 
 };
-
+using EnemyPtr = std::shared_ptr<Enemy>;

@@ -1,6 +1,6 @@
 #include "Playground.h"
 
-Playground::Playground(const int i_height , const int i_width , Player* ptr_player, Enemy* ptr_enemy)
+Playground::Playground(const int i_height , const int i_width , PlayerPtr ptr_player, EnemyPtr ptr_enemy)
 	: mi_height(i_height)
 	, mi_width(i_width)
 	, mptr_player(ptr_player)
@@ -37,7 +37,7 @@ void Playground::PrintToConsole()
 	}
 }
 
-void Playground::UpdateCreatre(Creature* creature)
+void Playground::UpdateCreatre(CreaturePtr creature)
 {
 	Position position_current = creature->GetCurrentPosition();
 	Position position_previous = creature->GetPreviousPosition();

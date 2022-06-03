@@ -7,4 +7,4 @@ public:
 	Player(Position position);
 
 };
-
+using PlayerPtr = std::shared_ptr<Player>;
