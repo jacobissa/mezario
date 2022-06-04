@@ -5,7 +5,7 @@ Playground::Playground(const int i_height , const int i_width , const int i_prob
 	, mi_width(i_width)
 	, mi_probability_wall(i_probability_wall)
 	, mi_quantity_enemy(i_quantity_enemy)
-	, mptr_position_exit(new Position(i_width - 1 , i_height - 4))
+	, mptr_position_exit(std::make_shared<Position>(i_width - 1 , i_height - 4))
 {
 	PositionPtr ptr_position_player = std::make_shared<Position>(0 , 3);
 	mptr_player = std::make_shared<Player>(ptr_position_player);
@@ -52,11 +52,12 @@ void Playground::UpdateCreatures()
 
 void Playground::PrintToConsole()
 {
+	PositionPtr ptr_position_cell = std::make_shared<Position>(0 , 0);
 	for ( int y = 0; y < mi_height; y++ )
 	{
 		for ( int x = 0; x < mi_width; x++ )
 		{
-			PositionPtr ptr_position_cell(new Position(x , y));
+			ptr_position_cell->UpdatePosition(x , y);
 			std::cout << GetValue(ptr_position_cell);
 		}
 		std::cout << std::endl;
@@ -69,12 +70,14 @@ void Playground::Initialize()
 	const int i_enemy_position = (( mi_height - 2 ) * ( mi_width - 2)) / (mi_quantity_enemy);
 	int i_probability_enemy_position = rand() % i_enemy_position;
 	int i_counter = 1;
+	PositionPtr ptr_position_cell = std::make_shared<Position>(0 , 0);
 
 	for ( int y = 0; y < mi_height; y++ )
 	{
 		for ( int x = 0; x < mi_width; x++ )
 		{
-			PositionPtr ptr_position_cell(new Position(x , y));
+			ptr_position_cell->UpdatePosition(x , y);
+
 			int i_probability_wall = rand() % 100;
 			if ( ptr_position_cell->Equals(ptr_position_player->GetPosition()) 
 				|| ptr_position_cell->Equals(mptr_position_exit->GetPosition()) )
@@ -87,7 +90,8 @@ void Playground::Initialize()
 			}
 			else if ( i_counter % i_enemy_position == i_probability_enemy_position && mi_quantity_enemy > 0 )
 			{
-				mvec_enemy.emplace_back(std::make_shared<Enemy>(ptr_position_cell));
+				PositionPtr ptr_position_enemy = std::make_shared<Position>(x , y);
+				mvec_enemy.emplace_back(std::make_shared<Enemy>(ptr_position_enemy));
 				SetValue(ptr_position_cell , Cell::e_cell_blank);
 				mi_quantity_enemy--;
 				i_counter++;

@@ -18,7 +18,7 @@ bool Position::Equals(Position position)
 	return ( this->x == position.x && this->y == position.y );
 }
 
-bool Position::IsClose(Position position, int i_allowed_distance)
+bool Position::IsClose(const Position& position, int i_allowed_distance)
 {
 	return ( std::abs(this->x - position.x) <= i_allowed_distance && std::abs(this->y - position.y) <= i_allowed_distance );
 }
