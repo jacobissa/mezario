@@ -6,8 +6,9 @@ Playground::Playground(const int i_height , const int i_width , const int i_prob
 	, mi_probability_wall(i_probability_wall)
 	, mi_quantity_enemy(i_quantity_enemy)
 	, mptr_position_exit(new Position(i_width - 1 , i_height - 4))
-	, mptr_player(new Player(std::make_shared<Position>(0 , 3)))
 {
+	PositionPtr ptr_position_player = std::make_shared<Position>(0 , 3);
+	mptr_player = std::make_shared<Player>(ptr_position_player);
 	mptr_matrix = new char* [mi_height];
 	for ( int y = 0; y < mi_height; y++ )
 	{
@@ -25,26 +26,17 @@ Playground::~Playground()
 	delete[] mptr_matrix;
 }
 
-void Playground::PrintToConsole()
-{
-	for ( int y = 0; y < mi_height; y++ )
-	{
-		for ( int x = 0; x < mi_width; x++ )
-		{
-			PositionPtr ptr_position_cell(new Position(x , y));
-			std::cout << GetValue(ptr_position_cell);
-		}
-		std::cout << std::endl;
-	}
-}
-
-void Playground::UpdateCreatures()
+void Playground::MovePlayer()
 {
 	PositionPtr ptr_position_neighbour = std::make_shared<Position>(mptr_player->GetCurrentPosition()->GetRandomnNeighbour());
 	if ( IsInBounds(ptr_position_neighbour) && GetValue(ptr_position_neighbour) == Cell::e_cell_blank )
 	{
 		mptr_player->MoveTo(ptr_position_neighbour);
 	}
+}
+
+void Playground::UpdateCreatures()
+{
 	UpdateCreatre(mptr_player);
 
 	for ( const EnemyPtr& ptr_enemy : mvec_enemy )
@@ -58,17 +50,32 @@ void Playground::UpdateCreatures()
 	}
 }
 
-void Playground::Initialize()
+void Playground::PrintToConsole()
 {
-	PositionPtr ptr_position_player = mptr_player->GetCurrentPosition();
-	const int i_enemy_position = (( mi_height - 2 ) * ( mi_width - 2)) / (mi_quantity_enemy + 1);
-	int i_counter = 0;
 	for ( int y = 0; y < mi_height; y++ )
 	{
 		for ( int x = 0; x < mi_width; x++ )
 		{
 			PositionPtr ptr_position_cell(new Position(x , y));
-			int i_probability = rand() % 100;
+			std::cout << GetValue(ptr_position_cell);
+		}
+		std::cout << std::endl;
+	}
+}
+
+void Playground::Initialize()
+{
+	PositionPtr ptr_position_player = mptr_player->GetCurrentPosition();
+	const int i_enemy_position = (( mi_height - 2 ) * ( mi_width - 2)) / (mi_quantity_enemy);
+	int i_probability_enemy_position = rand() % i_enemy_position;
+	int i_counter = 1;
+
+	for ( int y = 0; y < mi_height; y++ )
+	{
+		for ( int x = 0; x < mi_width; x++ )
+		{
+			PositionPtr ptr_position_cell(new Position(x , y));
+			int i_probability_wall = rand() % 100;
 			if ( ptr_position_cell->Equals(ptr_position_player->GetPosition()) 
 				|| ptr_position_cell->Equals(mptr_position_exit->GetPosition()) )
 			{
@@ -78,14 +85,14 @@ void Playground::Initialize()
 			{
 				SetValue(ptr_position_cell , Cell::e_cell_wall);
 			}
-			else if ( i_counter % i_enemy_position == 0 && i_counter != i_enemy_position && mi_quantity_enemy > 0 )
+			else if ( i_counter % i_enemy_position == i_probability_enemy_position && mi_quantity_enemy > 0 )
 			{
 				mvec_enemy.emplace_back(std::make_shared<Enemy>(ptr_position_cell));
 				SetValue(ptr_position_cell , Cell::e_cell_blank);
 				mi_quantity_enemy--;
 				i_counter++;
 			}
-			else if ( i_probability < mi_probability_wall
+			else if ( i_probability_wall < mi_probability_wall
 					 && !ptr_position_player->IsClose(ptr_position_cell->GetPosition(), 3)
 					 && !mptr_position_exit->IsClose(ptr_position_cell->GetPosition(), 3) )
 			{
@@ -125,10 +132,10 @@ bool Playground::IsInBounds(const PositionPtr& ptr_position)
 	return ptr_position->x >= 0 && ptr_position->x < mi_width&& ptr_position->y >= 0 && ptr_position->y < mi_height;
 }
 
-void Playground::UpdateCreatre(CreaturePtr creature)
+void Playground::UpdateCreatre(const CreaturePtr& ptr_creature)
 {
-	PositionPtr ptr_position_current = creature->GetCurrentPosition();
-	PositionPtr ptr_position_previous = creature->GetPreviousPosition();
+	PositionPtr ptr_position_current = ptr_creature->GetCurrentPosition();
+	PositionPtr ptr_position_previous = ptr_creature->GetPreviousPosition();
 	for ( int y = 0; y < mi_height; y++ )
 	{
 		for ( int x = 0; x < mi_width; x++ )
@@ -137,7 +144,7 @@ void Playground::UpdateCreatre(CreaturePtr creature)
 
 			if ( ptr_position_cell->Equals(ptr_position_current->GetPosition()) )
 			{
-				SetValue(ptr_position_cell , creature->GetCell());
+				SetValue(ptr_position_cell , ptr_creature->GetCell());
 			}
 			else if ( ptr_position_cell->Equals(ptr_position_previous->GetPosition()) )
 			{

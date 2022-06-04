@@ -18,6 +18,7 @@ void PlayGame()
 	while ( true )
 	{
 		SetConsoleCursorPosition(h_console , cursor_position);
+		ptr_playground->MovePlayer();
 		ptr_playground->UpdateCreatures();
 		ptr_playground->PrintToConsole();
 	}

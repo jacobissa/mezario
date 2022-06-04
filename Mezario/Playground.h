@@ -12,25 +12,26 @@ public:
 	~Playground();
 
 public:
-	void PrintToConsole();
+	void MovePlayer();
 	void UpdateCreatures();
+	void PrintToConsole();
 
 private:
 	void Initialize();
 	void SetValue(const PositionPtr& ptr_position , enum Cell e_cell);
 	char GetValue(const PositionPtr& ptr_position);
 	bool IsInBounds(const PositionPtr& ptr_position);
-	void UpdateCreatre(CreaturePtr creature);
+	void UpdateCreatre(const CreaturePtr& ptr_creature);
 
 private:
 	char** mptr_matrix = 0;
 	int mi_height = 0;
 	int mi_width = 0;
+	int mi_probability_wall = 0;
+	int mi_quantity_enemy = 0;
 	PositionPtr mptr_position_exit = nullptr;
 	PlayerPtr mptr_player = nullptr;
 	std::vector<EnemyPtr> mvec_enemy;
-	int mi_probability_wall = 0;
-	int mi_quantity_enemy = 0;
 };
 using PlaygroundPtr = std::shared_ptr<Playground>;
 

@@ -6,13 +6,13 @@
 class Creature
 {
 public:
-	Creature(PositionPtr ptr_position);
+	Creature(PositionPtr& ptr_position);
 
 public:
 	enum Cell GetCell();
-	PositionPtr GetCurrentPosition();
-	PositionPtr GetPreviousPosition();
-	void MoveTo(PositionPtr ptr_position);
+	const PositionPtr& GetCurrentPosition();
+	const PositionPtr& GetPreviousPosition();
+	void MoveTo(PositionPtr& ptr_position);
 
 protected:
 	enum Cell me_cell = Cell::e_cell_blank;
