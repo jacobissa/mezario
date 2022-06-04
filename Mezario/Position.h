@@ -12,7 +12,7 @@ struct Position
 
 	void UpdatePosition(int x , int y);
 	bool Equals(Position position);
-	bool IsClose(Position position);
+	bool IsClose(Position position, int i_allowed_distance);
 
 	Position GetPosition();
 	Position GoLeft();

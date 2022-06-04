@@ -61,7 +61,8 @@ void Playground::UpdateCreatures()
 void Playground::Initialize()
 {
 	PositionPtr ptr_position_player = mptr_player->GetCurrentPosition();
-
+	const int i_enemy_position = (( mi_height - 2 ) * ( mi_width - 2)) / (mi_quantity_enemy + 1);
+	int i_counter = 0;
 	for ( int y = 0; y < mi_height; y++ )
 	{
 		for ( int x = 0; x < mi_width; x++ )
@@ -77,20 +78,24 @@ void Playground::Initialize()
 			{
 				SetValue(ptr_position_cell , Cell::e_cell_wall);
 			}
-			else if ( i_probability < mi_probability_wall 
-					 && !ptr_position_player->IsClose(ptr_position_cell->GetPosition()) 
-					 && !mptr_position_exit->IsClose(ptr_position_cell->GetPosition()) )
-			{
-				SetValue(ptr_position_cell , Cell::e_cell_wall);
-			}
-			else if ( i_probability > 98 && mi_quantity_enemy > 0 )
+			else if ( i_counter % i_enemy_position == 0 && i_counter != i_enemy_position && mi_quantity_enemy > 0 )
 			{
 				mvec_enemy.emplace_back(std::make_shared<Enemy>(ptr_position_cell));
+				SetValue(ptr_position_cell , Cell::e_cell_blank);
 				mi_quantity_enemy--;
+				i_counter++;
+			}
+			else if ( i_probability < mi_probability_wall
+					 && !ptr_position_player->IsClose(ptr_position_cell->GetPosition(), 3)
+					 && !mptr_position_exit->IsClose(ptr_position_cell->GetPosition(), 3) )
+			{
+				SetValue(ptr_position_cell , Cell::e_cell_wall);
+				i_counter++;
 			}
 			else
 			{
 				SetValue(ptr_position_cell , Cell::e_cell_blank);
+				i_counter++;
 			}
 		}
 	}

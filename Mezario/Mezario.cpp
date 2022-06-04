@@ -13,7 +13,7 @@ void PlayGame()
 	const int i_width = 100;
 	const int i_height = 25;
 
-	PlaygroundPtr ptr_playground = std::make_shared<Playground>(i_height , i_width , 15 , 10);
+	PlaygroundPtr ptr_playground = std::make_shared<Playground>(i_height , i_width , 15 , 15);
 
 	while ( true )
 	{
