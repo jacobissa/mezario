@@ -1,8 +1,8 @@
 #include "Creature.h"
 
-Creature::Creature(Position position)
-	: m_position_current(position)
-	, m_position_previous(position)
+Creature::Creature(PositionPtr ptr_position)
+	: mptr_position_current(ptr_position)
+	, mptr_position_previous(ptr_position)
 {
 }
 
@@ -11,18 +11,18 @@ Cell Creature::GetCell()
 	return me_cell;
 }
 
-Position Creature::GetCurrentPosition()
+PositionPtr Creature::GetCurrentPosition()
 {
-	return m_position_current;
+	return mptr_position_current;
 }
 
-Position Creature::GetPreviousPosition()
+PositionPtr Creature::GetPreviousPosition()
 {
-	return m_position_previous;
+	return mptr_position_previous;
 }
 
-void Creature::MoveTo(Position position)
+void Creature::MoveTo(PositionPtr ptr_position)
 {
-	m_position_previous = m_position_current;
-	m_position_current = position;
+	mptr_position_previous = mptr_position_current;
+	mptr_position_current = ptr_position;
 }

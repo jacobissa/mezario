@@ -17,18 +17,18 @@ public:
 
 private:
 	void Initialize();
-	void SetValue(Position position , enum Cell e_cell);
-	char GetValue(Position position);
-	bool IsInBounds(Position position);
+	void SetValue(const PositionPtr& ptr_position , enum Cell e_cell);
+	char GetValue(const PositionPtr& ptr_position);
+	bool IsInBounds(const PositionPtr& ptr_position);
 	void UpdateCreatre(CreaturePtr creature);
 
 private:
 	char** mptr_matrix = 0;
 	int mi_height = 0;
 	int mi_width = 0;
-	PlayerPtr mptr_player;
+	PositionPtr mptr_position_exit = nullptr;
+	PlayerPtr mptr_player = nullptr;
 	std::vector<EnemyPtr> mvec_enemy;
-	Position m_position_exit = Position(0 , 0);
 	int mi_probability_wall = 0;
 	int mi_quantity_enemy = 0;
 };

@@ -5,9 +5,9 @@ Playground::Playground(const int i_height , const int i_width , const int i_prob
 	, mi_width(i_width)
 	, mi_probability_wall(i_probability_wall)
 	, mi_quantity_enemy(i_quantity_enemy)
+	, mptr_position_exit(new Position(i_width - 1 , i_height - 4))
+	, mptr_player(new Player(std::make_shared<Position>(0 , 3)))
 {
-	mptr_player = std::make_shared<Player>(Position(0 , 3));
-	m_position_exit = Position(i_width - 1 , i_height - 4);
 	mptr_matrix = new char* [mi_height];
 	for ( int y = 0; y < mi_height; y++ )
 	{
@@ -31,7 +31,8 @@ void Playground::PrintToConsole()
 	{
 		for ( int x = 0; x < mi_width; x++ )
 		{
-			std::cout << GetValue(Position(x , y));
+			PositionPtr ptr_position_cell(new Position(x , y));
+			std::cout << GetValue(ptr_position_cell);
 		}
 		std::cout << std::endl;
 	}
@@ -39,19 +40,19 @@ void Playground::PrintToConsole()
 
 void Playground::UpdateCreatures()
 {
-	Position position_neighbour = mptr_player->GetCurrentPosition().GetRandomnNeighbour();
-	if ( IsInBounds(position_neighbour) && GetValue(position_neighbour) == Cell::e_cell_blank )
+	PositionPtr ptr_position_neighbour = std::make_shared<Position>(mptr_player->GetCurrentPosition()->GetRandomnNeighbour());
+	if ( IsInBounds(ptr_position_neighbour) && GetValue(ptr_position_neighbour) == Cell::e_cell_blank )
 	{
-		mptr_player->MoveTo(position_neighbour);
+		mptr_player->MoveTo(ptr_position_neighbour);
 	}
 	UpdateCreatre(mptr_player);
 
 	for ( const EnemyPtr& ptr_enemy : mvec_enemy )
 	{
-		Position position_neighbour = ptr_enemy->GetCurrentPosition().GetRandomnNeighbour();
-		if ( IsInBounds(position_neighbour) &&  GetValue(position_neighbour) == Cell::e_cell_blank )
+		PositionPtr ptr_position_neighbour = std::make_shared<Position>(ptr_enemy->GetCurrentPosition()->GetRandomnNeighbour());
+		if ( IsInBounds(ptr_position_neighbour) && GetValue(ptr_position_neighbour) == Cell::e_cell_blank )
 		{
-			ptr_enemy->MoveTo(position_neighbour);
+			ptr_enemy->MoveTo(ptr_position_neighbour);
 		}
 		UpdateCreatre(ptr_enemy);
 	}
@@ -59,79 +60,83 @@ void Playground::UpdateCreatures()
 
 void Playground::Initialize()
 {
-	Position position_player = mptr_player->GetCurrentPosition();
+	PositionPtr ptr_position_player = mptr_player->GetCurrentPosition();
 
 	for ( int y = 0; y < mi_height; y++ )
 	{
 		for ( int x = 0; x < mi_width; x++ )
 		{
-			Position position_cell = Position(x , y);
+			PositionPtr ptr_position_cell(new Position(x , y));
 			int i_probability = rand() % 100;
-			if ( position_cell == position_player || position_cell == m_position_exit )
+			if ( ptr_position_cell->Equals(ptr_position_player->GetPosition()) 
+				|| ptr_position_cell->Equals(mptr_position_exit->GetPosition()) )
 			{
-				SetValue(position_cell , Cell::e_cell_blank);
+				SetValue(ptr_position_cell , Cell::e_cell_blank);
 			}
 			else if ( x == 0 || x == mi_width - 1 || y == 0 || y == mi_height - 1 )
 			{
-				SetValue(position_cell , Cell::e_cell_wall);
+				SetValue(ptr_position_cell , Cell::e_cell_wall);
 			}
-			else if ( i_probability < mi_probability_wall )
+			else if ( i_probability < mi_probability_wall 
+					 && !ptr_position_player->IsClose(ptr_position_cell->GetPosition()) 
+					 && !mptr_position_exit->IsClose(ptr_position_cell->GetPosition()) )
 			{
-				SetValue(position_cell , Cell::e_cell_wall);
+				SetValue(ptr_position_cell , Cell::e_cell_wall);
 			}
-			else if ( i_probability > 95 && mi_quantity_enemy > 0 )
+			else if ( i_probability > 98 && mi_quantity_enemy > 0 )
 			{
-				mvec_enemy.emplace_back(std::make_shared<Enemy>(position_cell));
+				mvec_enemy.emplace_back(std::make_shared<Enemy>(ptr_position_cell));
 				mi_quantity_enemy--;
 			}
 			else
 			{
-				SetValue(position_cell , Cell::e_cell_blank);
+				SetValue(ptr_position_cell , Cell::e_cell_blank);
 			}
 		}
 	}
 }
 
-void Playground::SetValue(Position position , enum Cell e_cell)
+void Playground::SetValue(const PositionPtr& ptr_position , enum Cell e_cell)
 {
-	if ( IsInBounds(position) )
+	if ( IsInBounds(ptr_position) )
 	{
-		mptr_matrix[position.y][position.x] = e_cell;
+		mptr_matrix[ptr_position->y][ptr_position->x] = e_cell;
 	}
 }
 
-char Playground::GetValue(Position position)
+char Playground::GetValue(const PositionPtr& ptr_position)
 {
-	if ( IsInBounds(position) )
+	if ( IsInBounds(ptr_position) )
 	{
-		return mptr_matrix[position.y][position.x];
+		return mptr_matrix[ptr_position->y][ptr_position->x];
 	}
 	std::cout << std::endl << std::endl << "Error: Invalid request to Playground::GetValue." << std::endl;
-	std::cout << "Position (" << position.x << " , " << position.y << ") ist out of bounds!" << std::endl;
+	std::cout << "Position (" << ptr_position->x << " , " << ptr_position->y << ") ist out of bounds!" << std::endl;
 	std::exit(EXIT_FAILURE);
 }
 
-bool Playground::IsInBounds(Position position)
+bool Playground::IsInBounds(const PositionPtr& ptr_position)
 {
-	return position.x >= 0 && position.x < mi_width&& position.y >= 0 && position.y < mi_height;
+	return ptr_position->x >= 0 && ptr_position->x < mi_width&& ptr_position->y >= 0 && ptr_position->y < mi_height;
 }
 
 void Playground::UpdateCreatre(CreaturePtr creature)
 {
-	Position position_current = creature->GetCurrentPosition();
-	Position position_previous = creature->GetPreviousPosition();
+	PositionPtr ptr_position_current = creature->GetCurrentPosition();
+	PositionPtr ptr_position_previous = creature->GetPreviousPosition();
 	for ( int y = 0; y < mi_height; y++ )
 	{
 		for ( int x = 0; x < mi_width; x++ )
 		{
-			Position position_cell = Position(x , y);
-			if ( position_cell == position_current )
+			PositionPtr ptr_position_cell(new Position(x , y));
+
+			if ( ptr_position_cell->Equals(ptr_position_current->GetPosition()) )
 			{
-				SetValue(position_cell , creature->GetCell());
+				SetValue(ptr_position_cell , creature->GetCell());
 			}
-			else if ( position_cell == position_previous )
+			else if ( ptr_position_cell->Equals(ptr_position_previous->GetPosition()) )
 			{
-				SetValue(position_cell , Cell::e_cell_blank);
+				SetValue(ptr_position_cell , Cell::e_cell_blank);
 			}
 		}
 	}

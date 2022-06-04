@@ -6,20 +6,20 @@
 class Creature
 {
 public:
-	Creature(Position position);
+	Creature(PositionPtr ptr_position);
 
 public:
 	enum Cell GetCell();
-	Position GetCurrentPosition();
-	Position GetPreviousPosition();
-	void MoveTo(Position position);
+	PositionPtr GetCurrentPosition();
+	PositionPtr GetPreviousPosition();
+	void MoveTo(PositionPtr ptr_position);
 
 protected:
 	enum Cell me_cell = Cell::e_cell_blank;
 
 private:
-	Position m_position_current;
-	Position m_position_previous;
+	PositionPtr mptr_position_current;
+	PositionPtr mptr_position_previous;
 };
 using CreaturePtr = std::shared_ptr<Creature>;
 

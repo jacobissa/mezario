@@ -6,7 +6,7 @@
 class Enemy final : public Creature
 {
 public:
-	Enemy(Position position);
+	Enemy(PositionPtr ptr_position);
 
 };
 using EnemyPtr = std::shared_ptr<Enemy>;

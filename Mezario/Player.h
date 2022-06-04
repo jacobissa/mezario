@@ -6,7 +6,7 @@
 class Player final : public Creature
 {
 public:
-	Player(Position position);
+	Player(PositionPtr ptr_position);
 
 };
 using PlayerPtr = std::shared_ptr<Player>;

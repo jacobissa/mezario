@@ -132,6 +132,7 @@
     <ClCompile Include="Mezario.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Playground.cpp" />
+    <ClCompile Include="Position.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Creature.h" />
@@ -139,6 +140,7 @@
     <ClInclude Include="Mezario.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Playground.h" />
+    <ClInclude Include="Position.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
