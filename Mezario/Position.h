@@ -11,7 +11,8 @@ struct Position
 	Position(const int x , const int y);
 
 	void UpdatePosition(const int x , const int y);
-	bool Equals(Position position);
+	void UpdatePosition(Position position);
+	bool Equals(const Position& position);
 	bool IsClose(const Position& position , const int i_allowed_distance);
 
 	Position GetPosition();

@@ -26,13 +26,23 @@ Playground::~Playground()
 	delete[] mptr_matrix;
 }
 
-void Playground::MovePlayer(enum Action e_action)
+void Playground::PlayerMove(enum Action e_action)
 {
 	PositionPtr ptr_position_player_next = mptr_player->GetNextPosition(e_action);
 	if ( ptr_position_player_next && IsInBounds(ptr_position_player_next) && GetValue(ptr_position_player_next) == Cell::e_cell_blank )
 	{
 		mptr_player->MoveTo(ptr_position_player_next);
 	}
+}
+
+void Playground::PlayerShot()
+{
+	if ( mptr_player->IsShotActive() )
+	{
+		SetValue(mptr_player->GetShotPreviousPosition() , Cell::e_cell_blank);
+		SetValue(mptr_player->GetShotCurrentPosition() , Cell::e_cell_blank);
+	}
+	mptr_player->StartShot();
 }
 
 void Playground::UpdateCreatures()
@@ -43,12 +53,14 @@ void Playground::UpdateCreatures()
 		PositionPtr ptr_position_enemy_next = ptr_enemy->GetNextPosition();
 		if ( ptr_position_enemy_next && IsInBounds(ptr_position_enemy_next) && GetValue(ptr_position_enemy_next) == Cell::e_cell_blank )
 		{
+			if ( !ptr_enemy->IsShotActive())
+			{
+				ptr_enemy->StartShot();
+			}
 			ptr_enemy->MoveTo(ptr_position_enemy_next);
 		}
 		UpdateCreatre(ptr_enemy);
 	}
-	UpdateCreatre(mptr_player);
-
 }
 
 void Playground::PrintToConsole()
@@ -141,18 +153,52 @@ void Playground::UpdateCreatre(const CreaturePtr& ptr_creature)
 {
 	PositionPtr ptr_position_current = ptr_creature->GetCurrentPosition();
 	PositionPtr ptr_position_previous = ptr_creature->GetPreviousPosition();
+	PositionPtr ptr_position_shot_current = ptr_creature->GetShotCurrentPosition();
+	PositionPtr ptr_position_shot_previous = ptr_creature->GetShotPreviousPosition();
+
+	if ( ptr_position_shot_current && IsInBounds(ptr_position_shot_current) && GetValue(ptr_position_shot_current) == Cell::e_cell_wall )
+	{
+		// remove shot, in faced a wall
+		ptr_creature->StopShot();
+		SetValue(ptr_position_shot_previous , Cell::e_cell_blank);
+	}
+	else if ( ptr_position_shot_current && !IsInBounds(ptr_position_shot_current) )
+	{
+		// remove shot, in case it goes out of bounds
+		ptr_creature->StopShot();
+		SetValue(ptr_position_shot_previous , Cell::e_cell_blank);
+	}
+	else
+	{
+		ptr_creature->UpdateShot();
+	}
+
+	PositionPtr ptr_position_cell = std::make_shared<Position>(0 , 0);
 	for ( int y = 0; y < mi_height; y++ )
 	{
 		for ( int x = 0; x < mi_width; x++ )
 		{
-			PositionPtr ptr_position_cell(new Position(x , y));
+			ptr_position_cell->UpdatePosition(x , y);
 
 			if ( ptr_position_cell->Equals(ptr_position_current->GetPosition()) )
 			{
+				// new position of creature
 				SetValue(ptr_position_cell , ptr_creature->GetCell());
 			}
 			else if ( ptr_position_cell->Equals(ptr_position_previous->GetPosition()) &&  GetValue(ptr_position_cell) == ptr_creature->GetCell() )
 			{
+				// remove old position of creature
+				SetValue(ptr_position_cell , Cell::e_cell_blank);
+			}
+			else if ( ptr_creature->IsShotActive() && ptr_position_cell->Equals(ptr_position_shot_current->GetPosition()) )
+			{
+				// new position of creature's shot
+				SetValue(ptr_position_cell , ptr_creature->GetCellShot());
+			}
+			else if ( ptr_creature->IsShotActive() && ptr_position_cell->Equals(ptr_position_shot_previous->GetPosition())
+					 && GetValue(ptr_position_cell) == ptr_creature->GetCellShot() )
+			{
+				// remove old position of creature's shot
 				SetValue(ptr_position_cell , Cell::e_cell_blank);
 			}
 		}

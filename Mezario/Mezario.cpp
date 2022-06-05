@@ -28,7 +28,12 @@ void PlayGame()
 				case e_action_left:
 				case e_action_right:
 					{
-						ptr_playground->MovePlayer(static_cast<enum Action>(int_action));
+						ptr_playground->PlayerMove(static_cast<enum Action>(int_action));
+					}
+					break;
+				case e_action_shot:
+					{
+						ptr_playground->PlayerShot();
 					}
 					break;
 				default:

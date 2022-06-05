@@ -13,7 +13,13 @@ void Position::UpdatePosition(const int x , const int y)
 	this->y = y;
 }
 
-bool Position::Equals(Position position)
+void Position::UpdatePosition(Position position)
+{
+	this->x = position.x;
+	this->y = position.y;
+}
+
+bool Position::Equals(const Position& position)
 {
 	return ( this->x == position.x && this->y == position.y );
 }

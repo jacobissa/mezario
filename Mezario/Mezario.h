@@ -14,6 +14,8 @@ enum Cell : char
 	e_cell_wall = '#' ,
 	e_cell_player = '@' ,
 	e_cell_enemy = '%' ,
+	e_cell_player_shot = '~',
+	e_cell_enemy_shot = ',' ,
 };
 
 enum Action : int
@@ -22,5 +24,6 @@ enum Action : int
 	e_action_down = 115 ,
 	e_action_left = 97 ,
 	e_action_right = 100 ,
+	e_action_shot = 32,
 };
 #endif // !MEZARIO_H
