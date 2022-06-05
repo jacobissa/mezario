@@ -12,7 +12,7 @@ public:
 	~Playground();
 
 public:
-	void MovePlayer();
+	void MovePlayer(enum Action e_action);
 	void UpdateCreatures();
 	void PrintToConsole();
 

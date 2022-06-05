@@ -26,28 +26,29 @@ Playground::~Playground()
 	delete[] mptr_matrix;
 }
 
-void Playground::MovePlayer()
+void Playground::MovePlayer(enum Action e_action)
 {
-	PositionPtr ptr_position_neighbour = std::make_shared<Position>(mptr_player->GetCurrentPosition()->GetRandomnNeighbour());
-	if ( IsInBounds(ptr_position_neighbour) && GetValue(ptr_position_neighbour) == Cell::e_cell_blank )
+	PositionPtr ptr_position_player_next = mptr_player->GetNextPosition(e_action);
+	if ( ptr_position_player_next && IsInBounds(ptr_position_player_next) && GetValue(ptr_position_player_next) == Cell::e_cell_blank )
 	{
-		mptr_player->MoveTo(ptr_position_neighbour);
+		mptr_player->MoveTo(ptr_position_player_next);
 	}
 }
 
 void Playground::UpdateCreatures()
 {
 	UpdateCreatre(mptr_player);
-
 	for ( const EnemyPtr& ptr_enemy : mvec_enemy )
 	{
-		PositionPtr ptr_position_neighbour = std::make_shared<Position>(ptr_enemy->GetCurrentPosition()->GetRandomnNeighbour());
-		if ( IsInBounds(ptr_position_neighbour) && GetValue(ptr_position_neighbour) == Cell::e_cell_blank )
+		PositionPtr ptr_position_enemy_next = ptr_enemy->GetNextPosition();
+		if ( ptr_position_enemy_next && IsInBounds(ptr_position_enemy_next) && GetValue(ptr_position_enemy_next) == Cell::e_cell_blank )
 		{
-			ptr_enemy->MoveTo(ptr_position_neighbour);
+			ptr_enemy->MoveTo(ptr_position_enemy_next);
 		}
 		UpdateCreatre(ptr_enemy);
 	}
+	UpdateCreatre(mptr_player);
+
 }
 
 void Playground::PrintToConsole()
@@ -67,7 +68,7 @@ void Playground::PrintToConsole()
 void Playground::Initialize()
 {
 	PositionPtr ptr_position_player = mptr_player->GetCurrentPosition();
-	const int i_enemy_position = (( mi_height - 2 ) * ( mi_width - 2)) / (mi_quantity_enemy);
+	const int i_enemy_position = ( ( mi_height - 2 ) * ( mi_width - 2 ) ) / ( mi_quantity_enemy );
 	int i_probability_enemy_position = rand() % i_enemy_position;
 	int i_counter = 1;
 	PositionPtr ptr_position_cell = std::make_shared<Position>(0 , 0);
@@ -79,7 +80,7 @@ void Playground::Initialize()
 			ptr_position_cell->UpdatePosition(x , y);
 
 			int i_probability_wall = rand() % 100;
-			if ( ptr_position_cell->Equals(ptr_position_player->GetPosition()) 
+			if ( ptr_position_cell->Equals(ptr_position_player->GetPosition())
 				|| ptr_position_cell->Equals(mptr_position_exit->GetPosition()) )
 			{
 				SetValue(ptr_position_cell , Cell::e_cell_blank);
@@ -97,8 +98,8 @@ void Playground::Initialize()
 				i_counter++;
 			}
 			else if ( i_probability_wall < mi_probability_wall
-					 && !ptr_position_player->IsClose(ptr_position_cell->GetPosition(), 3)
-					 && !mptr_position_exit->IsClose(ptr_position_cell->GetPosition(), 3) )
+					 && !ptr_position_player->IsClose(ptr_position_cell->GetPosition() , 3)
+					 && !mptr_position_exit->IsClose(ptr_position_cell->GetPosition() , 3) )
 			{
 				SetValue(ptr_position_cell , Cell::e_cell_wall);
 				i_counter++;
@@ -150,7 +151,7 @@ void Playground::UpdateCreatre(const CreaturePtr& ptr_creature)
 			{
 				SetValue(ptr_position_cell , ptr_creature->GetCell());
 			}
-			else if ( ptr_position_cell->Equals(ptr_position_previous->GetPosition()) )
+			else if ( ptr_position_cell->Equals(ptr_position_previous->GetPosition()) &&  GetValue(ptr_position_cell) == ptr_creature->GetCell() )
 			{
 				SetValue(ptr_position_cell , Cell::e_cell_blank);
 			}

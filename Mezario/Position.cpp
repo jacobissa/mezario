@@ -1,13 +1,13 @@
 #include "Position.h"
 
-Position::Position(int x , int y)
+Position::Position(const int x , const int y)
 {
 	this->x = x;
 	this->y = y;
 }
 
 
-void Position::UpdatePosition(int x , int y)
+void Position::UpdatePosition(const int x , const int y)
 {
 	this->x = x;
 	this->y = y;
@@ -18,7 +18,7 @@ bool Position::Equals(Position position)
 	return ( this->x == position.x && this->y == position.y );
 }
 
-bool Position::IsClose(const Position& position, int i_allowed_distance)
+bool Position::IsClose(const Position& position, const int i_allowed_distance)
 {
 	return ( std::abs(this->x - position.x) <= i_allowed_distance && std::abs(this->y - position.y) <= i_allowed_distance );
 }
@@ -29,82 +29,50 @@ Position Position::GetPosition()
 	return *this;
 }
 
-Position Position::GoLeft()
+Position Position::GetUpPosition()
 {
-	x--;
-	return *this;
+	return Position(x , y - 1);
 }
 
-Position Position::GoRight()
+Position Position::GetDownPosition()
 {
-	x++;
-	return *this;
+	return Position(x , y + 1);
 }
 
-Position Position::GoUp()
+Position Position::GetLeftPosition()
 {
-	y--;
-	return *this;
+	return Position(x - 1 , y);
 }
 
-Position Position::GoDown()
+Position Position::GetRightPosition()
 {
-	y++;
-	return *this;
+	return Position(x + 1 , y);
 }
 
-Position Position::GoRandom()
+Position Position::GetRandomNeighbourPosition()
 {
 	switch ( rand() % 4 )
 	{
 		case 0:
 			{
-				x++;
+				return GetUpPosition();
 			}
 			break;
 		case 1:
 			{
-				x--;
+				return GetDownPosition();
 			}
 			break;
 		case 2:
 			{
-				y++;
+				return GetLeftPosition();
 			}
 			break;
 		case 3:
 			{
-				y--;
+				return GetRightPosition();
 			}
 			break;
 	}
-	return *this;
-}
-
-Position Position::GetRandomnNeighbour()
-{
-	switch ( rand() % 4 )
-	{
-		case 0:
-			{
-				return Position(x + 1 , y);
-			}
-			break;
-		case 1:
-			{
-				return Position(x - 1 , y);
-			}
-			break;
-		case 2:
-			{
-				return Position(x , y + 1);
-			}
-			break;
-		case 3:
-			{
-				return Position(x , y - 1);
-			}
-			break;
-	}
-	return *this;
+	return GetPosition();
 }

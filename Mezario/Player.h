@@ -8,6 +8,9 @@ class Player final : public Creature
 public:
 	Player(PositionPtr& ptr_position);
 
+public:
+	PositionPtr GetNextPosition(enum Action e_action);
+
 };
 using PlayerPtr = std::shared_ptr<Player>;
 

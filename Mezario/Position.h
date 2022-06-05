@@ -8,19 +8,18 @@ struct Position
 	int x;
 	int y;
 
-	Position(int x , int y);
+	Position(const int x , const int y);
 
-	void UpdatePosition(int x , int y);
+	void UpdatePosition(const int x , const int y);
 	bool Equals(Position position);
-	bool IsClose(const Position& position , int i_allowed_distance);
+	bool IsClose(const Position& position , const int i_allowed_distance);
 
 	Position GetPosition();
-	Position GoLeft();
-	Position GoRight();
-	Position GoUp();
-	Position GoDown();
-	Position GoRandom();
-	Position GetRandomnNeighbour();
+	Position GetUpPosition();
+	Position GetDownPosition();
+	Position GetLeftPosition();
+	Position GetRightPosition();
+	Position GetRandomNeighbourPosition();
 };
 using PositionPtr = std::shared_ptr<Position>;
 

@@ -18,7 +18,23 @@ void PlayGame()
 	while ( true )
 	{
 		SetConsoleCursorPosition(h_console , cursor_position);
-		ptr_playground->MovePlayer();
+		while ( _kbhit() )
+		{
+			const int int_action = _getch();
+			switch ( int_action )
+			{
+				case e_action_up:
+				case e_action_down:
+				case e_action_left:
+				case e_action_right:
+					{
+						ptr_playground->MovePlayer(static_cast<enum Action>(int_action));
+					}
+					break;
+				default:
+					break;
+			}
+		}
 		ptr_playground->UpdateCreatures();
 		ptr_playground->PrintToConsole();
 	}

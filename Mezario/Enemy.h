@@ -8,6 +8,9 @@ class Enemy final : public Creature
 public:
 	Enemy(PositionPtr& ptr_position);
 
+public:
+	PositionPtr GetNextPosition();
+
 };
 using EnemyPtr = std::shared_ptr<Enemy>;
 
