@@ -47,12 +47,12 @@ void Playground::PlayerShot()
 
 void Playground::UpdateCreatures()
 {
-	UpdateCreatre(mptr_player);
 	for ( const EnemyPtr& ptr_enemy : mvec_enemy )
 	{
 		UpdateEnemyMove(ptr_enemy);
 		UpdateCreatre(ptr_enemy);
 	}
+	UpdateCreatre(mptr_player);
 }
 
 void Playground::PrintToConsole()
@@ -87,14 +87,17 @@ void Playground::Initialize()
 			if ( ptr_position_cell->Equals(ptr_position_player->GetPosition())
 				|| ptr_position_cell->Equals(mptr_position_exit->GetPosition()) )
 			{
+				// keep the start end exit positions empty
 				SetValue(ptr_position_cell , Cell::e_cell_blank);
 			}
 			else if ( x == 0 || x == mi_width - 1 || y == 0 || y == mi_height - 1 )
 			{
+				// draw the walls on bounds
 				SetValue(ptr_position_cell , Cell::e_cell_wall);
 			}
 			else if ( i_counter % i_enemy_position == i_probability_enemy_position && mi_quantity_enemy > 0 )
 			{
+				// create the enemies
 				PositionPtr ptr_position_enemy = std::make_shared<Position>(x , y);
 				mvec_enemy.emplace_back(std::make_shared<Enemy>(ptr_position_enemy));
 				SetValue(ptr_position_cell , Cell::e_cell_blank);
@@ -105,11 +108,13 @@ void Playground::Initialize()
 					 && !ptr_position_player->IsClose(ptr_position_cell->GetPosition() , 3)
 					 && !mptr_position_exit->IsClose(ptr_position_cell->GetPosition() , 3) )
 			{
+				// draw the walls inside the maze, except the area near start & exit positions
 				SetValue(ptr_position_cell , Cell::e_cell_wall);
 				i_counter++;
 			}
 			else
 			{
+				// fill the rest with empty char
 				SetValue(ptr_position_cell , Cell::e_cell_blank);
 				i_counter++;
 			}

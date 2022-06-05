@@ -38,13 +38,11 @@ void PlayGame()
 					}
 					break;
 				default:
-					std::cout << e_action << std::endl;
 					break;
 			}
 		}
 		ptr_playground->UpdateCreatures();
 		ptr_playground->PrintToConsole();
-
 	}
 }
 
