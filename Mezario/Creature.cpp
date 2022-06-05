@@ -44,9 +44,16 @@ void Creature::MoveTo(PositionPtr& ptr_position)
 
 void Creature::StartShot()
 {
-	mb_is_shot_active = true;
-	mptr_position_shot_current = std::make_shared<Position>(mptr_position_current->GetPosition());
-	mptr_position_shot_previous = std::make_shared<Position>(mptr_position_previous->GetPosition());
+	if ( mptr_position_current->Equals(mptr_position_previous->GetPosition()) )
+	{
+		mb_is_shot_active = false;
+	}
+	else
+	{
+		mb_is_shot_active = true;
+		mptr_position_shot_current = std::make_shared<Position>(mptr_position_current->GetPosition());
+		mptr_position_shot_previous = std::make_shared<Position>(mptr_position_previous->GetPosition());
+	}
 }
 
 bool Creature::IsShotActive()
@@ -64,7 +71,26 @@ void Creature::UpdateShot()
 {
 	if ( mb_is_shot_active )
 	{
-		mptr_position_shot_previous = mptr_position_shot_current;
-		mptr_position_shot_current = std::make_shared<Position>(mptr_position_shot_current->GetRightPosition());
+		if ( mptr_position_shot_current->Equals(mptr_position_shot_previous->GetUpPosition()) )
+		{
+			mptr_position_shot_previous = mptr_position_shot_current;
+			mptr_position_shot_current = std::make_shared<Position>(mptr_position_shot_current->GetUpPosition());
+		}
+		else if ( mptr_position_shot_current->Equals(mptr_position_shot_previous->GetDownPosition()) )
+		{
+			mptr_position_shot_previous = mptr_position_shot_current;
+			mptr_position_shot_current = std::make_shared<Position>(mptr_position_shot_current->GetDownPosition());
+		}
+		else if ( mptr_position_shot_current->Equals(mptr_position_shot_previous->GetRightPosition()) )
+		{
+			mptr_position_shot_previous = mptr_position_shot_current;
+			mptr_position_shot_current = std::make_shared<Position>(mptr_position_shot_current->GetRightPosition());
+		}
+		else if ( mptr_position_shot_current->Equals(mptr_position_shot_previous->GetLeftPosition()) )
+		{
+			mptr_position_shot_previous = mptr_position_shot_current;
+			mptr_position_shot_current = std::make_shared<Position>(mptr_position_shot_current->GetLeftPosition());
+		}
+
 	}
 }
