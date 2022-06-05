@@ -11,22 +11,22 @@ PositionPtr Player::GetNextPosition(enum Action e_action)
 {
 	switch ( e_action )
 	{
-		case e_action_up:
+		case Action::e_action_up:
 			{
 				return std::make_shared<Position>(mptr_position_current->GetUpPosition());
 			}
 			break;
-		case e_action_down:
+		case Action::e_action_down:
 			{
 				return std::make_shared<Position>(mptr_position_current->GetDownPosition());
 			}
 			break;
-		case e_action_left:
+		case Action::e_action_left:
 			{
 				return std::make_shared<Position>(mptr_position_current->GetLeftPosition());
 			}
 			break;
-		case e_action_right:
+		case Action::e_action_right:
 			{
 				return std::make_shared<Position>(mptr_position_current->GetRightPosition());
 			}

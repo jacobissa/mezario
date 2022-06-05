@@ -14,34 +14,37 @@ void PlayGame()
 	const int i_height = 25;
 
 	PlaygroundPtr ptr_playground = std::make_shared<Playground>(i_height , i_width , 15 , 15);
+	enum Action e_action;
 
 	while ( true )
 	{
 		SetConsoleCursorPosition(h_console , cursor_position);
 		while ( _kbhit() )
 		{
-			const int int_action = _getch();
-			switch ( int_action )
+			e_action = static_cast<enum Action>( _getch() );
+			switch ( e_action )
 			{
-				case e_action_up:
-				case e_action_down:
-				case e_action_left:
-				case e_action_right:
+				case Action::e_action_up:
+				case Action::e_action_down:
+				case Action::e_action_left:
+				case Action::e_action_right:
 					{
-						ptr_playground->PlayerMove(static_cast<enum Action>(int_action));
+						ptr_playground->PlayerMove(e_action);
 					}
 					break;
-				case e_action_shot:
+				case Action::e_action_shot:
 					{
 						ptr_playground->PlayerShot();
 					}
 					break;
 				default:
+					std::cout << e_action << std::endl;
 					break;
 			}
 		}
 		ptr_playground->UpdateCreatures();
 		ptr_playground->PrintToConsole();
+
 	}
 }
 

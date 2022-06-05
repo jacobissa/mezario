@@ -29,7 +29,7 @@ Playground::~Playground()
 void Playground::PlayerMove(enum Action e_action)
 {
 	PositionPtr ptr_position_player_next = mptr_player->GetNextPosition(e_action);
-	if ( ptr_position_player_next && IsInBounds(ptr_position_player_next) && GetValue(ptr_position_player_next) == Cell::e_cell_blank )
+	if ( ptr_position_player_next && IsInBounds(ptr_position_player_next) && GetValue(ptr_position_player_next) == Cell::e_cell_blank)
 	{
 		mptr_player->MoveTo(ptr_position_player_next);
 	}
@@ -50,15 +50,7 @@ void Playground::UpdateCreatures()
 	UpdateCreatre(mptr_player);
 	for ( const EnemyPtr& ptr_enemy : mvec_enemy )
 	{
-		PositionPtr ptr_position_enemy_next = ptr_enemy->GetNextPosition();
-		if ( ptr_position_enemy_next && IsInBounds(ptr_position_enemy_next) && GetValue(ptr_position_enemy_next) == Cell::e_cell_blank )
-		{
-			if ( !ptr_enemy->IsShotActive())
-			{
-				ptr_enemy->StartShot();
-			}
-			ptr_enemy->MoveTo(ptr_position_enemy_next);
-		}
+		UpdateEnemyMove(ptr_enemy);
 		UpdateCreatre(ptr_enemy);
 	}
 }
@@ -149,29 +141,51 @@ bool Playground::IsInBounds(const PositionPtr& ptr_position)
 	return ptr_position->x >= 0 && ptr_position->x < mi_width&& ptr_position->y >= 0 && ptr_position->y < mi_height;
 }
 
+void Playground::UpdateEnemyMove(const EnemyPtr& ptr_enemy)
+{
+	PositionPtr ptr_position_enemy_next = ptr_enemy->GetNextPosition();
+	if ( ptr_position_enemy_next && IsInBounds(ptr_position_enemy_next) && GetValue(ptr_position_enemy_next) == Cell::e_cell_blank )
+	{
+		if ( !ptr_enemy->IsShotActive() )
+		{
+			ptr_enemy->StartShot();
+		}
+		ptr_enemy->MoveTo(ptr_position_enemy_next);
+	}
+}
+
+void Playground::UpdateCreatureShot(const CreaturePtr& ptr_creature)
+{
+	if ( ptr_creature->IsShotActive() )
+	{
+		ptr_creature->UpdateShot();
+
+		PositionPtr ptr_position_shot_current = ptr_creature->GetShotCurrentPosition();
+		PositionPtr ptr_position_shot_previous = ptr_creature->GetShotPreviousPosition();
+
+		if ( ptr_position_shot_current && IsInBounds(ptr_position_shot_current) && GetValue(ptr_position_shot_current) == Cell::e_cell_wall )
+		{
+			// remove shot, if faced a wall
+			ptr_creature->StopShot();
+			SetValue(ptr_position_shot_previous , Cell::e_cell_blank);
+		}
+		else if ( ptr_position_shot_current && !IsInBounds(ptr_position_shot_current) )
+		{
+			// remove shot, in case it goes out of bounds
+			ptr_creature->StopShot();
+			SetValue(ptr_position_shot_previous , Cell::e_cell_blank);
+		}
+	}
+}
+
 void Playground::UpdateCreatre(const CreaturePtr& ptr_creature)
 {
+	UpdateCreatureShot(ptr_creature);
+
 	PositionPtr ptr_position_current = ptr_creature->GetCurrentPosition();
 	PositionPtr ptr_position_previous = ptr_creature->GetPreviousPosition();
 	PositionPtr ptr_position_shot_current = ptr_creature->GetShotCurrentPosition();
 	PositionPtr ptr_position_shot_previous = ptr_creature->GetShotPreviousPosition();
-
-	if ( ptr_position_shot_current && IsInBounds(ptr_position_shot_current) && GetValue(ptr_position_shot_current) == Cell::e_cell_wall )
-	{
-		// remove shot, in faced a wall
-		ptr_creature->StopShot();
-		SetValue(ptr_position_shot_previous , Cell::e_cell_blank);
-	}
-	else if ( ptr_position_shot_current && !IsInBounds(ptr_position_shot_current) )
-	{
-		// remove shot, in case it goes out of bounds
-		ptr_creature->StopShot();
-		SetValue(ptr_position_shot_previous , Cell::e_cell_blank);
-	}
-	else
-	{
-		ptr_creature->UpdateShot();
-	}
 
 	PositionPtr ptr_position_cell = std::make_shared<Position>(0 , 0);
 	for ( int y = 0; y < mi_height; y++ )
@@ -185,7 +199,7 @@ void Playground::UpdateCreatre(const CreaturePtr& ptr_creature)
 				// new position of creature
 				SetValue(ptr_position_cell , ptr_creature->GetCell());
 			}
-			else if ( ptr_position_cell->Equals(ptr_position_previous->GetPosition()) &&  GetValue(ptr_position_cell) == ptr_creature->GetCell() )
+			else if ( ptr_position_cell->Equals(ptr_position_previous->GetPosition()) && GetValue(ptr_position_cell) == ptr_creature->GetCell() )
 			{
 				// remove old position of creature
 				SetValue(ptr_position_cell , Cell::e_cell_blank);
