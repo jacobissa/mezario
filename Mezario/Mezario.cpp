@@ -2,9 +2,8 @@
 #include "Playground.h"
 #include "Player.h"
 
-const HANDLE& ConsoleSettings()
+void ConsoleSettings(const HANDLE& h_console)
 {
-	const HANDLE& h_console = GetStdHandle(STD_OUTPUT_HANDLE);
 	MoveWindow(GetConsoleWindow() , 0 , 0 , 440 , 500 , true);
 	SetConsoleTitleA("Mezario");
 	const CONSOLE_CURSOR_INFO cursor_info{ 1, FALSE };
@@ -18,7 +17,6 @@ const HANDLE& ConsoleSettings()
 	font.FontWeight = FW_MEDIUM;
 	SetCurrentConsoleFontEx(h_console , TRUE , &font);
 	srand(static_cast<unsigned int>( time(NULL) ));
-	return h_console;
 }
 
 void PlayGame(const HANDLE& h_console)
@@ -62,6 +60,7 @@ void PlayGame(const HANDLE& h_console)
 
 int main()
 {
-	const HANDLE h_console = ConsoleSettings();
+	const HANDLE h_console = GetStdHandle(STD_OUTPUT_HANDLE);
+	ConsoleSettings(h_console);
 	PlayGame(h_console);
 }
