@@ -15,7 +15,7 @@ public:
 	void PlayerMove(enum Action e_action);
 	void PlayerShot();
 	void UpdateCreatures();
-	void PrintToConsole();
+	void PrintToConsole(const HANDLE& h_console);
 
 private:
 	void Initialize();
@@ -23,8 +23,11 @@ private:
 	char GetValue(const PositionPtr& ptr_position);
 	bool IsInBounds(const PositionPtr& ptr_position);
 	void UpdateEnemyMove(const EnemyPtr& ptr_enemy);
+	void UpdateEnemyShot(const EnemyPtr& ptr_enemy);
 	void UpdateCreatureShot(const CreaturePtr& ptr_creature);
 	void UpdateCreatre(const CreaturePtr& ptr_creature);
+	void PrintCell(const HANDLE& h_console, enum Cell e_cell);
+
 
 private:
 	char** mptr_matrix = 0;

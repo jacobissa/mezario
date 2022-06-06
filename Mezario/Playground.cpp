@@ -29,7 +29,7 @@ Playground::~Playground()
 void Playground::PlayerMove(enum Action e_action)
 {
 	PositionPtr ptr_position_player_next = mptr_player->GetNextPosition(e_action);
-	if ( ptr_position_player_next && IsInBounds(ptr_position_player_next) && GetValue(ptr_position_player_next) == Cell::e_cell_blank)
+	if ( ptr_position_player_next && IsInBounds(ptr_position_player_next) && GetValue(ptr_position_player_next) == Cell::e_cell_blank )
 	{
 		mptr_player->MoveTo(ptr_position_player_next);
 	}
@@ -50,12 +50,13 @@ void Playground::UpdateCreatures()
 	for ( const EnemyPtr& ptr_enemy : mvec_enemy )
 	{
 		UpdateEnemyMove(ptr_enemy);
+		UpdateEnemyShot(ptr_enemy);
 		UpdateCreatre(ptr_enemy);
 	}
 	UpdateCreatre(mptr_player);
 }
 
-void Playground::PrintToConsole()
+void Playground::PrintToConsole(const HANDLE& h_console)
 {
 	PositionPtr ptr_position_cell = std::make_shared<Position>(0 , 0);
 	for ( int y = 0; y < mi_height; y++ )
@@ -63,7 +64,7 @@ void Playground::PrintToConsole()
 		for ( int x = 0; x < mi_width; x++ )
 		{
 			ptr_position_cell->UpdatePosition(x , y);
-			std::cout << GetValue(ptr_position_cell);
+			PrintCell(h_console , static_cast<enum Cell>( GetValue(ptr_position_cell) ));
 		}
 		std::cout << std::endl;
 	}
@@ -151,11 +152,15 @@ void Playground::UpdateEnemyMove(const EnemyPtr& ptr_enemy)
 	PositionPtr ptr_position_enemy_next = ptr_enemy->GetNextPosition();
 	if ( ptr_position_enemy_next && IsInBounds(ptr_position_enemy_next) && GetValue(ptr_position_enemy_next) == Cell::e_cell_blank )
 	{
-		if ( !ptr_enemy->IsShotActive() )
-		{
-			ptr_enemy->StartShot();
-		}
 		ptr_enemy->MoveTo(ptr_position_enemy_next);
+	}
+}
+
+void Playground::UpdateEnemyShot(const EnemyPtr& ptr_enemy)
+{
+	if ( !ptr_enemy->IsShotActive() )
+	{
+		ptr_enemy->StartShot();
 	}
 }
 
@@ -221,5 +226,50 @@ void Playground::UpdateCreatre(const CreaturePtr& ptr_creature)
 				SetValue(ptr_position_cell , Cell::e_cell_blank);
 			}
 		}
+	}
+}
+
+void Playground::PrintCell(const HANDLE& h_console , enum Cell e_cell)
+{
+	switch ( e_cell )
+	{
+		case Cell::e_cell_blank:
+			{
+				SetConsoleTextAttribute(h_console , Color::e_color_black);
+				std::cout << e_cell;
+			}
+			break;
+		case Cell::e_cell_wall:
+			{
+				SetConsoleTextAttribute(h_console , Color::e_color_brown);
+				std::cout << e_cell;
+			}
+			break;
+		case Cell::e_cell_player:
+			{
+				SetConsoleTextAttribute(h_console , Color::e_color_green);
+				std::cout << e_cell;
+			}
+			break;
+		case Cell::e_cell_enemy:
+			{
+				SetConsoleTextAttribute(h_console , Color::e_color_red);
+				std::cout << e_cell;
+			}
+			break;
+		case Cell::e_cell_player_shot:
+			{
+				SetConsoleTextAttribute(h_console , Color::e_color_light_green);
+				std::cout << e_cell;
+			}
+			break;
+		case Cell::e_cell_enemy_shot:
+			{
+				SetConsoleTextAttribute(h_console , Color::e_color_light_red);
+				std::cout << e_cell;
+			}
+			break;
+		default:
+			break;
 	}
 }

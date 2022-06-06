@@ -11,11 +11,11 @@
 enum Cell : char
 {
 	e_cell_blank = ' ' ,
-	e_cell_wall = '#' ,
-	e_cell_player = '@' ,
-	e_cell_enemy = '%' ,
-	e_cell_player_shot = '~',
-	e_cell_enemy_shot = ',' ,
+	e_cell_wall = (char) 219 ,
+	e_cell_player = (char) 2 ,
+	e_cell_enemy = (char) 1 ,
+	e_cell_player_shot = '*' ,
+	e_cell_enemy_shot = '-' ,
 };
 
 enum Action : int
@@ -24,6 +24,26 @@ enum Action : int
 	e_action_down = 115 ,
 	e_action_left = 97 ,
 	e_action_right = 100 ,
-	e_action_shot = 32,
+	e_action_shot = 32 ,
+};
+
+enum Color : unsigned short
+{
+	e_color_black = 0 ,
+	e_color_blue = 1 ,
+	e_color_green = 2 ,
+	e_color_cyan = 3 ,
+	e_color_red = 4 ,
+	e_color_magenta = 5 ,
+	e_color_brown = 6 ,
+	e_color_light_gray = 7 ,
+	e_color_dark_gray = 8 ,
+	e_color_light_blue = 9 ,
+	e_color_light_green = 10 ,
+	e_color_light_cyan = 11 ,
+	e_color_light_red = 12 ,
+	e_color_light_magenta = 13 ,
+	e_color_yellow = 14 ,
+	e_color_white = 15 ,
 };
 #endif // !MEZARIO_H

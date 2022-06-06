@@ -46,6 +46,7 @@ void Creature::StartShot()
 {
 	if ( mptr_position_current->Equals(mptr_position_previous->GetPosition()) )
 	{
+		// creatre, who didn't move yet, can't start shooting
 		mb_is_shot_active = false;
 	}
 	else
