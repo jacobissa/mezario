@@ -2,11 +2,10 @@
 #include "Playground.h"
 #include "Player.h"
 
-void PlayGame()
+const HANDLE& ConsoleSettings()
 {
-	const HANDLE h_console = GetStdHandle(STD_OUTPUT_HANDLE);
-	const HWND h_console_window = GetConsoleWindow();
-	MoveWindow(h_console_window , 0 , 0 , 440 , 500 , true);
+	const HANDLE& h_console = GetStdHandle(STD_OUTPUT_HANDLE);
+	MoveWindow(GetConsoleWindow() , 0 , 0 , 440 , 500 , true);
 	SetConsoleTitleA("Mezario");
 	const CONSOLE_CURSOR_INFO cursor_info{ 1, FALSE };
 	SetConsoleCursorInfo(h_console , &cursor_info);
@@ -19,11 +18,16 @@ void PlayGame()
 	font.FontWeight = FW_MEDIUM;
 	SetCurrentConsoleFontEx(h_console , TRUE , &font);
 	srand(static_cast<unsigned int>( time(NULL) ));
+	return h_console;
+}
 
+void PlayGame(const HANDLE& h_console)
+{
 	const int i_width = 50;
 	const int i_height = 25;
-
-	PlaygroundPtr ptr_playground = std::make_shared<Playground>(i_height , i_width , 25 , 9);
+	const int i_probability_wall = 25;
+	const int i_quantity_enemy = 9;
+	PlaygroundPtr ptr_playground = std::make_shared<Playground>(i_height , i_width , i_probability_wall , i_quantity_enemy);
 	enum Action e_action;
 
 	while ( true )
@@ -58,5 +62,6 @@ void PlayGame()
 
 int main()
 {
-	PlayGame();
+	const HANDLE h_console = ConsoleSettings();
+	PlayGame(h_console);
 }
