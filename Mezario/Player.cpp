@@ -1,10 +1,8 @@
 #include "Player.h"
 
 Player::Player(PositionPtr& ptr_position)
-	: Creature(ptr_position)
+	: Creature(ptr_position , Cell::e_cell_player , { Cell::e_cell_player_shot_up, Cell::e_cell_player_shot_down, Cell::e_cell_player_shot_left, Cell::e_cell_player_shot_right })
 {
-	me_cell = Cell::e_cell_player;
-	me_cell_shot = Cell::e_cell_player_shot;
 }
 
 PositionPtr Player::GetNextPosition(enum Action e_action)

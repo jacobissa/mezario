@@ -1,19 +1,42 @@
 #include "Creature.h"
 
-Creature::Creature(PositionPtr& ptr_position)
+Creature::Creature(PositionPtr& ptr_position , enum Cell e_cell_creature , const CellShot s_cell_shot)
 	: mptr_position_current(ptr_position)
 	, mptr_position_previous(ptr_position)
+	, ms_cell_shot(s_cell_shot)
+	, me_cell_creature(e_cell_creature)
 {
 }
 
-Cell Creature::GetCell()
+Cell Creature::GetCellCreature()
 {
-	return me_cell;
+	return me_cell_creature;
 }
 
 Cell Creature::GetCellShot()
 {
-	return me_cell_shot;
+	if ( mb_is_shot_active )
+	{
+		if ( mptr_position_shot_current->Equals(mptr_position_shot_previous->GetUpPosition()) )
+		{
+			return ms_cell_shot.e_cell_shot_up;
+		}
+		else if ( mptr_position_shot_current->Equals(mptr_position_shot_previous->GetDownPosition()) )
+		{
+			return ms_cell_shot.e_cell_shot_down;
+		}
+		else if ( mptr_position_shot_current->Equals(mptr_position_shot_previous->GetLeftPosition()) )
+		{
+			return ms_cell_shot.e_cell_shot_left;
+		}
+		else if ( mptr_position_shot_current->Equals(mptr_position_shot_previous->GetRightPosition()) )
+		{
+			return ms_cell_shot.e_cell_shot_right;
+		}
+	}
+	std::cout << std::endl << std::endl << "Error: Invalid request to Creature::GetCellShot." << std::endl;
+	std::cout << "Make sure the shot is active, before calling this function!" << std::endl;
+	std::exit(EXIT_FAILURE);
 }
 
 const PositionPtr& Creature::GetCurrentPosition()

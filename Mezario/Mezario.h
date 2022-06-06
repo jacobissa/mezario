@@ -14,8 +14,13 @@ enum Cell : char
 	e_cell_wall = (char) 219 ,
 	e_cell_player = (char) 2 ,
 	e_cell_enemy = (char) 1 ,
-	e_cell_player_shot = '*' ,
-	e_cell_enemy_shot = '-' ,
+	e_cell_player_shot_up = (char) 30 ,
+	e_cell_player_shot_down = (char) 31 ,
+	e_cell_player_shot_left = (char) 17 ,
+	e_cell_player_shot_right = (char) 16 ,
+	e_cell_enemy_shot_up = (char) 208 ,
+	e_cell_enemy_shot_down = (char) 210 ,
+	e_cell_enemy_shot_left_right = (char) 240 ,
 };
 
 enum Action : int

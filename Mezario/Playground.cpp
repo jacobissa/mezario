@@ -150,8 +150,9 @@ bool Playground::IsInBounds(const PositionPtr& ptr_position)
 void Playground::UpdateEnemyMove(const EnemyPtr& ptr_enemy)
 {
 	PositionPtr ptr_position_enemy_next = ptr_enemy->GetNextPosition();
-	if ( ptr_position_enemy_next && IsInBounds(ptr_position_enemy_next) && GetValue(ptr_position_enemy_next) == Cell::e_cell_blank )
+	if ( ptr_position_enemy_next && !ptr_enemy->IsShotActive() && IsInBounds(ptr_position_enemy_next) && GetValue(ptr_position_enemy_next) == Cell::e_cell_blank )
 	{
+		// Move the enemy, only when it has no active shot.
 		ptr_enemy->MoveTo(ptr_position_enemy_next);
 	}
 }
@@ -207,9 +208,9 @@ void Playground::UpdateCreatre(const CreaturePtr& ptr_creature)
 			if ( ptr_position_cell->Equals(ptr_position_current->GetPosition()) )
 			{
 				// new position of creature
-				SetValue(ptr_position_cell , ptr_creature->GetCell());
+				SetValue(ptr_position_cell , ptr_creature->GetCellCreature());
 			}
-			else if ( ptr_position_cell->Equals(ptr_position_previous->GetPosition()) && GetValue(ptr_position_cell) == ptr_creature->GetCell() )
+			else if ( ptr_position_cell->Equals(ptr_position_previous->GetPosition()) && GetValue(ptr_position_cell) == ptr_creature->GetCellCreature() )
 			{
 				// remove old position of creature
 				SetValue(ptr_position_cell , Cell::e_cell_blank);
@@ -257,13 +258,18 @@ void Playground::PrintCell(const HANDLE& h_console , enum Cell e_cell)
 				std::cout << e_cell;
 			}
 			break;
-		case Cell::e_cell_player_shot:
+		case Cell::e_cell_player_shot_up:
+		case Cell::e_cell_player_shot_down:
+		case Cell::e_cell_player_shot_left:
+		case Cell::e_cell_player_shot_right:
 			{
 				SetConsoleTextAttribute(h_console , Color::e_color_light_green);
 				std::cout << e_cell;
 			}
 			break;
-		case Cell::e_cell_enemy_shot:
+		case Cell::e_cell_enemy_shot_up:
+		case Cell::e_cell_enemy_shot_down:
+		case Cell::e_cell_enemy_shot_left_right:
 			{
 				SetConsoleTextAttribute(h_console , Color::e_color_light_red);
 				std::cout << e_cell;
