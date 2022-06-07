@@ -1,6 +1,6 @@
 #include "Creature.h"
 
-Creature::Creature(PositionPtr& ptr_position , enum Cell e_cell_creature , const CellShot s_cell_shot)
+Creature::Creature(PositionPtr& ptr_position, enum Cell e_cell_creature, const CellShot s_cell_shot)
 	: mptr_position_current(ptr_position)
 	, mptr_position_previous(ptr_position)
 	, ms_cell_shot(s_cell_shot)

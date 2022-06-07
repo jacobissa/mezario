@@ -11,6 +11,14 @@ struct CellShot
 	enum Cell e_cell_shot_right;
 };
 
+struct CellCreature
+{
+	enum Cell e_cell_player;
+	enum Cell e_cell_enemy_alpha;
+	enum Cell e_cell_enemy_beta;
+	enum Cell e_cell_enemy_gamma;
+};
+
 class Creature
 {
 public:
@@ -31,6 +39,7 @@ public:
 
 protected:
 	enum Cell me_cell_creature = Cell::e_cell_blank;
+	//CellCreature ms_cell_creature;
 	CellShot ms_cell_shot;
 	PositionPtr mptr_position_current;
 	PositionPtr mptr_position_previous;

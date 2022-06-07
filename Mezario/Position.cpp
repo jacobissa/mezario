@@ -58,7 +58,7 @@ Position Position::GetRightPosition()
 Position Position::GetRandomNeighbourPosition()
 {
 	switch ( rand() % 4 )
-	{
+	{	
 		case 0:
 			{
 				return GetUpPosition();

@@ -4,6 +4,7 @@
 #include "Mezario.h"
 #include "Player.h"
 #include "Enemy.h"
+#include "E_Alpha.h"
 
 class Playground
 {
@@ -22,7 +23,7 @@ private:
 	void SetValue(const PositionPtr& ptr_position , enum Cell e_cell);
 	char GetValue(const PositionPtr& ptr_position);
 	bool IsInBounds(const PositionPtr& ptr_position);
-	void UpdateEnemyMove(const EnemyPtr& ptr_enemy);
+	void UpdateEnemyMove(const AlphaPtr& ptr_enemy);
 	void UpdateEnemyShot(const EnemyPtr& ptr_enemy);
 	void UpdateCreatureShot(const CreaturePtr& ptr_creature);
 	void UpdateCreatre(const CreaturePtr& ptr_creature);
@@ -37,7 +38,7 @@ private:
 	int mi_quantity_enemy = 0;
 	PositionPtr mptr_position_exit = nullptr;
 	PlayerPtr mptr_player = nullptr;
-	std::vector<EnemyPtr> mvec_enemy;
+	std::vector<AlphaPtr> mvec_enemy;
 };
 using PlaygroundPtr = std::shared_ptr<Playground>;
 

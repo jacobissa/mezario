@@ -1,4 +1,5 @@
 #include "Playground.h"
+#include "E_Alpha.h"
 
 Playground::Playground(const int i_height , const int i_width , const int i_probability_wall , const int i_quantity_enemy)
 	: mi_height(i_height)
@@ -47,7 +48,7 @@ void Playground::PlayerShot()
 
 void Playground::UpdateCreatures()
 {
-	for ( const EnemyPtr& ptr_enemy : mvec_enemy )
+	for ( const AlphaPtr& ptr_enemy : mvec_enemy )
 	{
 		UpdateEnemyMove(ptr_enemy);
 		UpdateEnemyShot(ptr_enemy);
@@ -100,7 +101,7 @@ void Playground::Initialize()
 			{
 				// create the enemies
 				PositionPtr ptr_position_enemy = std::make_shared<Position>(x , y);
-				mvec_enemy.emplace_back(std::make_shared<Enemy>(ptr_position_enemy));
+				mvec_enemy.emplace_back(std::make_shared<E_Alpha>(ptr_position_enemy));
 				SetValue(ptr_position_cell , Cell::e_cell_blank);
 				mi_quantity_enemy--;
 				i_counter++;
@@ -147,9 +148,9 @@ bool Playground::IsInBounds(const PositionPtr& ptr_position)
 	return ptr_position->x >= 0 && ptr_position->x < mi_width&& ptr_position->y >= 0 && ptr_position->y < mi_height;
 }
 
-void Playground::UpdateEnemyMove(const EnemyPtr& ptr_enemy)
+void Playground::UpdateEnemyMove(const AlphaPtr& ptr_enemy)
 {
-	PositionPtr ptr_position_enemy_next = ptr_enemy->GetNextPosition();
+	PositionPtr ptr_position_enemy_next = ptr_enemy->GetNextPosition(mptr_player->GetCurrentPosition());
 	if ( ptr_position_enemy_next && !ptr_enemy->IsShotActive() && IsInBounds(ptr_position_enemy_next) && GetValue(ptr_position_enemy_next) == Cell::e_cell_blank )
 	{
 		// Move the enemy, only when it has no active shot.
@@ -252,7 +253,7 @@ void Playground::PrintCell(const HANDLE& h_console , enum Cell e_cell)
 				std::cout << e_cell;
 			}
 			break;
-		case Cell::e_cell_enemy:
+		case Cell::e_cell_enemy_alpha:
 			{
 				SetConsoleTextAttribute(h_console , Color::e_color_red);
 				std::cout << e_cell;
