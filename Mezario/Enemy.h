@@ -2,6 +2,10 @@
 #define ENEMY_H
 
 #include "Creature.h"
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
 class Enemy : public Creature
 {
 public:
