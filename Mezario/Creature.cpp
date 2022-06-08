@@ -118,3 +118,7 @@ void Creature::UpdateShot()
 
 	}
 }
+bool Creature::IsAlive()
+{
+	return this->alive;
+}

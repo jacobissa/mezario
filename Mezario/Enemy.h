@@ -2,10 +2,7 @@
 #define ENEMY_H
 
 #include "Creature.h"
-<<<<<<< Updated upstream
-=======
 
->>>>>>> Stashed changes
 class Enemy : public Creature
 {
 public:
@@ -13,7 +10,8 @@ public:
 
 public:
 	PositionPtr GetNextPosition(const PositionPtr& ptr_position_player);
-
+	void EnemyDestroy(const PositionPtr& ptr_position_shot);
+	bool enemy_alive = true;
 };
 using EnemyPtr = std::shared_ptr<Enemy>;
 

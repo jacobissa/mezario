@@ -231,6 +231,9 @@ void Playground::UpdateCreatre(const CreaturePtr& ptr_creature)
 	}
 }
 
+
+
+
 void Playground::PrintCell(const HANDLE& h_console , enum Cell e_cell)
 {
 	switch ( e_cell )

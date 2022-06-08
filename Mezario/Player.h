@@ -10,6 +10,7 @@ public:
 
 public:
 	PositionPtr GetNextPosition(enum Action e_action);
+	void DestroyPlayer();
 
 };
 using PlayerPtr = std::shared_ptr<Player>;

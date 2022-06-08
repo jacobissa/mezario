@@ -11,6 +11,7 @@ public:
 
 public:
 	PositionPtr GetNextPosition(const PositionPtr& ptr_postion_player);
+	
 
 };
 using AlphaPtr = std::shared_ptr<E_Alpha>;

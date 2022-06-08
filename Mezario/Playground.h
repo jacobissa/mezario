@@ -28,6 +28,7 @@ private:
 	void UpdateCreatureShot(const CreaturePtr& ptr_creature);
 	void UpdateCreatre(const CreaturePtr& ptr_creature);
 	void PrintCell(const HANDLE& h_console, enum Cell e_cell);
+	
 
 
 private:

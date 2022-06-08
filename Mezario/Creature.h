@@ -3,6 +3,7 @@
 
 #include "Mezario.h"
 
+
 struct CellShot
 {
 	enum Cell e_cell_shot_up;
@@ -36,16 +37,17 @@ public:
 	bool IsShotActive();
 	void StopShot();
 	void UpdateShot();
+	bool IsAlive();
 
 protected:
 	enum Cell me_cell_creature = Cell::e_cell_blank;
-	//CellCreature ms_cell_creature;
 	CellShot ms_cell_shot;
 	PositionPtr mptr_position_current;
 	PositionPtr mptr_position_previous;
 	PositionPtr mptr_position_shot_current;
 	PositionPtr mptr_position_shot_previous;
 	bool mb_is_shot_active = false;
+	bool alive = true;
 
 };
 using CreaturePtr = std::shared_ptr<Creature>;
