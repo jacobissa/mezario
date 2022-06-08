@@ -211,17 +211,46 @@ void Playground::UpdatePlayerShot()
 			{
 				// remove shot, in case it goes out of bounds
 				mptr_player->StopShot();
-				SetValue(ptr_position_shot_previous , Cell::e_cell_blank);
 			}
 			else
 			{
-				if ( GetValue(ptr_position_shot_current) == Cell::e_cell_wall )
+				switch ( GetValue(ptr_position_shot_current) )
 				{
-					// remove shot, if faced a wall
-					mptr_player->StopShot();
-					SetValue(ptr_position_shot_previous , Cell::e_cell_blank);
+					case Cell::e_cell_wall:
+						{
+							// remove shot, if faced a wall
+							mptr_player->StopShot();
+						}
+						break;
+					case Cell::e_cell_enemy:
+						{
+							// Player's Shot kills an enemy
+							mvec_enemy.erase(
+								std::remove_if(mvec_enemy.begin() , mvec_enemy.end() ,
+											   [&] (const EnemyPtr& ptr_enemy)
+							{
+								if ( ptr_enemy->GetCurrentPosition()->Equals(ptr_position_shot_current->GetPosition()) )
+								{
+									SetValue(ptr_enemy->GetCurrentPosition() , Cell::e_cell_blank);
+									if ( ptr_enemy->IsShotActive() )
+									{
+										SetValue(ptr_enemy->GetShotCurrentPosition() , Cell::e_cell_blank);
+										ptr_enemy->StopShot();
+									}
+									return true;
+								}
+								else
+								{
+									return false;
+								}
+							}) ,
+								mvec_enemy.end());
+							mptr_player->StopShot();
+						}
+						break;
 				}
 			}
+			SetValue(ptr_position_shot_previous , Cell::e_cell_blank);
 		}
 	}
 }
