@@ -43,7 +43,7 @@ void Playground::PlayerShot()
 		SetValue(mptr_player->GetShotPreviousPosition() , Cell::e_cell_blank);
 		SetValue(mptr_player->GetShotCurrentPosition() , Cell::e_cell_blank);
 	}
-	mptr_player->StartShot();
+	mptr_player->StartShot(mptr_player->GetCurrentPosition());
 }
 
 void Playground::UpdateCreatures()
@@ -162,7 +162,7 @@ void Playground::UpdateEnemyShot(const EnemyPtr& ptr_enemy)
 {
 	if ( !ptr_enemy->IsShotActive() )
 	{
-		ptr_enemy->StartShot();
+		ptr_enemy->StartShot(mptr_player->GetCurrentPosition());
 	}
 }
 

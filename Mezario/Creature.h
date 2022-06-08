@@ -33,7 +33,7 @@ public:
 	const PositionPtr& GetShotCurrentPosition();
 	const PositionPtr& GetShotPreviousPosition();
 	void MoveTo(PositionPtr& ptr_position);
-	void StartShot();
+	void StartShot(const PositionPtr& ptr_postion_player);
 	bool IsShotActive();
 	void StopShot();
 	void UpdateShot();
