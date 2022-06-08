@@ -36,10 +36,10 @@
     <ClCompile Include="Alpha.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="E_Beta.cpp">
+    <ClCompile Include="Beta.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="E_Gamma.cpp">
+    <ClCompile Include="Gamma.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -65,10 +65,10 @@
     <ClInclude Include="Alpha.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="E_Beta.h">
+    <ClInclude Include="Beta.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="E_Gamma.h">
+    <ClInclude Include="Gamma.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
