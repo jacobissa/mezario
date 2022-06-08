@@ -74,8 +74,7 @@ void Creature::StartShot(const PositionPtr& ptr_position_player)
 		mptr_position_shot_current = std::make_shared<Position>(mptr_position_current->GetPosition());
 		mptr_position_shot_previous = std::make_shared<Position>(mptr_position_previous->GetPosition());
 	}
-	else if (me_cell_creature == e_cell_enemy_alpha 
-		&& mptr_position_current->IsClose(ptr_position_player->GetPosition(), 5))
+	else if (me_cell_creature == e_cell_enemy_alpha && mptr_position_current->IsClose(ptr_position_player->GetPosition(), 5))
 	{
 		mb_is_shot_active = true;
 		mptr_position_shot_current = std::make_shared<Position>(mptr_position_current->GetPosition());
