@@ -111,7 +111,8 @@ void Playground::Initialize()
 			{
 				// create the enemies
 				PositionPtr ptr_position_enemy = std::make_shared<Position>(x , y);
-				mvec_enemy.emplace_back(std::make_shared<Enemy>(ptr_position_enemy));
+				EnemyPtr ptr_enemy = std::make_shared<Enemy>(ptr_position_enemy);
+				mvec_enemy.emplace_back(ptr_enemy);
 				SetValue(ptr_position_cell , Cell::e_cell_blank);
 				mi_quantity_enemy--;
 				i_counter++;
@@ -245,6 +246,22 @@ void Playground::UpdatePlayerShot()
 								}
 							}) ,
 								mvec_enemy.end());
+							mptr_player->StopShot();
+						}
+						break;
+					case Cell::e_cell_enemy_shot_up:
+					case Cell::e_cell_enemy_shot_down:
+					case Cell::e_cell_enemy_shot_left_right:
+						{
+							// Player's shot faces an enemy's shot --> delete both shots
+							for ( const EnemyPtr& ptr_enemy : mvec_enemy )
+							{
+								if ( ptr_enemy->IsShotActive() && ptr_enemy->GetShotCurrentPosition()->Equals(ptr_position_shot_current->GetPosition()) )
+								{
+									SetValue(ptr_enemy->GetShotCurrentPosition() , Cell::e_cell_blank);
+									ptr_enemy->StopShot();
+								}
+							}
 							mptr_player->StopShot();
 						}
 						break;
