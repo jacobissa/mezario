@@ -4,7 +4,7 @@
 
 void ConsoleSettings(const HANDLE& h_console)
 {
-	MoveWindow(GetConsoleWindow() , 0 , 0 , 440 , 500 , true);
+	MoveWindow(GetConsoleWindow() , 0 , 0 , 440 , 600 , true);
 	SetConsoleTitleA("Mezario");
 	const CONSOLE_CURSOR_INFO cursor_info{ 1, FALSE };
 	SetConsoleCursorInfo(h_console , &cursor_info);
@@ -19,7 +19,7 @@ void ConsoleSettings(const HANDLE& h_console)
 	srand(static_cast<unsigned int>( time(NULL) ));
 }
 
-void PlayGame(const HANDLE& h_console)
+bool PlayGame(const HANDLE& h_console)
 {
 	const int i_width = 50;
 	const int i_height = 25;
@@ -55,6 +55,8 @@ void PlayGame(const HANDLE& h_console)
 		}
 		ptr_playground->UpdateCreatures();
 		ptr_playground->PrintToConsole(h_console);
+		if ( ptr_playground->IsWin() ) return true;
+		if ( ptr_playground->IsLose() ) return false;
 	}
 }
 
@@ -62,5 +64,12 @@ int main()
 {
 	const HANDLE h_console = GetStdHandle(STD_OUTPUT_HANDLE);
 	ConsoleSettings(h_console);
-	PlayGame(h_console);
+	if ( PlayGame(h_console) )
+	{
+		std::cout << " You Win!" << std::endl;
+	}
+	else
+	{
+		std::cout << " You Lose!" << std::endl;
+	}
 }

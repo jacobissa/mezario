@@ -70,6 +70,16 @@ void Playground::PrintToConsole(const HANDLE& h_console)
 	}
 }
 
+bool Playground::IsWin()
+{
+	return mptr_player->GetCurrentPosition()->Equals(mptr_position_exit->GetPosition());
+}
+
+bool Playground::IsLose()
+{
+	return mptr_player == nullptr;
+}
+
 void Playground::Initialize()
 {
 	PositionPtr ptr_position_player = mptr_player->GetCurrentPosition();

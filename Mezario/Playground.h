@@ -16,6 +16,8 @@ public:
 	void PlayerShot();
 	void UpdateCreatures();
 	void PrintToConsole(const HANDLE& h_console);
+	bool IsWin();
+	bool IsLose();
 
 private:
 	void Initialize();
