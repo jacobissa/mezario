@@ -17,6 +17,8 @@ public:
 	void PlayerShot();
 	void UpdateCreatures();
 	void PrintToConsole(const HANDLE& h_console);
+	bool IsWin();
+	bool IsLose();
 
 private:
 	void Initialize();
@@ -25,7 +27,7 @@ private:
 	bool IsInBounds(const PositionPtr& ptr_position);
 	void UpdateEnemyMove(const AlphaPtr& ptr_enemy);
 	void UpdateEnemyShot(const EnemyPtr& ptr_enemy);
-	void UpdateCreatureShot(const CreaturePtr& ptr_creature);
+	void UpdatePlayerShot();
 	void UpdateCreatre(const CreaturePtr& ptr_creature);
 	void PrintCell(const HANDLE& h_console, enum Cell e_cell);
 	
