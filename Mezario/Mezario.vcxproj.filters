@@ -33,7 +33,7 @@
     <ClCompile Include="Position.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="E_Alpha.cpp">
+    <ClCompile Include="Alpha.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="E_Beta.cpp">
@@ -62,7 +62,7 @@
     <ClInclude Include="Position.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="E_Alpha.h">
+    <ClInclude Include="Alpha.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="E_Beta.h">

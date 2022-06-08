@@ -1,12 +1,12 @@
-#include "E_Alpha.h"
+#include "Alpha.h"
 
 
-E_Alpha::E_Alpha(PositionPtr& ptr_position )
+Alpha::Alpha(PositionPtr& ptr_position )
 	: Enemy(ptr_position, Cell::e_cell_enemy_alpha, { Cell::e_cell_enemy_shot_up, Cell::e_cell_enemy_shot_down, Cell::e_cell_enemy_shot_left_right, Cell::e_cell_enemy_shot_left_right })
 {
 }
 
-PositionPtr E_Alpha::GetNextPosition(const PositionPtr& ptr_position_player) 
+PositionPtr Alpha::GetNextPosition(const PositionPtr& ptr_position_player) 
 {
 	if (mptr_position_current->IsClose(ptr_position_player->GetPosition(), 5))
 	{

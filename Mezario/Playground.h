@@ -4,7 +4,7 @@
 #include "Mezario.h"
 #include "Player.h"
 #include "Enemy.h"
-#include "E_Alpha.h"
+#include "Alpha.h"
 
 class Playground
 {

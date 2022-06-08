@@ -127,7 +127,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="E_Alpha.cpp" />
+    <ClCompile Include="Alpha.cpp" />
     <ClCompile Include="E_Beta.cpp" />
     <ClCompile Include="Creature.cpp" />
     <ClCompile Include="Enemy.cpp" />
@@ -138,7 +138,7 @@
     <ClCompile Include="Position.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="E_Alpha.h" />
+    <ClInclude Include="Alpha.h" />
     <ClInclude Include="E_Beta.h" />
     <ClInclude Include="Creature.h" />
     <ClInclude Include="Enemy.h" />

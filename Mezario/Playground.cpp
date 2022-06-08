@@ -1,5 +1,5 @@
 #include "Playground.h"
-#include "E_Alpha.h"
+#include "Alpha.h"
 
 Playground::Playground(const int i_height , const int i_width , const int i_probability_wall , const int i_quantity_enemy)
 	: mi_height(i_height)
@@ -115,12 +115,8 @@ void Playground::Initialize()
 			{
 				// create the enemies
 				PositionPtr ptr_position_enemy = std::make_shared<Position>(x , y);
-<<<<<<< HEAD
-				mvec_enemy.emplace_back(std::make_shared<E_Alpha>(ptr_position_enemy));
-=======
-				EnemyPtr ptr_enemy = std::make_shared<Enemy>(ptr_position_enemy);
+				AlphaPtr ptr_enemy = std::make_shared<Alpha>(ptr_position_enemy);
 				mvec_enemy.emplace_back(ptr_enemy);
->>>>>>> main
 				SetValue(ptr_position_cell , Cell::e_cell_blank);
 				mi_quantity_enemy--;
 				i_counter++;
@@ -214,7 +210,7 @@ void Playground::UpdateEnemyShot(const EnemyPtr& ptr_enemy)
 				switch ( GetValue(ptr_position_shot_current) )
 				{
 					case Cell::e_cell_wall:
-					case Cell::e_cell_enemy:
+					case Cell::e_cell_enemy_alpha:
 					case Cell::e_cell_enemy_shot_up:
 					case Cell::e_cell_enemy_shot_down:
 					case Cell::e_cell_enemy_shot_left_right:
@@ -262,7 +258,7 @@ void Playground::UpdatePlayerShot()
 							mptr_player->StopShot();
 						}
 						break;
-					case Cell::e_cell_enemy:
+					case Cell::e_cell_enemy_alpha:
 						{
 							// Player's Shot kills an enemy
 							mvec_enemy.erase(
