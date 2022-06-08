@@ -53,8 +53,11 @@ void Playground::UpdateCreatures()
 		UpdateEnemyShot(ptr_enemy);
 		UpdateCreatre(ptr_enemy);
 	}
-	UpdatePlayerShot();
-	UpdateCreatre(mptr_player);
+	if ( mptr_player )
+	{
+		UpdatePlayerShot();
+		UpdateCreatre(mptr_player);
+	}
 }
 
 void Playground::PrintToConsole(const HANDLE& h_console)
@@ -73,7 +76,7 @@ void Playground::PrintToConsole(const HANDLE& h_console)
 
 bool Playground::IsWin()
 {
-	return mptr_player->GetCurrentPosition()->Equals(mptr_position_exit->GetPosition());
+	return mptr_player && mptr_player->GetCurrentPosition()->Equals(mptr_position_exit->GetPosition());
 }
 
 bool Playground::IsLose()
@@ -182,15 +185,40 @@ void Playground::UpdateEnemyShot(const EnemyPtr& ptr_enemy)
 		PositionPtr ptr_position_shot_current = ptr_enemy->GetShotCurrentPosition();
 		PositionPtr ptr_position_shot_previous = ptr_enemy->GetShotPreviousPosition();
 
+		if ( ptr_position_shot_current && ptr_position_shot_previous )
+		{
+			if ( !IsInBounds(ptr_position_shot_current) )
+			{
+				// remove shot, in case it goes out of bounds
+				ptr_enemy->StopShot();
+			}
+			else
+			{
+				switch ( GetValue(ptr_position_shot_current) )
+				{
+					case Cell::e_cell_wall:
+					case Cell::e_cell_enemy:
+					case Cell::e_cell_enemy_shot_up:
+					case Cell::e_cell_enemy_shot_down:
+					case Cell::e_cell_enemy_shot_left_right:
+						{
+							// remove shot, if faced a wall or another enemy, or another enemy's shot
+							ptr_enemy->StopShot();
+						}
+						break;
+					case Cell::e_cell_player:
+						{
+							ptr_enemy->StopShot();
+							mptr_player = nullptr;
+						}
+						break;
+				}
+			}
+			SetValue(ptr_position_shot_previous , Cell::e_cell_blank);
+		}
 		if ( ptr_position_shot_current && IsInBounds(ptr_position_shot_current) && GetValue(ptr_position_shot_current) == Cell::e_cell_wall )
 		{
 			// remove shot, if faced a wall
-			ptr_enemy->StopShot();
-			SetValue(ptr_position_shot_previous , Cell::e_cell_blank);
-		}
-		else if ( ptr_position_shot_current && !IsInBounds(ptr_position_shot_current) )
-		{
-			// remove shot, in case it goes out of bounds
 			ptr_enemy->StopShot();
 			SetValue(ptr_position_shot_previous , Cell::e_cell_blank);
 		}
