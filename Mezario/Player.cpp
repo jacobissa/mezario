@@ -34,7 +34,3 @@ PositionPtr Player::GetNextPosition(enum Action e_action)
 	}
 	return nullptr;
 }
-void Player::DestroyPlayer()
-{
-	this->alive = false;
-}

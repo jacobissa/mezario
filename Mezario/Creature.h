@@ -12,13 +12,6 @@ struct CellShot
 	enum Cell e_cell_shot_right;
 };
 
-struct CellCreature
-{
-	enum Cell e_cell_player;
-	enum Cell e_cell_enemy_alpha;
-	enum Cell e_cell_enemy_beta;
-	enum Cell e_cell_enemy_gamma;
-};
 
 class Creature
 {
@@ -37,7 +30,6 @@ public:
 	bool IsShotActive();
 	void StopShot();
 	void UpdateShot();
-	bool IsAlive();
 
 protected:
 	enum Cell me_cell_creature = Cell::e_cell_blank;
@@ -47,7 +39,7 @@ protected:
 	PositionPtr mptr_position_shot_current;
 	PositionPtr mptr_position_shot_previous;
 	bool mb_is_shot_active = false;
-	bool alive = true;
+
 
 };
 using CreaturePtr = std::shared_ptr<Creature>;

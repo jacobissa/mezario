@@ -10,8 +10,3 @@ PositionPtr Enemy::GetNextPosition(const PositionPtr& ptr_position_player)
 	return 	std::make_shared<Position>(mptr_position_current->GetPosition());
 }
 
-void Enemy::EnemyDestroy(const PositionPtr& ptr_position_shoot)
-{
-	this->alive = false;
-
-}
