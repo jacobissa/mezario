@@ -28,6 +28,7 @@ bool PlayGame(const HANDLE& h_console)
 	PlaygroundPtr ptr_playground = std::make_shared<Playground>(i_height , i_width , i_probability_wall , i_quantity_enemy);
 	enum Action e_action;
 
+
 	while ( true )
 	{
 		SetConsoleCursorPosition(h_console , { 0,0 });

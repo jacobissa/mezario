@@ -1,6 +1,6 @@
 #include "Creature.h"
 
-Creature::Creature(PositionPtr& ptr_position , enum Cell e_cell_creature , const CellShot s_cell_shot)
+Creature::Creature(PositionPtr& ptr_position, enum Cell e_cell_creature, const CellShot s_cell_shot)
 	: mptr_position_current(ptr_position)
 	, mptr_position_previous(ptr_position)
 	, ms_cell_shot(s_cell_shot)
@@ -65,20 +65,6 @@ void Creature::MoveTo(PositionPtr& ptr_position)
 	mptr_position_current = ptr_position;
 }
 
-void Creature::StartShot()
-{
-	if ( mptr_position_current->Equals(mptr_position_previous->GetPosition()) )
-	{
-		// creatre, who didn't move yet, can't start shooting
-		mb_is_shot_active = false;
-	}
-	else
-	{
-		mb_is_shot_active = true;
-		mptr_position_shot_current = std::make_shared<Position>(mptr_position_current->GetPosition());
-		mptr_position_shot_previous = std::make_shared<Position>(mptr_position_previous->GetPosition());
-	}
-}
 
 bool Creature::IsShotActive()
 {

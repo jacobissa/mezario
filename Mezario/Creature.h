@@ -3,6 +3,7 @@
 
 #include "Mezario.h"
 
+
 struct CellShot
 {
 	enum Cell e_cell_shot_up;
@@ -24,7 +25,6 @@ public:
 	const PositionPtr& GetShotCurrentPosition();
 	const PositionPtr& GetShotPreviousPosition();
 	void MoveTo(PositionPtr& ptr_position);
-	void StartShot();
 	bool IsShotActive();
 	void StopShot();
 	void UpdateShot();
@@ -37,6 +37,7 @@ protected:
 	PositionPtr mptr_position_shot_current;
 	PositionPtr mptr_position_shot_previous;
 	bool mb_is_shot_active = false;
+
 
 };
 using CreaturePtr = std::shared_ptr<Creature>;

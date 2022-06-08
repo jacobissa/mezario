@@ -1,4 +1,5 @@
 #include "Playground.h"
+#include "Alpha.h"
 
 Playground::Playground(const int i_height , const int i_width , const int i_probability_wall , const int i_quantity_enemy)
 	: mi_height(i_height)
@@ -47,7 +48,7 @@ void Playground::PlayerShot()
 
 void Playground::UpdateCreatures()
 {
-	for ( const EnemyPtr& ptr_enemy : mvec_enemy )
+	for ( const AlphaPtr& ptr_enemy : mvec_enemy )
 	{
 		UpdateEnemyMove(ptr_enemy);
 		UpdateEnemyShot(ptr_enemy);
@@ -114,7 +115,7 @@ void Playground::Initialize()
 			{
 				// create the enemies
 				PositionPtr ptr_position_enemy = std::make_shared<Position>(x , y);
-				EnemyPtr ptr_enemy = std::make_shared<Enemy>(ptr_position_enemy);
+				AlphaPtr ptr_enemy = std::make_shared<Alpha>(ptr_position_enemy);
 				mvec_enemy.emplace_back(ptr_enemy);
 				SetValue(ptr_position_cell , Cell::e_cell_blank);
 				mi_quantity_enemy--;
@@ -162,71 +163,77 @@ bool Playground::IsInBounds(const PositionPtr& ptr_position)
 	return ptr_position->x >= 0 && ptr_position->x < mi_width&& ptr_position->y >= 0 && ptr_position->y < mi_height;
 }
 
-void Playground::UpdateEnemyMove(const EnemyPtr& ptr_enemy)
+void Playground::UpdateEnemyMove(const AlphaPtr& ptr_enemy)
 {
-	PositionPtr ptr_position_enemy_next = ptr_enemy->GetNextPosition();
-	if ( ptr_position_enemy_next && !ptr_enemy->IsShotActive() && IsInBounds(ptr_position_enemy_next) && GetValue(ptr_position_enemy_next) == Cell::e_cell_blank )
+	if (mptr_player)
 	{
-		// Move the enemy, only when it has no active shot.
-		ptr_enemy->MoveTo(ptr_position_enemy_next);
+		PositionPtr ptr_position_enemy_next = ptr_enemy->GetNextPosition(mptr_player->GetCurrentPosition());
+		if (ptr_position_enemy_next && !ptr_enemy->IsShotActive() && IsInBounds(ptr_position_enemy_next) && GetValue(ptr_position_enemy_next) == Cell::e_cell_blank)
+		{
+			// Move the enemy, only when it has no active shot.
+			ptr_enemy->MoveTo(ptr_position_enemy_next);
+		}
 	}
 }
 
 void Playground::UpdateEnemyShot(const EnemyPtr& ptr_enemy)
 {
-	if ( !ptr_enemy->IsShotActive() )
+	if (mptr_player)
 	{
-		ptr_enemy->StartShot();
-	}
-	else
-	{
-		ptr_enemy->UpdateShot();
-
-		PositionPtr ptr_position_shot_current = ptr_enemy->GetShotCurrentPosition();
-		PositionPtr ptr_position_shot_previous = ptr_enemy->GetShotPreviousPosition();
-
-		if ( ptr_position_shot_current && ptr_position_shot_previous )
+		if (!ptr_enemy->IsShotActive())
 		{
-			if ( !IsInBounds(ptr_position_shot_current) )
+			ptr_enemy->StartShot(mptr_player->GetCurrentPosition());
+		}
+		else
+		{
+			ptr_enemy->UpdateShot();
+
+			PositionPtr ptr_position_shot_current = ptr_enemy->GetShotCurrentPosition();
+			PositionPtr ptr_position_shot_previous = ptr_enemy->GetShotPreviousPosition();
+
+			if (ptr_position_shot_current && ptr_position_shot_previous)
 			{
-				// remove shot, in case it goes out of bounds
-				ptr_enemy->StopShot();
-			}
-			else if ( mptr_player && ptr_position_shot_current->Equals(mptr_player->GetCurrentPosition()->GetPosition()) )
-			{
-				// enemy's shot killed the player
-				ptr_enemy->StopShot();
-				mptr_player = nullptr;
-			}
-			else if ( mptr_player && mptr_player->IsShotActive() && ptr_position_shot_current->Equals(mptr_player->GetShotCurrentPosition()->GetPosition()) )
-			{
-				// Enemy's shot faces the player's shot --> delete both shots
-				ptr_enemy->StopShot();
-				mptr_player->StopShot();
-			}
-			else
-			{
-				switch ( GetValue(ptr_position_shot_current) )
+				if (!IsInBounds(ptr_position_shot_current))
 				{
+					// remove shot, in case it goes out of bounds
+					ptr_enemy->StopShot();
+				}
+				else if (mptr_player && ptr_position_shot_current->Equals(mptr_player->GetCurrentPosition()->GetPosition()))
+				{
+					// enemy's shot killed the player
+					ptr_enemy->StopShot();
+					mptr_player = nullptr;
+				}
+				else if (mptr_player && mptr_player->IsShotActive() && ptr_position_shot_current->Equals(mptr_player->GetShotCurrentPosition()->GetPosition()))
+				{
+					// Enemy's shot faces the player's shot --> delete both shots
+					ptr_enemy->StopShot();
+					mptr_player->StopShot();
+				}
+				else
+				{
+					switch (GetValue(ptr_position_shot_current))
+					{
 					case Cell::e_cell_wall:
-					case Cell::e_cell_enemy:
+					case Cell::e_cell_enemy_alpha:
 					case Cell::e_cell_enemy_shot_up:
 					case Cell::e_cell_enemy_shot_down:
 					case Cell::e_cell_enemy_shot_left_right:
-						{
-							// remove shot, if faced a wall or another enemy, or another enemy's shot
-							ptr_enemy->StopShot();
-						}
-						break;
+					{
+						// remove shot, if faced a wall or another enemy, or another enemy's shot
+						ptr_enemy->StopShot();
+					}
+					break;
+					}
 				}
+				SetValue(ptr_position_shot_previous, Cell::e_cell_blank);
 			}
-			SetValue(ptr_position_shot_previous , Cell::e_cell_blank);
-		}
-		if ( ptr_position_shot_current && IsInBounds(ptr_position_shot_current) && GetValue(ptr_position_shot_current) == Cell::e_cell_wall )
-		{
-			// remove shot, if faced a wall
-			ptr_enemy->StopShot();
-			SetValue(ptr_position_shot_previous , Cell::e_cell_blank);
+			if (ptr_position_shot_current && IsInBounds(ptr_position_shot_current) && GetValue(ptr_position_shot_current) == Cell::e_cell_wall)
+			{
+				// remove shot, if faced a wall
+				ptr_enemy->StopShot();
+				SetValue(ptr_position_shot_previous, Cell::e_cell_blank);
+			}
 		}
 	}
 }
@@ -257,7 +264,7 @@ void Playground::UpdatePlayerShot()
 							mptr_player->StopShot();
 						}
 						break;
-					case Cell::e_cell_enemy:
+					case Cell::e_cell_enemy_alpha:
 						{
 							// Player's Shot kills an enemy
 							mvec_enemy.erase(
@@ -345,6 +352,9 @@ void Playground::UpdateCreatre(const CreaturePtr& ptr_creature)
 	}
 }
 
+
+
+
 void Playground::PrintCell(const HANDLE& h_console , enum Cell e_cell)
 {
 	switch ( e_cell )
@@ -367,7 +377,7 @@ void Playground::PrintCell(const HANDLE& h_console , enum Cell e_cell)
 				std::cout << e_cell;
 			}
 			break;
-		case Cell::e_cell_enemy:
+		case Cell::e_cell_enemy_alpha:
 			{
 				SetConsoleTextAttribute(h_console , Color::e_color_red);
 				std::cout << e_cell;

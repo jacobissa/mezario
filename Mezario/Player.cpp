@@ -1,7 +1,7 @@
 #include "Player.h"
 
 Player::Player(PositionPtr& ptr_position)
-	: Creature(ptr_position , Cell::e_cell_player , { Cell::e_cell_player_shot_up, Cell::e_cell_player_shot_down, Cell::e_cell_player_shot_left, Cell::e_cell_player_shot_right })
+	: Creature(ptr_position,  Cell::e_cell_player , { Cell::e_cell_player_shot_up, Cell::e_cell_player_shot_down, Cell::e_cell_player_shot_left, Cell::e_cell_player_shot_right })
 {
 }
 
@@ -33,4 +33,20 @@ PositionPtr Player::GetNextPosition(enum Action e_action)
 			break;
 	}
 	return nullptr;
+}
+
+void Player::StartShot()
+{
+	if ( mptr_position_current->Equals(mptr_position_previous->GetPosition()) )
+	{
+		mb_is_shot_active = false;
+		// creatre, who didn't move yet, can't start shooting
+
+	}
+	else
+	{
+		mb_is_shot_active = true;
+		mptr_position_shot_current = std::make_shared<Position>(mptr_position_current->GetPosition());
+		mptr_position_shot_previous = std::make_shared<Position>(mptr_position_previous->GetPosition());
+	}
 }

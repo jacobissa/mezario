@@ -1,11 +1,12 @@
 #include "Enemy.h"
 
-Enemy::Enemy(PositionPtr& ptr_position)
-	: Creature(ptr_position , Cell::e_cell_enemy , { Cell::e_cell_enemy_shot_up, Cell::e_cell_enemy_shot_down, Cell::e_cell_enemy_shot_left_right, Cell::e_cell_enemy_shot_left_right })
+Enemy::Enemy(PositionPtr& ptr_position, enum Cell e_cell_creature, const CellShot s_cell_shot)
+	: Creature(ptr_position, e_cell_creature, s_cell_shot)
 {
 }
 
-PositionPtr Enemy::GetNextPosition()
+PositionPtr Enemy::GetNextPosition(const PositionPtr& ptr_position_player)
 {
-	return 	std::make_shared<Position>(mptr_position_current->GetRandomNeighbourPosition());
+	return 	std::make_shared<Position>(mptr_position_current->GetPosition());
 }
+
