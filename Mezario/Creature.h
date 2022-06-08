@@ -12,7 +12,6 @@ struct CellShot
 	enum Cell e_cell_shot_right;
 };
 
-
 class Creature
 {
 public:
@@ -26,7 +25,6 @@ public:
 	const PositionPtr& GetShotCurrentPosition();
 	const PositionPtr& GetShotPreviousPosition();
 	void MoveTo(PositionPtr& ptr_position);
-	void StartShot();
 	bool IsShotActive();
 	void StopShot();
 	void UpdateShot();

@@ -65,23 +65,6 @@ void Creature::MoveTo(PositionPtr& ptr_position)
 	mptr_position_current = ptr_position;
 }
 
-void Creature::StartShot()
-{
-	if ( mptr_position_current->Equals(mptr_position_previous->GetPosition()))
-	{
-		mb_is_shot_active = false;
-		// creatre, who didn't move yet, can't start shooting
-
-	}
-	else
-	{
-		mb_is_shot_active = true;
-		mptr_position_shot_current = std::make_shared<Position>(mptr_position_current->GetPosition());
-		mptr_position_shot_previous = std::make_shared<Position>(mptr_position_previous->GetPosition());
-		
-		
-	}
-}
 
 bool Creature::IsShotActive()
 {
