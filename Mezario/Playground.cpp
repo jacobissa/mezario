@@ -53,6 +53,7 @@ void Playground::UpdateCreatures()
 		UpdateEnemyShot(ptr_enemy);
 		UpdateCreatre(ptr_enemy);
 	}
+	UpdatePlayerShot();
 	UpdateCreatre(mptr_player);
 }
 
@@ -173,36 +174,60 @@ void Playground::UpdateEnemyShot(const EnemyPtr& ptr_enemy)
 	{
 		ptr_enemy->StartShot();
 	}
-}
-
-void Playground::UpdateCreatureShot(const CreaturePtr& ptr_creature)
-{
-	if ( ptr_creature->IsShotActive() )
+	else
 	{
-		ptr_creature->UpdateShot();
+		ptr_enemy->UpdateShot();
 
-		PositionPtr ptr_position_shot_current = ptr_creature->GetShotCurrentPosition();
-		PositionPtr ptr_position_shot_previous = ptr_creature->GetShotPreviousPosition();
+		PositionPtr ptr_position_shot_current = ptr_enemy->GetShotCurrentPosition();
+		PositionPtr ptr_position_shot_previous = ptr_enemy->GetShotPreviousPosition();
 
 		if ( ptr_position_shot_current && IsInBounds(ptr_position_shot_current) && GetValue(ptr_position_shot_current) == Cell::e_cell_wall )
 		{
 			// remove shot, if faced a wall
-			ptr_creature->StopShot();
+			ptr_enemy->StopShot();
 			SetValue(ptr_position_shot_previous , Cell::e_cell_blank);
 		}
 		else if ( ptr_position_shot_current && !IsInBounds(ptr_position_shot_current) )
 		{
 			// remove shot, in case it goes out of bounds
-			ptr_creature->StopShot();
+			ptr_enemy->StopShot();
 			SetValue(ptr_position_shot_previous , Cell::e_cell_blank);
+		}
+	}
+}
+
+void Playground::UpdatePlayerShot()
+{
+	if ( mptr_player->IsShotActive() )
+	{
+		mptr_player->UpdateShot();
+
+		PositionPtr ptr_position_shot_current = mptr_player->GetShotCurrentPosition();
+		PositionPtr ptr_position_shot_previous = mptr_player->GetShotPreviousPosition();
+
+		if ( ptr_position_shot_current && ptr_position_shot_previous )
+		{
+			if ( !IsInBounds(ptr_position_shot_current) )
+			{
+				// remove shot, in case it goes out of bounds
+				mptr_player->StopShot();
+				SetValue(ptr_position_shot_previous , Cell::e_cell_blank);
+			}
+			else
+			{
+				if ( GetValue(ptr_position_shot_current) == Cell::e_cell_wall )
+				{
+					// remove shot, if faced a wall
+					mptr_player->StopShot();
+					SetValue(ptr_position_shot_previous , Cell::e_cell_blank);
+				}
+			}
 		}
 	}
 }
 
 void Playground::UpdateCreatre(const CreaturePtr& ptr_creature)
 {
-	UpdateCreatureShot(ptr_creature);
-
 	PositionPtr ptr_position_current = ptr_creature->GetCurrentPosition();
 	PositionPtr ptr_position_previous = ptr_creature->GetPreviousPosition();
 	PositionPtr ptr_position_shot_current = ptr_creature->GetShotCurrentPosition();

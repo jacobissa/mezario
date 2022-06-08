@@ -66,10 +66,10 @@ int main()
 	ConsoleSettings(h_console);
 	if ( PlayGame(h_console) )
 	{
-		std::cout << " You Win!" << std::endl;
+		std::cout << "You Win!" << std::endl;
 	}
 	else
 	{
-		std::cout << " You Lose!" << std::endl;
+		std::cout << "You Lose!" << std::endl;
 	}
 }
