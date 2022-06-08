@@ -11,6 +11,7 @@ public:
 
 public:
 	PositionPtr GetNextPosition(const PositionPtr& ptr_postion_player);
+	void StartShot(const PositionPtr& ptr_position_player);
 	
 
 };

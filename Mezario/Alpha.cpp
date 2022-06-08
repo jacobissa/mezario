@@ -65,3 +65,19 @@ PositionPtr Alpha::GetNextPosition(const PositionPtr& ptr_position_player)
 		return 	std::make_shared<Position>(mptr_position_current->GetRandomNeighbourPosition());
 }
 
+
+void Alpha::StartShot(const PositionPtr& ptr_position_player)
+{
+	if (mptr_position_current->IsClose(ptr_position_player->GetPosition(), 5))
+	{
+		mb_is_shot_active = true;
+		mptr_position_shot_current = std::make_shared<Position>(mptr_position_current->GetPosition());
+		mptr_position_shot_previous = std::make_shared<Position>(mptr_position_previous->GetPosition());
+	}
+	else
+	{
+		mb_is_shot_active = false;
+		// creatre, who didn't move yet, can't start shooting
+
+	}
+}

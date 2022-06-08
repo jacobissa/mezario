@@ -43,7 +43,7 @@ void Playground::PlayerShot()
 		SetValue(mptr_player->GetShotPreviousPosition() , Cell::e_cell_blank);
 		SetValue(mptr_player->GetShotCurrentPosition() , Cell::e_cell_blank);
 	}
-	mptr_player->StartShot(mptr_player->GetCurrentPosition());
+	mptr_player->StartShot();
 }
 
 void Playground::UpdateCreatures()
@@ -165,69 +165,75 @@ bool Playground::IsInBounds(const PositionPtr& ptr_position)
 
 void Playground::UpdateEnemyMove(const AlphaPtr& ptr_enemy)
 {
-	PositionPtr ptr_position_enemy_next = ptr_enemy->GetNextPosition(mptr_player->GetCurrentPosition());
-	if ( ptr_position_enemy_next && !ptr_enemy->IsShotActive() && IsInBounds(ptr_position_enemy_next) && GetValue(ptr_position_enemy_next) == Cell::e_cell_blank )
+	if (mptr_player)
 	{
-		// Move the enemy, only when it has no active shot.
-		ptr_enemy->MoveTo(ptr_position_enemy_next);
+		PositionPtr ptr_position_enemy_next = ptr_enemy->GetNextPosition(mptr_player->GetCurrentPosition());
+		if (ptr_position_enemy_next && !ptr_enemy->IsShotActive() && IsInBounds(ptr_position_enemy_next) && GetValue(ptr_position_enemy_next) == Cell::e_cell_blank)
+		{
+			// Move the enemy, only when it has no active shot.
+			ptr_enemy->MoveTo(ptr_position_enemy_next);
+		}
 	}
 }
 
 void Playground::UpdateEnemyShot(const EnemyPtr& ptr_enemy)
 {
-	if ( !ptr_enemy->IsShotActive() )
+	if (mptr_player)
 	{
-		ptr_enemy->StartShot(mptr_player->GetCurrentPosition());
-	}
-	else
-	{
-		ptr_enemy->UpdateShot();
-
-		PositionPtr ptr_position_shot_current = ptr_enemy->GetShotCurrentPosition();
-		PositionPtr ptr_position_shot_previous = ptr_enemy->GetShotPreviousPosition();
-
-		if ( ptr_position_shot_current && ptr_position_shot_previous )
+		if (!ptr_enemy->IsShotActive())
 		{
-			if ( !IsInBounds(ptr_position_shot_current) )
+			ptr_enemy->StartShot(mptr_player->GetCurrentPosition());
+		}
+		else
+		{
+			ptr_enemy->UpdateShot();
+
+			PositionPtr ptr_position_shot_current = ptr_enemy->GetShotCurrentPosition();
+			PositionPtr ptr_position_shot_previous = ptr_enemy->GetShotPreviousPosition();
+
+			if (ptr_position_shot_current && ptr_position_shot_previous)
 			{
-				// remove shot, in case it goes out of bounds
-				ptr_enemy->StopShot();
-			}
-			else if ( mptr_player && ptr_position_shot_current->Equals(mptr_player->GetCurrentPosition()->GetPosition()) )
-			{
-				// enemy's shot killed the player
-				ptr_enemy->StopShot();
-				mptr_player = nullptr;
-			}
-			else if ( mptr_player && mptr_player->IsShotActive() && ptr_position_shot_current->Equals(mptr_player->GetShotCurrentPosition()->GetPosition()) )
-			{
-				// Enemy's shot faces the player's shot --> delete both shots
-				ptr_enemy->StopShot();
-				mptr_player->StopShot();
-			}
-			else
-			{
-				switch ( GetValue(ptr_position_shot_current) )
+				if (!IsInBounds(ptr_position_shot_current))
 				{
+					// remove shot, in case it goes out of bounds
+					ptr_enemy->StopShot();
+				}
+				else if (mptr_player && ptr_position_shot_current->Equals(mptr_player->GetCurrentPosition()->GetPosition()))
+				{
+					// enemy's shot killed the player
+					ptr_enemy->StopShot();
+					mptr_player = nullptr;
+				}
+				else if (mptr_player && mptr_player->IsShotActive() && ptr_position_shot_current->Equals(mptr_player->GetShotCurrentPosition()->GetPosition()))
+				{
+					// Enemy's shot faces the player's shot --> delete both shots
+					ptr_enemy->StopShot();
+					mptr_player->StopShot();
+				}
+				else
+				{
+					switch (GetValue(ptr_position_shot_current))
+					{
 					case Cell::e_cell_wall:
 					case Cell::e_cell_enemy_alpha:
 					case Cell::e_cell_enemy_shot_up:
 					case Cell::e_cell_enemy_shot_down:
 					case Cell::e_cell_enemy_shot_left_right:
-						{
-							// remove shot, if faced a wall or another enemy, or another enemy's shot
-							ptr_enemy->StopShot();
-						}
-						break;
+					{
+						// remove shot, if faced a wall or another enemy, or another enemy's shot
+						ptr_enemy->StopShot();
+					}
+					break;
+					}
 				}
+				SetValue(ptr_position_shot_previous, Cell::e_cell_blank);
 			}
-			SetValue(ptr_position_shot_previous , Cell::e_cell_blank);
-		}
-		if ( ptr_position_shot_current && IsInBounds(ptr_position_shot_current) && GetValue(ptr_position_shot_current) == Cell::e_cell_wall )
-		{
-			// remove shot, if faced a wall
-			ptr_enemy->StopShot();
-			SetValue(ptr_position_shot_previous , Cell::e_cell_blank);
+			if (ptr_position_shot_current && IsInBounds(ptr_position_shot_current) && GetValue(ptr_position_shot_current) == Cell::e_cell_wall)
+			{
+				// remove shot, if faced a wall
+				ptr_enemy->StopShot();
+				SetValue(ptr_position_shot_previous, Cell::e_cell_blank);
+			}
 		}
 	}
 }

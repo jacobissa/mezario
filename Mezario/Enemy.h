@@ -10,6 +10,7 @@ public:
 
 public:
 	PositionPtr GetNextPosition(const PositionPtr& ptr_position_player);
+	virtual void StartShot(const PositionPtr& ptr_postion_player) = 0;
 	void EnemyDestroy(const PositionPtr& ptr_position_shot);
 	bool enemy_alive = true;
 };
