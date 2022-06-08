@@ -192,6 +192,18 @@ void Playground::UpdateEnemyShot(const EnemyPtr& ptr_enemy)
 				// remove shot, in case it goes out of bounds
 				ptr_enemy->StopShot();
 			}
+			else if ( mptr_player && ptr_position_shot_current->Equals(mptr_player->GetCurrentPosition()->GetPosition()) )
+			{
+				// enemy's shot killed the player
+				ptr_enemy->StopShot();
+				mptr_player = nullptr;
+			}
+			else if ( mptr_player && mptr_player->IsShotActive() && ptr_position_shot_current->Equals(mptr_player->GetShotCurrentPosition()->GetPosition()) )
+			{
+				// Enemy's shot faces the player's shot --> delete both shots
+				ptr_enemy->StopShot();
+				mptr_player->StopShot();
+			}
 			else
 			{
 				switch ( GetValue(ptr_position_shot_current) )
@@ -204,12 +216,6 @@ void Playground::UpdateEnemyShot(const EnemyPtr& ptr_enemy)
 						{
 							// remove shot, if faced a wall or another enemy, or another enemy's shot
 							ptr_enemy->StopShot();
-						}
-						break;
-					case Cell::e_cell_player:
-						{
-							ptr_enemy->StopShot();
-							mptr_player = nullptr;
 						}
 						break;
 				}
