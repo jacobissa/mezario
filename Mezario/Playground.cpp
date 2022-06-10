@@ -266,6 +266,8 @@ void Playground::UpdatePlayerShot()
 						}
 						break;
 					case Cell::e_cell_enemy_alpha:
+					case Cell::e_cell_enemy_beta:
+					case Cell::e_cell_enemy_gamma:
 						{
 							// Player's Shot kills an enemy
 							mvec_enemy.erase(
@@ -379,6 +381,8 @@ void Playground::PrintCell(const HANDLE& h_console , enum Cell e_cell)
 			}
 			break;
 		case Cell::e_cell_enemy_alpha:
+		case Cell::e_cell_enemy_beta:
+		case Cell::e_cell_enemy_gamma:
 			{
 				SetConsoleTextAttribute(h_console , Color::e_color_red);
 				std::cout << e_cell;
