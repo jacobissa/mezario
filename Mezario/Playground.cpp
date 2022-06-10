@@ -216,6 +216,8 @@ void Playground::UpdateEnemyShot(const EnemyPtr& ptr_enemy)
 				{
 					case Cell::e_cell_wall:
 					case Cell::e_cell_enemy_alpha:
+					case Cell::e_cell_enemy_beta:
+					case Cell::e_cell_enemy_gamma:
 					case Cell::e_cell_enemy_shot_up:
 					case Cell::e_cell_enemy_shot_down:
 					case Cell::e_cell_enemy_shot_left_right:
