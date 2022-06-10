@@ -245,6 +245,11 @@ void Playground::UpdateEnemyShot(const EnemyPtr& ptr_enemy)
 							ptr_enemy->StopShot();
 						}
 						break;
+					case Cell::e_cell_heart:
+						{
+							SetValue(ptr_position_shot_current, Cell::e_cell_blank);
+						}
+						break;
 				}
 			}
 			SetValue(ptr_position_shot_previous , Cell::e_cell_blank);
