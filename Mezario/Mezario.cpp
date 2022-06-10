@@ -57,7 +57,8 @@ bool PlayGame(const HANDLE& h_console)
 		}
 		ptr_playground->UpdateCreatures();
 		ptr_playground->PrintToConsole(h_console);
-		std::cout << "HEARTS: " << ptr_playground->GetHearts() << std::endl;
+		std::cout << "\tHEARTS:  " << ptr_playground->GetHearts() << std::endl;
+		std::cout << "\tENEMIES: " << ptr_playground->GetEnemies() << std::endl;
 		if ( ptr_playground->IsWin() ) return true;
 		if ( ptr_playground->IsLose() ) return false;
 	}

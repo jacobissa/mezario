@@ -31,9 +31,17 @@ Playground::~Playground()
 void Playground::PlayerMove(enum Action e_action)
 {
 	PositionPtr ptr_position_player_next = mptr_player->GetNextPosition(e_action);
-	if ( ptr_position_player_next && IsInBounds(ptr_position_player_next) && GetValue(ptr_position_player_next) == Cell::e_cell_blank )
+	if ( ptr_position_player_next && IsInBounds(ptr_position_player_next) )
 	{
-		mptr_player->MoveTo(ptr_position_player_next);
+		if ( GetValue(ptr_position_player_next) == Cell::e_cell_blank )
+		{
+			mptr_player->MoveTo(ptr_position_player_next);
+		}
+		else if ( GetValue(ptr_position_player_next) == Cell::e_cell_heart )
+		{
+			mi_hearts++;
+			mptr_player->MoveTo(ptr_position_player_next);
+		}
 	}
 }
 
@@ -78,6 +86,11 @@ int Playground::GetHearts()
 	return mi_hearts;
 }
 
+int Playground::GetEnemies()
+{
+	return mvec_enemy.size();
+}
+
 bool Playground::IsWin()
 {
 	return mptr_player->GetCurrentPosition()->Equals(mptr_position_exit->GetPosition());
@@ -98,11 +111,13 @@ void Playground::Initialize()
 
 	for ( int y = 0; y < mi_height; y++ )
 	{
+		const int i_heart_position_x = rand() % mi_width;
+
 		for ( int x = 0; x < mi_width; x++ )
 		{
 			ptr_position_cell->UpdatePosition(x , y);
 
-			int i_probability_wall = rand() % 100;
+			const int i_probability_wall = rand() % 100;
 			if ( ptr_position_cell->Equals(ptr_position_player->GetPosition())
 				|| ptr_position_cell->Equals(mptr_position_exit->GetPosition()) )
 			{
@@ -123,6 +138,10 @@ void Playground::Initialize()
 				SetValue(ptr_position_cell , Cell::e_cell_blank);
 				mi_quantity_enemy--;
 				i_counter++;
+			}
+			else if ( x == i_heart_position_x )
+			{
+				SetValue(ptr_position_cell , Cell::e_cell_heart);
 			}
 			else if ( i_probability_wall < mi_probability_wall
 					 && !ptr_position_player->IsClose(ptr_position_cell->GetPosition() , 3)
@@ -369,6 +388,7 @@ void Playground::PrintCell(const HANDLE& h_console , enum Cell e_cell)
 			}
 			break;
 		case Cell::e_cell_wall:
+		case Cell::e_cell_heart:
 			{
 				SetConsoleTextAttribute(h_console , Color::e_color_brown);
 				std::cout << e_cell;

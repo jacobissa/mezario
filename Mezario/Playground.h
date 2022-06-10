@@ -18,6 +18,7 @@ public:
 	void UpdateCreatures();
 	void PrintToConsole(const HANDLE& h_console);
 	int GetHearts();
+	int GetEnemies();
 	bool IsWin();
 	bool IsLose();
 
