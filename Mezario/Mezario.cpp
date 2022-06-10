@@ -23,9 +23,10 @@ bool PlayGame(const HANDLE& h_console)
 {
 	const int i_width = 50;
 	const int i_height = 25;
+	const int i_hearts = 5;
 	const int i_probability_wall = 25;
 	const int i_quantity_enemy = 9;
-	PlaygroundPtr ptr_playground = std::make_shared<Playground>(i_height , i_width , i_probability_wall , i_quantity_enemy);
+	PlaygroundPtr ptr_playground = std::make_shared<Playground>(i_height , i_width , i_hearts, i_probability_wall , i_quantity_enemy);
 	enum Action e_action;
 
 
@@ -56,6 +57,7 @@ bool PlayGame(const HANDLE& h_console)
 		}
 		ptr_playground->UpdateCreatures();
 		ptr_playground->PrintToConsole(h_console);
+		std::cout << "HEARTS: " << ptr_playground->GetHearts() << std::endl;
 		if ( ptr_playground->IsWin() ) return true;
 		if ( ptr_playground->IsLose() ) return false;
 	}
