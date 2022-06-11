@@ -88,7 +88,7 @@ int Playground::GetHearts()
 
 int Playground::GetEnemies()
 {
-	return static_cast<int>(mvec_enemy.size());
+	return static_cast<int>( mvec_enemy.size() );
 }
 
 bool Playground::IsWin()
@@ -142,6 +142,7 @@ void Playground::Initialize()
 			else if ( x == i_heart_position_x )
 			{
 				SetValue(ptr_position_cell , Cell::e_cell_heart);
+				i_counter++;
 			}
 			else if ( i_probability_wall < mi_probability_wall
 					 && !ptr_position_player->IsClose(ptr_position_cell->GetPosition() , 3)
@@ -149,6 +150,14 @@ void Playground::Initialize()
 			{
 				// draw the walls inside the maze, except the area near start & exit positions
 				SetValue(ptr_position_cell , Cell::e_cell_wall);
+				i_counter++;
+			}
+			else if ( i_probability_wall < ( mi_probability_wall * 1.5 )
+					 && !ptr_position_player->IsClose(ptr_position_cell->GetPosition() , 3)
+					 && !mptr_position_exit->IsClose(ptr_position_cell->GetPosition() , 3) )
+			{
+				// draw the obstacles inside the maze, except the area near start & exit positions
+				SetValue(ptr_position_cell , Cell::e_cell_obstacle);
 				i_counter++;
 			}
 			else
@@ -245,9 +254,11 @@ void Playground::UpdateEnemyShot(const EnemyPtr& ptr_enemy)
 							ptr_enemy->StopShot();
 						}
 						break;
+					case Cell::e_cell_obstacle:
 					case Cell::e_cell_heart:
 						{
-							SetValue(ptr_position_shot_current, Cell::e_cell_blank);
+							SetValue(ptr_position_shot_current , Cell::e_cell_blank);
+							ptr_enemy->StopShot();
 						}
 						break;
 				}
@@ -333,6 +344,13 @@ void Playground::UpdatePlayerShot()
 							mptr_player->StopShot();
 						}
 						break;
+					case Cell::e_cell_obstacle:
+					case Cell::e_cell_heart:
+						{
+							SetValue(ptr_position_shot_current , Cell::e_cell_blank);
+							mptr_player->StopShot();
+						}
+						break;
 				}
 			}
 			SetValue(ptr_position_shot_previous , Cell::e_cell_blank);
@@ -395,6 +413,12 @@ void Playground::PrintCell(const HANDLE& h_console , enum Cell e_cell)
 		case Cell::e_cell_wall:
 			{
 				SetConsoleTextAttribute(h_console , Color::e_color_brown);
+				std::cout << e_cell;
+			}
+			break;
+		case Cell::e_cell_obstacle:
+			{
+				SetConsoleTextAttribute(h_console , Color::e_color_white);
 				std::cout << e_cell;
 			}
 			break;

@@ -12,6 +12,7 @@ enum Cell : char
 {
 	e_cell_blank = ' ' ,
 	e_cell_wall = (char) 219 ,
+	e_cell_obstacle = (char) 176,
 	e_cell_player = (char) 2 ,
 	e_cell_heart = (char) 3 ,
 	e_cell_enemy_alpha = (char) 1 ,
