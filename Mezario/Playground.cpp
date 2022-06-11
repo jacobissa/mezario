@@ -88,7 +88,7 @@ int Playground::GetHearts()
 
 int Playground::GetEnemies()
 {
-	return mvec_enemy.size();
+	return static_cast<int>(mvec_enemy.size());
 }
 
 bool Playground::IsWin()
