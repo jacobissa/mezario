@@ -393,9 +393,14 @@ void Playground::PrintCell(const HANDLE& h_console , enum Cell e_cell)
 			}
 			break;
 		case Cell::e_cell_wall:
-		case Cell::e_cell_heart:
 			{
 				SetConsoleTextAttribute(h_console , Color::e_color_brown);
+				std::cout << e_cell;
+			}
+			break;
+		case Cell::e_cell_heart:
+			{
+				SetConsoleTextAttribute(h_console , Color::e_color_cyan);
 				std::cout << e_cell;
 			}
 			break;
