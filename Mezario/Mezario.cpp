@@ -26,16 +26,15 @@ bool PlayGame(const HANDLE& h_console)
 	const int i_hearts = 5;
 	const int i_probability_wall = 25;
 	const int i_quantity_enemy = 9;
-	PlaygroundPtr ptr_playground = std::make_shared<Playground>(i_height , i_width , i_hearts , i_probability_wall , i_quantity_enemy);
-	enum Action e_action;
-
-
+	const int i_time_max = 90;
+	PlaygroundPtr ptr_playground = std::make_shared<Playground>(i_height , i_width , i_hearts , i_probability_wall , i_quantity_enemy , i_time_max);
+	bool b_start_play = false;
 	while ( true )
 	{
 		SetConsoleCursorPosition(h_console , { 0,0 });
 		while ( _kbhit() )
 		{
-			e_action = static_cast<enum Action>( _getch() );
+			enum Action e_action = static_cast<enum Action>( _getch() );
 			switch ( e_action )
 			{
 				case Action::e_action_up:
@@ -57,10 +56,34 @@ bool PlayGame(const HANDLE& h_console)
 		}
 		ptr_playground->UpdateCreatures();
 		ptr_playground->PrintToConsole(h_console);
+		std::cout << "\tTIME:    " << ptr_playground->GetTimeLeft() << "   " << std::endl;
 		std::cout << "\tHEARTS:  " << ptr_playground->GetHearts() << "   " << std::endl;
 		std::cout << "\tENEMIES: " << ptr_playground->GetEnemies() << "   " << std::endl;
+
 		if ( ptr_playground->IsWin() ) return true;
 		if ( ptr_playground->IsLose() ) return false;
+
+		while ( !b_start_play )
+		{
+			while ( _kbhit() )
+			{
+				enum Action e_action = static_cast<enum Action>( _getch() );
+				switch ( e_action )
+				{
+					case Action::e_action_up:
+					case Action::e_action_down:
+					case Action::e_action_left:
+					case Action::e_action_right:
+						{
+							b_start_play = true;
+							ptr_playground->PlayerMove(e_action);
+						}
+						break;
+					default:
+						break;
+				}
+			}
+		}
 	}
 }
 

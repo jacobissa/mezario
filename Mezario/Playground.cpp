@@ -1,12 +1,13 @@
 #include "Playground.h"
 #include "Alpha.h"
 
-Playground::Playground(const int i_height , const int i_width , const int i_hearts , const int i_probability_wall , const int i_quantity_enemy)
+Playground::Playground(const int i_height , const int i_width , const int i_hearts , const int i_probability_wall , const int i_quantity_enemy , const int i_time_max)
 	: mi_height(i_height)
 	, mi_width(i_width)
 	, mi_hearts(i_hearts)
 	, mi_probability_wall(i_probability_wall)
 	, mi_quantity_enemy(i_quantity_enemy)
+	, mi_time_max(i_time_max)
 	, mptr_position_exit(std::make_shared<Position>(i_width - 1 , i_height - 4))
 {
 	PositionPtr ptr_position_player = std::make_shared<Position>(0 , 3);
@@ -30,6 +31,10 @@ Playground::~Playground()
 
 void Playground::PlayerMove(enum Action e_action)
 {
+	if ( mtime_start.time_since_epoch().count() == 0 )
+	{
+		mtime_start = std::chrono::steady_clock::now();
+	}
 	PositionPtr ptr_position_player_next = mptr_player->GetNextPosition(e_action);
 	if ( ptr_position_player_next && IsInBounds(ptr_position_player_next) )
 	{
@@ -81,6 +86,11 @@ void Playground::PrintToConsole(const HANDLE& h_console)
 	}
 }
 
+int Playground::GetTimeLeft()
+{
+	return mi_time_max - GetTimeCounter();
+}
+
 int Playground::GetHearts()
 {
 	return mi_hearts;
@@ -98,7 +108,7 @@ bool Playground::IsWin()
 
 bool Playground::IsLose()
 {
-	return mi_hearts == 0;
+	return mi_hearts == 0 || GetTimeCounter() == mi_time_max;
 }
 
 void Playground::Initialize()
@@ -398,8 +408,6 @@ void Playground::UpdateCreatre(const CreaturePtr& ptr_creature)
 }
 
 
-
-
 void Playground::PrintCell(const HANDLE& h_console , enum Cell e_cell)
 {
 	switch ( e_cell )
@@ -461,5 +469,20 @@ void Playground::PrintCell(const HANDLE& h_console , enum Cell e_cell)
 			break;
 		default:
 			break;
+	}
+}
+
+
+int Playground::GetTimeCounter()
+{
+	if ( mtime_start.time_since_epoch().count() == 0 )
+	{
+		return 0;
+	}
+	else
+	{
+		auto time_current = std::chrono::steady_clock::now();
+		auto duration_time = std::chrono::duration_cast<std::chrono::duration<int>>( time_current - mtime_start ).count();
+		return duration_time;
 	}
 }

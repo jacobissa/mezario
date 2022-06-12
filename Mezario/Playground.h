@@ -9,7 +9,7 @@
 class Playground
 {
 public:
-	Playground(const int i_height , const int i_width , const int i_hearts , const int i_probability_wall , const int i_quantity_enemy);
+	Playground(const int i_height , const int i_width , const int i_hearts , const int i_probability_wall , const int i_quantity_enemy , const int i_time_max);
 	~Playground();
 
 public:
@@ -17,6 +17,7 @@ public:
 	void PlayerShot();
 	void UpdateCreatures();
 	void PrintToConsole(const HANDLE& h_console);
+	int GetTimeLeft();
 	int GetHearts();
 	int GetEnemies();
 	bool IsWin();
@@ -32,8 +33,7 @@ private:
 	void UpdatePlayerShot();
 	void UpdateCreatre(const CreaturePtr& ptr_creature);
 	void PrintCell(const HANDLE& h_console , enum Cell e_cell);
-
-
+	int GetTimeCounter();
 
 private:
 	char** mptr_matrix = 0;
@@ -42,9 +42,12 @@ private:
 	int mi_hearts = 0;
 	int mi_probability_wall = 0;
 	int mi_quantity_enemy = 0;
+	int mi_time_max = 0;
 	PositionPtr mptr_position_exit = nullptr;
 	PlayerPtr mptr_player = nullptr;
 	std::vector<EnemyPtr> mvec_enemy;
+	std::chrono::steady_clock::time_point mtime_start;
+
 };
 using PlaygroundPtr = std::shared_ptr<Playground>;
 
