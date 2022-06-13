@@ -31,7 +31,7 @@ private:
 	void UpdateEnemyMove(const EnemyPtr& ptr_enemy);
 	void UpdateEnemyShot(const EnemyPtr& ptr_enemy);
 	void UpdatePlayerShot();
-	void UpdateCreatre(const CreaturePtr& ptr_creature);
+	void UpdateCreature(const CreaturePtr& ptr_creature);
 	void PrintCell(const HANDLE& h_console , enum Cell e_cell);
 	int GetTimeCounter();
 

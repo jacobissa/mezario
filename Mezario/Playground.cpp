@@ -66,10 +66,10 @@ void Playground::UpdateCreatures()
 	{
 		UpdateEnemyMove(ptr_enemy);
 		UpdateEnemyShot(ptr_enemy);
-		UpdateCreatre(ptr_enemy);
+		UpdateCreature(ptr_enemy);
 	}
 	UpdatePlayerShot();
-	UpdateCreatre(mptr_player);
+	UpdateCreature(mptr_player);
 }
 
 void Playground::PrintToConsole(const HANDLE& h_console)
@@ -368,7 +368,7 @@ void Playground::UpdatePlayerShot()
 	}
 }
 
-void Playground::UpdateCreatre(const CreaturePtr& ptr_creature)
+void Playground::UpdateCreature(const CreaturePtr& ptr_creature)
 {
 	PositionPtr ptr_position_current = ptr_creature->GetCurrentPosition();
 	PositionPtr ptr_position_previous = ptr_creature->GetPreviousPosition();
