@@ -2,7 +2,7 @@
 
 
 Alpha::Alpha(PositionPtr& ptr_position )
-	: Enemy(ptr_position, Cell::e_cell_enemy_alpha, { Cell::e_cell_enemy_shot_up, Cell::e_cell_enemy_shot_down, Cell::e_cell_enemy_shot_left_right, Cell::e_cell_enemy_shot_left_right })
+	: Enemy(ptr_position, Cell::e_cell_enemy_alpha, { Cell::e_cell_enemy_shot_alpha, Cell::e_cell_enemy_shot_alpha, Cell::e_cell_enemy_shot_alpha, Cell::e_cell_enemy_shot_alpha })
 {
 }
 
