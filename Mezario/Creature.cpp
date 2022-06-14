@@ -1,5 +1,8 @@
 #include "Creature.h"
 
+#include <iostream>
+#include <ostream>
+
 Creature::Creature(const PositionPtr& ptr_position , const Cell e_cell_creature , const CellShot s_cell_shot)
 	: me_cell_creature(e_cell_creature)
 	, ms_cell_shot(s_cell_shot)
@@ -101,6 +104,5 @@ void Creature::UpdateShot()
 			mptr_position_shot_previous = mptr_position_shot_current;
 			mptr_position_shot_current = std::make_shared<Position>(mptr_position_shot_current->GetLeftPosition());
 		}
-
 	}
 }

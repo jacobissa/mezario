@@ -1,7 +1,10 @@
 #ifndef CREATURE_H
 #define CREATURE_H
 
+#include <memory>
+
 #include "Mezario.h"
+#include "Position.h"
 
 
 struct CellShot

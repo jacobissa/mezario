@@ -1,4 +1,9 @@
 #include "Mezario.h"
+
+#include <conio.h>
+#include <iostream>
+#include <Windows.h>
+
 #include "Playground.h"
 
 void ConsoleSettings(const HANDLE& h_console)

@@ -1,4 +1,8 @@
 #include "Playground.h"
+
+#include <iostream>
+#include <ostream>
+
 #include "Alpha.h"
 
 Playground::Playground(const int i_height , const int i_width , const int i_hearts , const int i_probability_wall , const int i_quantity_enemy , const int i_time_max)
