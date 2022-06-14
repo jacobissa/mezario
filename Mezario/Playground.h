@@ -13,27 +13,27 @@ public:
 	~Playground();
 
 public:
-	void PlayerMove(enum Action e_action);
-	void PlayerShot();
+	void PlayerMove(const Action e_action);
+	void PlayerShot() const;
 	void UpdateCreatures();
-	void PrintToConsole(const HANDLE& h_console);
-	int GetTimeLeft();
-	int GetHearts();
-	int GetEnemies();
-	bool IsWin();
-	bool IsLose();
+	void PrintToConsole(const HANDLE& h_console) const;
+	int GetTimeLeft() const;
+	int GetHearts() const;
+	int GetEnemies() const;
+	bool IsWin() const;
+	bool IsLose() const;
 
 private:
 	void Initialize();
-	void SetValue(const PositionPtr& ptr_position , enum Cell e_cell);
-	char GetValue(const PositionPtr& ptr_position);
-	bool IsInBounds(const PositionPtr& ptr_position);
-	void UpdateEnemyMove(const EnemyPtr& ptr_enemy);
+	void SetValue(const PositionPtr& ptr_position , const Cell e_cell) const;
+	char GetValue(const PositionPtr& ptr_position) const;
+	bool IsInBounds(const PositionPtr& ptr_position) const;
+	void UpdateEnemyMove(const EnemyPtr& ptr_enemy) const;
 	void UpdateEnemyShot(const EnemyPtr& ptr_enemy);
 	void UpdatePlayerShot();
-	void UpdateCreature(const CreaturePtr& ptr_creature);
-	void PrintCell(const HANDLE& h_console , enum Cell e_cell);
-	int GetTimeCounter();
+	void UpdateCreature(const CreaturePtr& ptr_creature) const;
+	static void PrintCell(const HANDLE& h_console , const Cell e_cell);
+	int GetTimeCounter() const;
 
 private:
 	char** mptr_matrix = 0;

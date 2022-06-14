@@ -6,10 +6,10 @@
 class Player final : public Creature
 {
 public:
-	Player(PositionPtr& ptr_position);
+	Player(const PositionPtr& ptr_position);
 
 public:
-	PositionPtr GetNextPosition(enum Action e_action);
+	PositionPtr GetNextPosition(const Action e_action) const;
 	void StartShot();
 
 };

@@ -29,7 +29,7 @@ Playground::~Playground()
 	delete[] mptr_matrix;
 }
 
-void Playground::PlayerMove(enum Action e_action)
+void Playground::PlayerMove(const Action e_action)
 {
 	if ( mtime_start.time_since_epoch().count() == 0 )
 	{
@@ -50,7 +50,7 @@ void Playground::PlayerMove(enum Action e_action)
 	}
 }
 
-void Playground::PlayerShot()
+void Playground::PlayerShot() const
 {
 	if ( mptr_player->IsShotActive() )
 	{
@@ -72,9 +72,9 @@ void Playground::UpdateCreatures()
 	UpdateCreature(mptr_player);
 }
 
-void Playground::PrintToConsole(const HANDLE& h_console)
+void Playground::PrintToConsole(const HANDLE& h_console) const
 {
-	PositionPtr ptr_position_cell = std::make_shared<Position>(0 , 0);
+	const PositionPtr ptr_position_cell = std::make_shared<Position>(0 , 0);
 	for ( int y = 0; y < mi_height; y++ )
 	{
 		for ( int x = 0; x < mi_width; x++ )
@@ -86,38 +86,38 @@ void Playground::PrintToConsole(const HANDLE& h_console)
 	}
 }
 
-int Playground::GetTimeLeft()
+int Playground::GetTimeLeft() const
 {
 	return mi_time_max - GetTimeCounter();
 }
 
-int Playground::GetHearts()
+int Playground::GetHearts() const
 {
 	return mi_hearts;
 }
 
-int Playground::GetEnemies()
+int Playground::GetEnemies() const
 {
 	return static_cast<int>( mvec_enemy.size() );
 }
 
-bool Playground::IsWin()
+bool Playground::IsWin() const
 {
 	return mptr_player->GetCurrentPosition()->Equals(mptr_position_exit->GetPosition());
 }
 
-bool Playground::IsLose()
+bool Playground::IsLose() const
 {
 	return mi_hearts == 0 || GetTimeCounter() == mi_time_max;
 }
 
 void Playground::Initialize()
 {
-	PositionPtr ptr_position_player = mptr_player->GetCurrentPosition();
+	const PositionPtr ptr_position_player = mptr_player->GetCurrentPosition();
 	const int i_enemy_position = ( ( mi_height - 2 ) * ( mi_width - 2 ) ) / ( mi_quantity_enemy );
-	int i_probability_enemy_position = rand() % i_enemy_position;
+	const int i_probability_enemy_position = rand() % i_enemy_position;
 	int i_counter = 1;
-	PositionPtr ptr_position_cell = std::make_shared<Position>(0 , 0);
+	const PositionPtr ptr_position_cell = std::make_shared<Position>(0 , 0);
 
 	for ( int y = 0; y < mi_height; y++ )
 	{
@@ -180,7 +180,7 @@ void Playground::Initialize()
 	}
 }
 
-void Playground::SetValue(const PositionPtr& ptr_position , enum Cell e_cell)
+void Playground::SetValue(const PositionPtr& ptr_position , const Cell e_cell) const
 {
 	if ( IsInBounds(ptr_position) )
 	{
@@ -188,7 +188,7 @@ void Playground::SetValue(const PositionPtr& ptr_position , enum Cell e_cell)
 	}
 }
 
-char Playground::GetValue(const PositionPtr& ptr_position)
+char Playground::GetValue(const PositionPtr& ptr_position) const
 {
 	if ( IsInBounds(ptr_position) )
 	{
@@ -199,12 +199,12 @@ char Playground::GetValue(const PositionPtr& ptr_position)
 	std::exit(EXIT_FAILURE);
 }
 
-bool Playground::IsInBounds(const PositionPtr& ptr_position)
+bool Playground::IsInBounds(const PositionPtr& ptr_position) const
 {
 	return ptr_position->x >= 0 && ptr_position->x < mi_width&& ptr_position->y >= 0 && ptr_position->y < mi_height;
 }
 
-void Playground::UpdateEnemyMove(const EnemyPtr& ptr_enemy)
+void Playground::UpdateEnemyMove(const EnemyPtr& ptr_enemy) const
 {
 
 	PositionPtr ptr_position_enemy_next = ptr_enemy->GetNextPosition(mptr_player->GetCurrentPosition());
@@ -226,8 +226,8 @@ void Playground::UpdateEnemyShot(const EnemyPtr& ptr_enemy)
 	{
 		ptr_enemy->UpdateShot();
 
-		PositionPtr ptr_position_shot_current = ptr_enemy->GetShotCurrentPosition();
-		PositionPtr ptr_position_shot_previous = ptr_enemy->GetShotPreviousPosition();
+		const PositionPtr ptr_position_shot_current = ptr_enemy->GetShotCurrentPosition();
+		const PositionPtr ptr_position_shot_previous = ptr_enemy->GetShotPreviousPosition();
 
 		if ( ptr_position_shot_current && ptr_position_shot_previous )
 		{
@@ -271,6 +271,7 @@ void Playground::UpdateEnemyShot(const EnemyPtr& ptr_enemy)
 							ptr_enemy->StopShot();
 						}
 						break;
+					default: ;
 				}
 			}
 			SetValue(ptr_position_shot_previous , Cell::e_cell_blank);
@@ -290,8 +291,8 @@ void Playground::UpdatePlayerShot()
 	{
 		mptr_player->UpdateShot();
 
-		PositionPtr ptr_position_shot_current = mptr_player->GetShotCurrentPosition();
-		PositionPtr ptr_position_shot_previous = mptr_player->GetShotPreviousPosition();
+		const PositionPtr ptr_position_shot_current = mptr_player->GetShotCurrentPosition();
+		const PositionPtr ptr_position_shot_previous = mptr_player->GetShotPreviousPosition();
 
 		if ( ptr_position_shot_current && ptr_position_shot_previous )
 		{
@@ -361,6 +362,7 @@ void Playground::UpdatePlayerShot()
 							mptr_player->StopShot();
 						}
 						break;
+					default: ;
 				}
 			}
 			SetValue(ptr_position_shot_previous , Cell::e_cell_blank);
@@ -368,14 +370,14 @@ void Playground::UpdatePlayerShot()
 	}
 }
 
-void Playground::UpdateCreature(const CreaturePtr& ptr_creature)
+void Playground::UpdateCreature(const CreaturePtr& ptr_creature) const
 {
-	PositionPtr ptr_position_current = ptr_creature->GetCurrentPosition();
-	PositionPtr ptr_position_previous = ptr_creature->GetPreviousPosition();
-	PositionPtr ptr_position_shot_current = ptr_creature->GetShotCurrentPosition();
-	PositionPtr ptr_position_shot_previous = ptr_creature->GetShotPreviousPosition();
+	const PositionPtr ptr_position_current = ptr_creature->GetCurrentPosition();
+	const PositionPtr ptr_position_previous = ptr_creature->GetPreviousPosition();
+	const PositionPtr ptr_position_shot_current = ptr_creature->GetShotCurrentPosition();
+	const PositionPtr ptr_position_shot_previous = ptr_creature->GetShotPreviousPosition();
 
-	PositionPtr ptr_position_cell = std::make_shared<Position>(0 , 0);
+	const PositionPtr ptr_position_cell = std::make_shared<Position>(0 , 0);
 	for ( int y = 0; y < mi_height; y++ )
 	{
 		for ( int x = 0; x < mi_width; x++ )
@@ -408,7 +410,7 @@ void Playground::UpdateCreature(const CreaturePtr& ptr_creature)
 }
 
 
-void Playground::PrintCell(const HANDLE& h_console , enum Cell e_cell)
+void Playground::PrintCell(const HANDLE& h_console , const Cell e_cell)
 {
 	switch ( e_cell )
 	{
@@ -473,16 +475,13 @@ void Playground::PrintCell(const HANDLE& h_console , enum Cell e_cell)
 }
 
 
-int Playground::GetTimeCounter()
+int Playground::GetTimeCounter() const
 {
 	if ( mtime_start.time_since_epoch().count() == 0 )
 	{
 		return 0;
 	}
-	else
-	{
-		auto time_current = std::chrono::steady_clock::now();
-		auto duration_time = std::chrono::duration_cast<std::chrono::duration<int>>( time_current - mtime_start ).count();
-		return duration_time;
-	}
+	const auto time_current = std::chrono::steady_clock::now();
+	const auto duration_time = std::chrono::duration_cast<std::chrono::duration<int>>( time_current - mtime_start ).count();
+	return duration_time;
 }

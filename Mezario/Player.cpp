@@ -1,11 +1,11 @@
 #include "Player.h"
 
-Player::Player(PositionPtr& ptr_position)
-	: Creature(ptr_position,  Cell::e_cell_player , { Cell::e_cell_player_shot_up, Cell::e_cell_player_shot_down, Cell::e_cell_player_shot_left, Cell::e_cell_player_shot_right })
+Player::Player(const PositionPtr& ptr_position)
+	: Creature(ptr_position , Cell::e_cell_player , { Cell::e_cell_player_shot_up, Cell::e_cell_player_shot_down, Cell::e_cell_player_shot_left, Cell::e_cell_player_shot_right })
 {
 }
 
-PositionPtr Player::GetNextPosition(enum Action e_action)
+PositionPtr Player::GetNextPosition(const Action e_action) const
 {
 	switch ( e_action )
 	{
@@ -40,8 +40,7 @@ void Player::StartShot()
 	if ( mptr_position_current->Equals(mptr_position_previous->GetPosition()) )
 	{
 		mb_is_shot_active = false;
-		// creatre, who didn't move yet, can't start shooting
-
+		// creature, who didn't move yet, can't start shooting
 	}
 	else
 	{

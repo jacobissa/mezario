@@ -19,46 +19,46 @@ void Position::UpdatePosition(Position position)
 	this->y = position.y;
 }
 
-bool Position::Equals(const Position& position)
+bool Position::Equals(const Position& position) const
 {
 	return ( this->x == position.x && this->y == position.y );
 }
 
-bool Position::IsClose(const Position& position, const int i_allowed_distance)
+bool Position::IsClose(const Position& position , const int i_allowed_distance) const
 {
 	return ( std::abs(this->x - position.x) <= i_allowed_distance && std::abs(this->y - position.y) <= i_allowed_distance );
 }
 
 
-Position Position::GetPosition()
+Position Position::GetPosition() const
 {
 	return *this;
 }
 
-Position Position::GetUpPosition()
+Position Position::GetUpPosition() const
 {
 	return Position(x , y - 1);
 }
 
-Position Position::GetDownPosition()
+Position Position::GetDownPosition() const
 {
 	return Position(x , y + 1);
 }
 
-Position Position::GetLeftPosition()
+Position Position::GetLeftPosition() const
 {
 	return Position(x - 1 , y);
 }
 
-Position Position::GetRightPosition()
+Position Position::GetRightPosition() const
 {
 	return Position(x + 1 , y);
 }
 
-Position Position::GetRandomNeighbourPosition()
+Position Position::GetRandomNeighbourPosition() const
 {
 	switch ( rand() % 10 )
-	{	
+	{
 		case 0:
 			{
 				return GetUpPosition();

@@ -1,12 +1,11 @@
 #include "Mezario.h"
 #include "Playground.h"
-#include "Player.h"
 
 void ConsoleSettings(const HANDLE& h_console)
 {
 	MoveWindow(GetConsoleWindow() , 0 , 0 , 440 , 600 , true);
 	SetConsoleTitleA("Mezario");
-	const CONSOLE_CURSOR_INFO cursor_info{ 1, FALSE };
+	constexpr CONSOLE_CURSOR_INFO cursor_info{ 1, FALSE };
 	SetConsoleCursorInfo(h_console , &cursor_info);
 	CONSOLE_FONT_INFOEX font{};
 	font.cbSize = sizeof(font);
@@ -16,25 +15,25 @@ void ConsoleSettings(const HANDLE& h_console)
 	font.FontFamily = FF_DONTCARE;
 	font.FontWeight = FW_MEDIUM;
 	SetCurrentConsoleFontEx(h_console , TRUE , &font);
-	srand(static_cast<unsigned int>( time(NULL) ));
+	srand(static_cast<unsigned>( time(nullptr) ));
 }
 
 bool PlayGame(const HANDLE& h_console)
 {
-	const int i_width = 50;
-	const int i_height = 25;
-	const int i_hearts = 5;
-	const int i_probability_wall = 25;
-	const int i_quantity_enemy = 9;
-	const int i_time_max = 90;
-	PlaygroundPtr ptr_playground = std::make_shared<Playground>(i_height , i_width , i_hearts , i_probability_wall , i_quantity_enemy , i_time_max);
+	constexpr int i_width = 50;
+	constexpr int i_height = 25;
+	constexpr int i_hearts = 5;
+	constexpr int i_probability_wall = 25;
+	constexpr int i_quantity_enemy = 9;
+	constexpr int i_time_max = 90;
+	const PlaygroundPtr ptr_playground = std::make_shared<Playground>(i_height , i_width , i_hearts , i_probability_wall , i_quantity_enemy , i_time_max);
 	bool b_start_play = false;
 	while ( true )
 	{
 		SetConsoleCursorPosition(h_console , { 0,0 });
 		while ( _kbhit() )
 		{
-			enum Action e_action = static_cast<enum Action>( _getch() );
+			const Action e_action = static_cast<Action>( _getch() );
 			switch ( e_action )
 			{
 				case Action::e_action_up:
@@ -67,7 +66,7 @@ bool PlayGame(const HANDLE& h_console)
 		{
 			while ( _kbhit() )
 			{
-				enum Action e_action = static_cast<enum Action>( _getch() );
+				const Action e_action = static_cast<Action>( _getch() );
 				switch ( e_action )
 				{
 					case Action::e_action_up:

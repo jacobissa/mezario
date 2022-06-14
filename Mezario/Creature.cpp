@@ -1,19 +1,19 @@
 #include "Creature.h"
 
-Creature::Creature(PositionPtr& ptr_position, enum Cell e_cell_creature, const CellShot s_cell_shot)
-	: mptr_position_current(ptr_position)
-	, mptr_position_previous(ptr_position)
+Creature::Creature(const PositionPtr& ptr_position , const Cell e_cell_creature , const CellShot s_cell_shot)
+	: me_cell_creature(e_cell_creature)
 	, ms_cell_shot(s_cell_shot)
-	, me_cell_creature(e_cell_creature)
+	, mptr_position_current(ptr_position)
+	, mptr_position_previous(ptr_position)
 {
 }
 
-Cell Creature::GetCellCreature()
+Cell Creature::GetCellCreature() const
 {
 	return me_cell_creature;
 }
 
-Cell Creature::GetCellShot()
+Cell Creature::GetCellShot() const
 {
 	if ( mb_is_shot_active )
 	{
@@ -21,15 +21,15 @@ Cell Creature::GetCellShot()
 		{
 			return ms_cell_shot.e_cell_shot_up;
 		}
-		else if ( mptr_position_shot_current->Equals(mptr_position_shot_previous->GetDownPosition()) )
+		if ( mptr_position_shot_current->Equals(mptr_position_shot_previous->GetDownPosition()) )
 		{
 			return ms_cell_shot.e_cell_shot_down;
 		}
-		else if ( mptr_position_shot_current->Equals(mptr_position_shot_previous->GetLeftPosition()) )
+		if ( mptr_position_shot_current->Equals(mptr_position_shot_previous->GetLeftPosition()) )
 		{
 			return ms_cell_shot.e_cell_shot_left;
 		}
-		else if ( mptr_position_shot_current->Equals(mptr_position_shot_previous->GetRightPosition()) )
+		if ( mptr_position_shot_current->Equals(mptr_position_shot_previous->GetRightPosition()) )
 		{
 			return ms_cell_shot.e_cell_shot_right;
 		}
@@ -59,14 +59,14 @@ const PositionPtr& Creature::GetShotPreviousPosition()
 	return mptr_position_shot_previous;
 }
 
-void Creature::MoveTo(PositionPtr& ptr_position)
+void Creature::MoveTo(const PositionPtr& ptr_position)
 {
 	mptr_position_previous = mptr_position_current;
 	mptr_position_current = ptr_position;
 }
 
 
-bool Creature::IsShotActive()
+bool Creature::IsShotActive() const
 {
 	return mb_is_shot_active;
 }

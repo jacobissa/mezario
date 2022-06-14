@@ -6,31 +6,31 @@
 
 struct CellShot
 {
-	enum Cell e_cell_shot_up;
-	enum Cell e_cell_shot_down;
-	enum Cell e_cell_shot_left;
-	enum Cell e_cell_shot_right;
+	Cell e_cell_shot_up;
+	Cell e_cell_shot_down;
+	Cell e_cell_shot_left;
+	Cell e_cell_shot_right;
 };
 
 class Creature
 {
 public:
-	Creature(PositionPtr& ptr_position, enum Cell e_cell_creature, const CellShot s_cell_shot);
+	Creature(const PositionPtr& ptr_position , const Cell e_cell_creature , const CellShot s_cell_shot);
 
 public:
-	enum Cell GetCellCreature();
-	enum Cell GetCellShot();
+	Cell GetCellCreature() const;
+	Cell GetCellShot() const;
 	const PositionPtr& GetCurrentPosition();
 	const PositionPtr& GetPreviousPosition();
 	const PositionPtr& GetShotCurrentPosition();
 	const PositionPtr& GetShotPreviousPosition();
-	void MoveTo(PositionPtr& ptr_position);
-	bool IsShotActive();
+	void MoveTo(const PositionPtr& ptr_position);
+	bool IsShotActive() const;
 	void StopShot();
 	void UpdateShot();
 
 protected:
-	enum Cell me_cell_creature = Cell::e_cell_blank;
+	Cell me_cell_creature = Cell::e_cell_blank;
 	CellShot ms_cell_shot;
 	PositionPtr mptr_position_current;
 	PositionPtr mptr_position_previous;

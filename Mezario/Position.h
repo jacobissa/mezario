@@ -12,15 +12,15 @@ struct Position
 
 	void UpdatePosition(const int x , const int y);
 	void UpdatePosition(Position position);
-	bool Equals(const Position& position);
-	bool IsClose(const Position& position , const int i_allowed_distance);
+	bool Equals(const Position& position) const;
+	bool IsClose(const Position& position , const int i_allowed_distance) const;
 
-	Position GetPosition();
-	Position GetUpPosition();
-	Position GetDownPosition();
-	Position GetLeftPosition();
-	Position GetRightPosition();
-	Position GetRandomNeighbourPosition();
+	Position GetPosition() const;
+	Position GetUpPosition() const;
+	Position GetDownPosition() const;
+	Position GetLeftPosition() const;
+	Position GetRightPosition() const;
+	Position GetRandomNeighbourPosition() const;
 };
 using PositionPtr = std::shared_ptr<Position>;
 
