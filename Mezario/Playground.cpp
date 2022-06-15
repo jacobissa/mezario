@@ -223,7 +223,7 @@ void Playground::UpdateEnemyShot(const EnemyPtr& ptr_enemy)
 
 	if ( !ptr_enemy->IsShotActive() )
 	{
-		ptr_enemy->StartShot(mptr_player->GetCurrentPosition());
+		ptr_enemy->StartShot(mptr_player->GetCurrentPosition() , GetTimeCounter());
 	}
 	else
 	{
@@ -259,9 +259,8 @@ void Playground::UpdateEnemyShot(const EnemyPtr& ptr_enemy)
 					case Cell::e_cell_enemy_alpha:
 					case Cell::e_cell_enemy_beta:
 					case Cell::e_cell_enemy_gamma:
-					case Cell::e_cell_enemy_shot_up:
-					case Cell::e_cell_enemy_shot_down:
-					case Cell::e_cell_enemy_shot_left_right:
+					case Cell::e_cell_enemy_shot_alpha:
+
 						{
 							// remove shot, if faced a wall or another enemy, or another enemy's shot
 							ptr_enemy->StopShot();
@@ -274,7 +273,7 @@ void Playground::UpdateEnemyShot(const EnemyPtr& ptr_enemy)
 							ptr_enemy->StopShot();
 						}
 						break;
-					default: ;
+					default:;
 				}
 			}
 			SetValue(ptr_position_shot_previous , Cell::e_cell_blank);
@@ -342,9 +341,7 @@ void Playground::UpdatePlayerShot()
 							mptr_player->StopShot();
 						}
 						break;
-					case Cell::e_cell_enemy_shot_up:
-					case Cell::e_cell_enemy_shot_down:
-					case Cell::e_cell_enemy_shot_left_right:
+					case Cell::e_cell_enemy_shot_alpha:
 						{
 							// Player's shot faces an enemy's shot --> delete both shots
 							for ( const EnemyPtr& ptr_enemy : mvec_enemy )
@@ -365,7 +362,7 @@ void Playground::UpdatePlayerShot()
 							mptr_player->StopShot();
 						}
 						break;
-					default: ;
+					default:;
 				}
 			}
 			SetValue(ptr_position_shot_previous , Cell::e_cell_blank);
@@ -464,9 +461,7 @@ void Playground::PrintCell(const HANDLE& h_console , const Cell e_cell)
 				std::cout << e_cell;
 			}
 			break;
-		case Cell::e_cell_enemy_shot_up:
-		case Cell::e_cell_enemy_shot_down:
-		case Cell::e_cell_enemy_shot_left_right:
+		case Cell::e_cell_enemy_shot_alpha:
 			{
 				SetConsoleTextAttribute(h_console , Color::e_color_light_red);
 				std::cout << e_cell;

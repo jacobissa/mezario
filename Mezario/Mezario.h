@@ -9,15 +9,14 @@ enum Cell : char
 	e_cell_player = static_cast<char>( 2 ) ,
 	e_cell_heart = static_cast<char>( 3 ) ,
 	e_cell_enemy_alpha = static_cast<char>( 1 ) ,
-	e_cell_enemy_beta = static_cast<char>( 5 ) ,
-	e_cell_enemy_gamma = static_cast<char>( 4 ) ,
+	e_cell_enemy_beta = static_cast<char>( 15 ) ,
+	e_cell_enemy_gamma = static_cast<char>( 184 ) ,
 	e_cell_player_shot_up = static_cast<char>( 30 ) ,
 	e_cell_player_shot_down = static_cast<char>( 31 ) ,
 	e_cell_player_shot_left = static_cast<char>( 17 ) ,
 	e_cell_player_shot_right = static_cast<char>( 16 ) ,
-	e_cell_enemy_shot_up = static_cast<char>( 208 ) ,
-	e_cell_enemy_shot_down = static_cast<char>( 210 ) ,
-	e_cell_enemy_shot_left_right = static_cast<char>( 240 ) ,
+	e_cell_enemy_shot_alpha = static_cast<char>( 42 ) ,
+
 };
 
 enum Action : int
