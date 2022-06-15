@@ -91,16 +91,48 @@ bool PlayGame(const HANDLE& h_console)
 	}
 }
 
+bool PlayAgain(const bool b_win)
+{
+	if ( b_win )
+	{
+		std::cout << "You Win! Do you want to play again? (Y/N)" << std::endl;
+	}
+	else
+	{
+		std::cout << "Game over! Do you want to play again? (Y/N)" << std::endl;
+	}
+	while ( true )
+	{
+		while ( _kbhit() )
+		{
+			const Action e_action = static_cast<Action>( _getch() );
+			switch ( e_action )
+			{
+				case Action::e_action_yes:
+					{
+						return true;
+					}
+				case Action::e_action_no:
+					{
+						return false;
+					}
+				default: ;
+			}
+		}
+	}
+}
+
+
 int main()
 {
 	const HANDLE h_console = GetStdHandle(STD_OUTPUT_HANDLE);
 	ConsoleSettings(h_console);
-	if ( PlayGame(h_console) )
+
+	bool b_play_game = true;
+	while ( b_play_game )
 	{
-		std::cout << "You Win!" << std::endl;
+		const bool b_game_result = PlayGame(h_console);
+		b_play_game = PlayAgain(b_game_result);
 	}
-	else
-	{
-		std::cout << "You Lose!" << std::endl;
-	}
+	return 0;
 }

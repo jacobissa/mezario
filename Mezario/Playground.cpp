@@ -1,7 +1,6 @@
 #include "Playground.h"
 
 #include <iostream>
-#include <ostream>
 
 #include "Alpha.h"
 

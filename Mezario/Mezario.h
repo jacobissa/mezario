@@ -22,11 +22,13 @@ enum Cell : char
 
 enum Action : int
 {
-	e_action_up = 119 ,
-	e_action_down = 115 ,
-	e_action_left = 97 ,
-	e_action_right = 100 ,
-	e_action_shot = 32 ,
+	e_action_up = 119 ,		// W
+	e_action_down = 115 ,	// S
+	e_action_left = 97 ,	// A
+	e_action_right = 100 ,	// D
+	e_action_shot = 32 ,	// Space bar
+	e_action_yes = 121 ,	// Y
+	e_action_no = 110 ,		// N
 };
 
 enum Color : unsigned short
