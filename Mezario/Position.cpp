@@ -13,7 +13,7 @@ void Position::UpdatePosition(const int x , const int y)
 	this->y = y;
 }
 
-void Position::UpdatePosition(Position position)
+void Position::UpdatePosition(const Position position)
 {
 	this->x = position.x;
 	this->y = position.y;
