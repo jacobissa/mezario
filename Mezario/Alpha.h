@@ -10,8 +10,8 @@ public:
 	Alpha(PositionPtr & ptr_position);
 
 public:
-	PositionPtr GetNextPosition(const PositionPtr& ptr_postion_player);
-	void StartShot(const PositionPtr& ptr_position_player);
+	PositionPtr GetNextPosition(const PositionPtr& ptr_postion_player) override;
+	void StartShot(const PositionPtr& ptr_position_player, const int i_time_counter) override;
 	
 
 };

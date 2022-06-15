@@ -5,7 +5,6 @@
 #include <memory>
 #include <vector>
 #include <Windows.h>
-#include <ctime>
 
 #include "Alpha.h"
 #include "Enemy.h"
@@ -35,12 +34,11 @@ private:
 	char GetValue(const PositionPtr& ptr_position) const;
 	bool IsInBounds(const PositionPtr& ptr_position) const;
 	void UpdateEnemyMove(const EnemyPtr& ptr_enemy) const;
-	void UpdateEnemyShot(const EnemyPtr& ptr_enemy,bool timer);
+	void UpdateEnemyShot(const EnemyPtr& ptr_enemy);
 	void UpdatePlayerShot();
 	void UpdateCreature(const CreaturePtr& ptr_creature) const;
 	static void PrintCell(const HANDLE& h_console , const Cell e_cell);
 	int GetTimeCounter() const;
-	const bool delayForTime(int delayINSecond);
 
 private:
 	char** mptr_matrix = 0;
@@ -50,7 +48,6 @@ private:
 	int mi_probability_wall = 0;
 	int mi_quantity_enemy = 0;
 	int mi_time_max = 0;
-	int shotCounter = GetTimeCounter();
 	PositionPtr mptr_position_exit = nullptr;
 	PlayerPtr mptr_player = nullptr;
 	std::vector<EnemyPtr> mvec_enemy;
