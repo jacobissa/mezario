@@ -39,13 +39,10 @@ void Player::StartShot()
 {
 	if ( mptr_position_current->Equals(mptr_position_previous->GetPosition()) )
 	{
-		mb_is_shot_active = false;
-		// creature, who didn't move yet, can't start shooting
+		// in case the player has not moved yet.
+		mptr_position_previous = std::make_shared<Position>(mptr_position_previous->GetLeftPosition());
 	}
-	else
-	{
-		mb_is_shot_active = true;
-		mptr_position_shot_current = std::make_shared<Position>(mptr_position_current->GetPosition());
-		mptr_position_shot_previous = std::make_shared<Position>(mptr_position_previous->GetPosition());
-	}
+	mb_is_shot_active = true;
+	mptr_position_shot_current = std::make_shared<Position>(mptr_position_current->GetPosition());
+	mptr_position_shot_previous = std::make_shared<Position>(mptr_position_previous->GetPosition());
 }
