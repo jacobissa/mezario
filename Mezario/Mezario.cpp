@@ -8,7 +8,7 @@
 
 void ConsoleSettings(const HANDLE& h_console)
 {
-	MoveWindow(GetConsoleWindow() , 0 , 0 , 440 , 600 , true);
+	MoveWindow(GetConsoleWindow() , 0 , 0 , 440 , 600 , FALSE);
 	SetConsoleTitleA("Mezario");
 	constexpr CONSOLE_CURSOR_INFO cursor_info{ 1, FALSE };
 	SetConsoleCursorInfo(h_console , &cursor_info);
@@ -133,6 +133,7 @@ int main()
 	{
 		const bool b_game_result = PlayGame(h_console);
 		b_play_game = PlayAgain(b_game_result);
+		system("CLS");
 	}
 	return 0;
 }
