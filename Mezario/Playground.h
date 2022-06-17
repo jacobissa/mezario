@@ -24,6 +24,7 @@ public:
 	void PrintToConsole(const HANDLE& h_console) const;
 	int GetTimeLeft() const;
 	int GetHearts() const;
+	int GetCoins() const;
 	int GetEnemies() const;
 	bool IsWin() const;
 	bool IsLose() const;
@@ -45,6 +46,7 @@ private:
 	int mi_height = 0;
 	int mi_width = 0;
 	int mi_hearts = 0;
+	int mi_coins = 0;
 	int mi_probability_wall = 0;
 	int mi_quantity_enemy = 0;
 	int mi_time_max = 0;

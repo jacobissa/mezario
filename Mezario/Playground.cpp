@@ -13,6 +13,7 @@ Playground::Playground(const int i_height , const int i_width , const int i_hear
 	, mi_time_max(i_time_max)
 	, mptr_position_exit(std::make_shared<Position>(i_width - 1 , i_height - 4))
 {
+	mi_coins = 0;
 	PositionPtr ptr_position_player = std::make_shared<Position>(0 , 3);
 	mptr_player = std::make_shared<Player>(ptr_position_player);
 	mptr_matrix = new char* [mi_height];
@@ -38,7 +39,7 @@ void Playground::PlayerMove(const Action e_action)
 	{
 		mtime_start = std::chrono::steady_clock::now();
 	}
-	PositionPtr ptr_position_player_next = mptr_player->GetNextPosition(e_action);
+	const PositionPtr ptr_position_player_next = mptr_player->GetNextPosition(e_action);
 	if ( ptr_position_player_next && IsInBounds(ptr_position_player_next) )
 	{
 		if ( GetValue(ptr_position_player_next) == Cell::e_cell_blank )
@@ -48,6 +49,11 @@ void Playground::PlayerMove(const Action e_action)
 		else if ( GetValue(ptr_position_player_next) == Cell::e_cell_heart )
 		{
 			mi_hearts++;
+			mptr_player->MoveTo(ptr_position_player_next);
+		}
+		else if ( GetValue(ptr_position_player_next) == Cell::e_cell_coin )
+		{
+			mi_coins++;
 			mptr_player->MoveTo(ptr_position_player_next);
 		}
 	}
@@ -97,6 +103,11 @@ int Playground::GetTimeLeft() const
 int Playground::GetHearts() const
 {
 	return mi_hearts;
+}
+
+int Playground::GetCoins() const
+{
+	return mi_coins;
 }
 
 int Playground::GetEnemies() const
@@ -173,6 +184,12 @@ void Playground::Initialize()
 				SetValue(ptr_position_cell , Cell::e_cell_obstacle);
 				i_counter++;
 			}
+			else if ( i_probability_wall < ( mi_probability_wall * 2 ) )
+			{
+				// draw the coins
+				SetValue(ptr_position_cell , Cell::e_cell_coin);
+				i_counter++;
+			}
 			else
 			{
 				// fill the rest with empty char
@@ -213,7 +230,7 @@ void Playground::UpdateEnemyMove(const EnemyPtr& ptr_enemy) const
 	if ( ptr_position_enemy_next && !ptr_enemy->IsShotActive() && IsInBounds(ptr_position_enemy_next) )
 	{
 		// Move the enemy, only when it has no active shot.
-		if ( GetValue(ptr_position_enemy_next) == Cell::e_cell_blank || GetValue(ptr_position_enemy_next) == Cell::e_cell_heart )
+		if ( GetValue(ptr_position_enemy_next) == Cell::e_cell_blank || GetValue(ptr_position_enemy_next) == Cell::e_cell_heart || GetValue(ptr_position_enemy_next) == Cell::e_cell_coin )
 		{
 			ptr_enemy->MoveTo(ptr_position_enemy_next);
 		}
@@ -437,6 +454,12 @@ void Playground::PrintCell(const HANDLE& h_console , const Cell e_cell)
 		case Cell::e_cell_heart:
 			{
 				SetConsoleTextAttribute(h_console , Color::e_color_cyan);
+				std::cout << e_cell;
+			}
+			break;
+		case Cell::e_cell_coin:
+			{
+				SetConsoleTextAttribute(h_console , Color::e_color_light_cyan);
 				std::cout << e_cell;
 			}
 			break;

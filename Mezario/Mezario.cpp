@@ -61,6 +61,7 @@ bool PlayGame(const HANDLE& h_console)
 		ptr_playground->UpdateCreatures();
 		ptr_playground->PrintToConsole(h_console);
 		std::cout << "\tTIME:    " << ptr_playground->GetTimeLeft() << "   " << std::endl;
+		std::cout << "\tCOINS:   " << ptr_playground->GetCoins() << "   " << std::endl;
 		std::cout << "\tHEARTS:  " << ptr_playground->GetHearts() << "   " << std::endl;
 		std::cout << "\tENEMIES: " << ptr_playground->GetEnemies() << "   " << std::endl;
 
