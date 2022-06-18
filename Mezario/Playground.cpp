@@ -210,7 +210,7 @@ bool Playground::IsInBounds(const PositionPtr& ptr_position) const
 void Playground::UpdateEnemyMove(const EnemyPtr& ptr_enemy) const
 {
 
-	PositionPtr ptr_position_enemy_next = ptr_enemy->GetNextPosition(mptr_player->GetCurrentPosition());
+	PositionPtr ptr_position_enemy_next = ptr_enemy->GetNextPosition(mptr_player->GetCurrentPosition(), GetTimeCounter());
 	if ( ptr_position_enemy_next && !ptr_enemy->IsShotActive() && IsInBounds(ptr_position_enemy_next) && GetValue(ptr_position_enemy_next) == Cell::e_cell_blank )
 	{
 		// Move the enemy, only when it has no active shot.

@@ -20,6 +20,10 @@ struct Position
 	Position GetDownPosition() const;
 	Position GetLeftPosition() const;
 	Position GetRightPosition() const;
+	Position GetRightUpPosition() const;
+	Position GetRightDownPosition() const;
+	Position GetLeftDownPosition() const;
+	Position GetLeftUpPosition() const;
 	Position GetRandomNeighbourPosition() const;
 };
 using PositionPtr = std::shared_ptr<Position>;

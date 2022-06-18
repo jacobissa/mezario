@@ -16,6 +16,7 @@ enum Cell : char
 	e_cell_player_shot_left = static_cast<char>( 17 ) ,
 	e_cell_player_shot_right = static_cast<char>( 16 ) ,
 	e_cell_enemy_shot_alpha = static_cast<char>( 42 ) ,
+	e_cell_enemy_shot_beta = static_cast<char>( 32 ) ,
 
 };
 
