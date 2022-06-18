@@ -146,11 +146,22 @@ void Playground::Initialize()
 			{
 				// create the enemies
 				PositionPtr ptr_position_enemy = std::make_shared<Position>(x , y);
-				AlphaPtr ptr_enemy = std::make_shared<Alpha>(ptr_position_enemy);
-				mvec_enemy.emplace_back(ptr_enemy);
-				SetValue(ptr_position_cell , Cell::e_cell_blank);
+				if ( mi_quantity_alpha > 0 )
+				{
+					AlphaPtr ptr_alpha = std::make_shared<Alpha>(ptr_position_enemy);
+					mvec_enemy.emplace_back(ptr_alpha);
+					mi_quantity_alpha--;
+				}
+				else
+				{
+					BetaPtr ptr_beta = std::make_shared<Beta>(ptr_position_enemy);
+					mvec_enemy.emplace_back(ptr_beta);
+					mi_quantity_beta--;
+				}
+				SetValue(ptr_position_cell, Cell::e_cell_blank);
 				mi_quantity_enemy--;
 				i_counter++;
+
 			}
 			else if ( x == i_heart_position_x )
 			{
@@ -260,6 +271,7 @@ void Playground::UpdateEnemyShot(const EnemyPtr& ptr_enemy)
 					case Cell::e_cell_enemy_beta:
 					case Cell::e_cell_enemy_gamma:
 					case Cell::e_cell_enemy_shot_alpha:
+					case Cell::e_cell_enemy_shot_beta:
 
 						{
 							// remove shot, if faced a wall or another enemy, or another enemy's shot
@@ -342,6 +354,7 @@ void Playground::UpdatePlayerShot()
 						}
 						break;
 					case Cell::e_cell_enemy_shot_alpha:
+					case Cell::e_cell_enemy_shot_beta:
 						{
 							// Player's shot faces an enemy's shot --> delete both shots
 							for ( const EnemyPtr& ptr_enemy : mvec_enemy )

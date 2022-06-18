@@ -6,6 +6,7 @@
 #include <vector>
 #include <Windows.h>
 
+#include "Beta.h"
 #include "Alpha.h"
 #include "Enemy.h"
 #include "Mezario.h"
@@ -47,6 +48,8 @@ private:
 	int mi_hearts = 0;
 	int mi_probability_wall = 0;
 	int mi_quantity_enemy = 0;
+	int mi_quantity_alpha = (2 * mi_quantity_enemy) / 3;
+	int mi_quantity_beta = mi_quantity_enemy - mi_quantity_alpha;
 	int mi_time_max = 0;
 	PositionPtr mptr_position_exit = nullptr;
 	PlayerPtr mptr_player = nullptr;
