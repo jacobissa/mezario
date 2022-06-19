@@ -6,6 +6,7 @@
 #include <vector>
 #include <Windows.h>
 
+#include "Gamma.h"
 #include "Beta.h"
 #include "Alpha.h"
 #include "Enemy.h"
@@ -48,8 +49,9 @@ private:
 	int mi_hearts = 0;
 	int mi_probability_wall = 0;
 	int mi_quantity_enemy = 0;
-	int mi_quantity_alpha = (2 * mi_quantity_enemy) / 3;
-	int mi_quantity_beta = mi_quantity_enemy - mi_quantity_alpha;
+	int mi_quantity_alpha = mi_quantity_enemy / 2;
+	int mi_quantity_beta = mi_quantity_enemy / 3;
+	int mi_quantity_gamma = mi_quantity_enemy - (mi_quantity_alpha + mi_quantity_beta);
 	int mi_time_max = 0;
 	PositionPtr mptr_position_exit = nullptr;
 	PlayerPtr mptr_player = nullptr;

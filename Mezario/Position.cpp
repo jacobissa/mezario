@@ -77,7 +77,7 @@ Position Position::GetLeftUpPosition() const
 
 Position Position::GetRandomNeighbourPosition() const
 {
-	switch ( rand() % 10 )
+	switch ( rand() % 4 )
 	{
 		case 0:
 			{

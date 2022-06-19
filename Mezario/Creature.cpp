@@ -15,6 +15,7 @@ Cell Creature::GetCellCreature() const
 	return me_cell_creature;
 }
 
+
 Cell Creature::GetCellShot() const
 {
 	if ( mb_is_shot_active )

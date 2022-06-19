@@ -152,11 +152,17 @@ void Playground::Initialize()
 					mvec_enemy.emplace_back(ptr_alpha);
 					mi_quantity_alpha--;
 				}
-				else
+				else if (mi_quantity_beta > 0)
 				{
 					BetaPtr ptr_beta = std::make_shared<Beta>(ptr_position_enemy);
 					mvec_enemy.emplace_back(ptr_beta);
 					mi_quantity_beta--;
+				}
+				else
+				{
+					GammaPtr ptr_gamma = std::make_shared<Gamma>(ptr_position_enemy);
+					mvec_enemy.emplace_back(ptr_gamma);
+					mi_quantity_gamma--;
 				}
 				SetValue(ptr_position_cell, Cell::e_cell_blank);
 				mi_quantity_enemy--;
@@ -272,6 +278,7 @@ void Playground::UpdateEnemyShot(const EnemyPtr& ptr_enemy)
 					case Cell::e_cell_enemy_gamma:
 					case Cell::e_cell_enemy_shot_alpha:
 					case Cell::e_cell_enemy_shot_beta:
+					case Cell::e_cell_enemy_shot_gamma:
 
 						{
 							// remove shot, if faced a wall or another enemy, or another enemy's shot
@@ -355,6 +362,7 @@ void Playground::UpdatePlayerShot()
 						break;
 					case Cell::e_cell_enemy_shot_alpha:
 					case Cell::e_cell_enemy_shot_beta:
+					case Cell::e_cell_enemy_shot_gamma:
 						{
 							// Player's shot faces an enemy's shot --> delete both shots
 							for ( const EnemyPtr& ptr_enemy : mvec_enemy )
@@ -476,6 +484,7 @@ void Playground::PrintCell(const HANDLE& h_console , const Cell e_cell)
 			break;
 		case Cell::e_cell_enemy_shot_alpha:
 		case Cell::e_cell_enemy_shot_beta:
+		case Cell::e_cell_enemy_shot_gamma:
 			{
 				SetConsoleTextAttribute(h_console , Color::e_color_light_red);
 				std::cout << e_cell;
@@ -497,3 +506,4 @@ int Playground::GetTimeCounter() const
 	const auto duration_time = std::chrono::duration_cast<std::chrono::duration<int>>( time_current - mtime_start ).count();
 	return duration_time;
 }
+

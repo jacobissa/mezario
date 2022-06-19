@@ -10,13 +10,14 @@ enum Cell : char
 	e_cell_heart = static_cast<char>( 3 ) ,
 	e_cell_enemy_alpha = static_cast<char>( 1 ) ,
 	e_cell_enemy_beta = static_cast<char>( 4 ) ,
-	e_cell_enemy_gamma = static_cast<char>( 184 ) ,
+	e_cell_enemy_gamma = static_cast<char>( 19 ) ,
 	e_cell_player_shot_up = static_cast<char>( 30 ) ,
 	e_cell_player_shot_down = static_cast<char>( 31 ) ,
 	e_cell_player_shot_left = static_cast<char>( 17 ) ,
 	e_cell_player_shot_right = static_cast<char>( 16 ) ,
 	e_cell_enemy_shot_alpha = static_cast<char>( 42 ) ,
 	e_cell_enemy_shot_beta = static_cast<char>( 15 ) ,
+	e_cell_enemy_shot_gamma = static_cast<char>(207),
 
 };
 
