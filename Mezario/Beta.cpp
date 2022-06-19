@@ -11,19 +11,22 @@ PositionPtr Beta::GetNextPosition(const PositionPtr& ptr_position_player, const 
 	if ( b_player_is_near && b_time_move )
 	{
 		if ( mptr_position_current->GetPosition().x < ptr_position_player->GetPosition().x 
-			&& mptr_position_current->GetPosition().y > ptr_position_player->GetPosition().y )
+			&& mptr_position_current->GetPosition().y > ptr_position_player->GetPosition().y 
+			&& mptr_position_current->GetRightUpPosition().x != Cell::e_cell_wall )
 		{
 			
 			return std::make_shared<Position>(mptr_position_current->GetRightUpPosition());
 		
 		}
-		else if ( mptr_position_current->GetPosition().x < ptr_position_player->GetPosition().x && mptr_position_current->GetPosition().y < ptr_position_player->GetPosition().y )
+		else if ( mptr_position_current->GetPosition().x < ptr_position_player->GetPosition().x 
+				 && mptr_position_current->GetPosition().y < ptr_position_player->GetPosition().y )
 		{
 			
 			return  std::make_shared<Position>(mptr_position_current->GetRightDownPosition());
 			
 		}
-		else if ( mptr_position_current->GetPosition().x > ptr_position_player->GetPosition().x && mptr_position_current->GetPosition().y < ptr_position_player->GetPosition().y )
+		else if ( mptr_position_current->GetPosition().x > ptr_position_player->GetPosition().x 
+				 && mptr_position_current->GetPosition().y < ptr_position_player->GetPosition().y )
 		{
 			
 			return  std::make_shared<Position>(mptr_position_current->GetLeftDownPosition());

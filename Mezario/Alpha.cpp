@@ -14,22 +14,22 @@ PositionPtr Alpha::GetNextPosition(const PositionPtr& ptr_position_player, const
 	if (b_player_is_near && b_time_move)
 	{
 		if (mptr_position_current->GetPosition().x > ptr_position_player->GetPosition().x
-			&& mptr_position_current->GetLeftPosition().x != Cell::e_cell_wall && b_player_is_not_too_near )
+		 && b_player_is_not_too_near )
 		{
 				return std::make_shared<Position>(mptr_position_current->GetLeftPosition());
 		}
 		else if (mptr_position_current->GetPosition().x < ptr_position_player->GetPosition().x 
-				 && mptr_position_current->GetRightPosition().x != Cell::e_cell_wall && b_player_is_not_too_near )
+				 && b_player_is_not_too_near )
 		{
 				return  std::make_shared<Position>(mptr_position_current->GetRightPosition());
 		}
 		else if ( mptr_position_current->GetPosition().y < ptr_position_player->GetPosition().y && 
-				 mptr_position_current->GetDownPosition().y != Cell::e_cell_wall && b_player_is_not_too_near )
+				 b_player_is_not_too_near )
 		{
 			return  std::make_shared<Position>(mptr_position_current->GetDownPosition());
 		}
 		else if (mptr_position_current->GetPosition().y > ptr_position_player->GetPosition().y 
-				 && mptr_position_current->GetUpPosition().y != Cell::e_cell_wall && b_player_is_not_too_near )
+				 && b_player_is_not_too_near )
 		{
 			return  std::make_shared<Position>(mptr_position_current->GetUpPosition());
 		}

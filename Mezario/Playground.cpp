@@ -475,6 +475,7 @@ void Playground::PrintCell(const HANDLE& h_console , const Cell e_cell)
 			}
 			break;
 		case Cell::e_cell_enemy_shot_alpha:
+		case Cell::e_cell_enemy_shot_beta:
 			{
 				SetConsoleTextAttribute(h_console , Color::e_color_light_red);
 				std::cout << e_cell;
