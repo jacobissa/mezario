@@ -1,6 +1,6 @@
 #include "Gamma.h"
 
-Gamma::Gamma(const PositionPtr& ptr_position) : Enemy(ptr_position, Cell::e_cell_enemy_gamma, { Cell::e_cell_enemy_shot_gamma })
+Gamma::Gamma(const PositionPtr& ptr_position) : Enemy(ptr_position, Cell::e_cell_enemy_gamma, Cell::e_cell_enemy_shot_gamma )
 {
 }
 

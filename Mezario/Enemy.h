@@ -6,7 +6,7 @@
 class Enemy : public Creature
 {
 public:
-	Enemy(const PositionPtr& ptr_position, const Cell e_cell_creature, const CellShot s_cell_shot);
+	Enemy(const PositionPtr& ptr_position, const Cell e_cell_enemy, const Cell e_cell_shot);
 
 public:
 	virtual PositionPtr GetNextPosition(const PositionPtr& ptr_position_player, const int i_time_counter) = 0;

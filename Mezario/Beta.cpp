@@ -1,6 +1,6 @@
 #include "Beta.h"
 
-Beta::Beta(const PositionPtr& ptr_position) : Enemy(ptr_position, Cell::e_cell_enemy_beta, { Cell::e_cell_enemy_shot_beta })
+Beta::Beta(const PositionPtr& ptr_position) : Enemy(ptr_position, Cell::e_cell_enemy_beta, Cell::e_cell_enemy_shot_beta )
 {
 }
 

@@ -2,7 +2,7 @@
 
 
 Alpha::Alpha(const PositionPtr& ptr_position)
-	: Enemy(ptr_position, Cell::e_cell_enemy_alpha, { Cell::e_cell_enemy_shot_alpha })
+	: Enemy(ptr_position, Cell::e_cell_enemy_alpha, Cell::e_cell_enemy_shot_alpha)
 {
 }
 
