@@ -5,6 +5,7 @@
 #include <Windows.h>
 
 #include "Playground.h"
+#include "menu.h"
 
 void ConsoleSettings(const HANDLE& h_console)
 {
@@ -60,7 +61,7 @@ bool PlayGame(const HANDLE& h_console)
 		}
 		ptr_playground->UpdateCreatures();
 		ptr_playground->PrintToConsole(h_console);
-		std::cout << "\tTIME:    " << ptr_playground->GetTimeLeft() << "   " << std::endl;
+        std::cout << "\tTIME:    " << ptr_playground->GetTimeLeft() << "   " << std::endl;
 		std::cout << "\tCOINS:   " << ptr_playground->GetCoins() << "   " << std::endl;
 		std::cout << "\tHEARTS:  " << ptr_playground->GetHearts() << "   " << std::endl;
 		std::cout << "\tENEMIES: " << ptr_playground->GetEnemies() << "   " << std::endl;
@@ -129,12 +130,22 @@ int main()
 	const HANDLE h_console = GetStdHandle(STD_OUTPUT_HANDLE);
 	ConsoleSettings(h_console);
 
-	bool b_play_game = true;
+    bool b_play_game = false;
+
+    // TODO: include OPTIONS
+    Options player_choice = Menu::print_menu(h_console);
+    if (player_choice == PLAY_GAME) {
+        b_play_game = true;
+    } else if (player_choice == EXIT) {
+        return 0; // exit program on users behalve
+    }
+
 	while ( b_play_game )
 	{
 		const bool b_game_result = PlayGame(h_console);
 		b_play_game = PlayAgain(b_game_result);
 		system("CLS");
 	}
+
 	return 0;
 }
