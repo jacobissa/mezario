@@ -157,28 +157,29 @@ void Playground::Initialize()
 			{
 				// create the enemies
 				PositionPtr ptr_position_enemy = std::make_shared<Position>(x , y);
-				if ( mi_quantity_alpha > 0 )
+				EnemyPtr ptr_enemy;
+				switch ( rand() % 3 )
 				{
-					AlphaPtr ptr_alpha = std::make_shared<Alpha>(ptr_position_enemy);
-					mvec_enemy.emplace_back(ptr_alpha);
-					mi_quantity_alpha--;
+					case 0:
+						{
+							ptr_enemy = std::make_shared<Alpha>(ptr_position_enemy);
+						}
+						break;
+					case 1:
+						{
+							ptr_enemy = std::make_shared<Beta>(ptr_position_enemy);
+						}
+						break;
+					case 2:
+						{
+							ptr_enemy = std::make_shared<Gamma>(ptr_position_enemy);
+						}
+						break;
 				}
-				else if (mi_quantity_beta > 0)
-				{
-					BetaPtr ptr_beta = std::make_shared<Beta>(ptr_position_enemy);
-					mvec_enemy.emplace_back(ptr_beta);
-					mi_quantity_beta--;
-				}
-				else
-				{
-					GammaPtr ptr_gamma = std::make_shared<Gamma>(ptr_position_enemy);
-					mvec_enemy.emplace_back(ptr_gamma);
-					mi_quantity_gamma--;
-				}
-				SetValue(ptr_position_cell, Cell::e_cell_blank);
+				mvec_enemy.emplace_back(ptr_enemy);
+				SetValue(ptr_position_cell , Cell::e_cell_blank);
 				mi_quantity_enemy--;
 				i_counter++;
-
 			}
 			else if ( x == i_heart_position_x )
 			{
@@ -244,7 +245,7 @@ bool Playground::IsInBounds(const PositionPtr& ptr_position) const
 void Playground::UpdateEnemyMove(const EnemyPtr& ptr_enemy) const
 {
 
-	const PositionPtr ptr_position_enemy_next = ptr_enemy->GetNextPosition(mptr_player->GetCurrentPosition(), GetTimeCounter());
+	const PositionPtr ptr_position_enemy_next = ptr_enemy->GetNextPosition(mptr_player->GetCurrentPosition() , GetTimeCounter());
 	if ( ptr_position_enemy_next && !ptr_enemy->IsShotActive() && IsInBounds(ptr_position_enemy_next) )
 	{
 		// Move the enemy, only when it has no active shot.

@@ -30,7 +30,7 @@ bool PlayGame(const HANDLE& h_console)
 	constexpr int i_height = 25;
 	constexpr int i_hearts = 5;
 	constexpr int i_probability_wall = 25;
-	constexpr int i_quantity_enemy = 12;
+	constexpr int i_quantity_enemy = 15;
 	constexpr int i_time_max = 90;
 	const PlaygroundPtr ptr_playground = std::make_shared<Playground>(i_height , i_width , i_hearts , i_probability_wall , i_quantity_enemy , i_time_max);
 	bool b_start_play = false;
