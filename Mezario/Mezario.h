@@ -8,6 +8,7 @@ enum Cell : char
 	e_cell_obstacle = static_cast<char>( 176 ) ,
 	e_cell_player = static_cast<char>( 2 ) ,
 	e_cell_heart = static_cast<char>( 3 ) ,
+	e_cell_coin = static_cast<char>( 248 ) ,
 	e_cell_enemy_alpha = static_cast<char>( 1 ) ,
 	e_cell_enemy_beta = static_cast<char>( 4 ) ,
 	e_cell_enemy_gamma = static_cast<char>( 19 ) ,
