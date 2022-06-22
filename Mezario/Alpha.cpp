@@ -1,63 +1,43 @@
 #include "Alpha.h"
 
 
-Alpha::Alpha(PositionPtr& ptr_position)
-	: Enemy(ptr_position, Cell::e_cell_enemy_alpha, { Cell::e_cell_enemy_shot_alpha, Cell::e_cell_enemy_shot_alpha, Cell::e_cell_enemy_shot_alpha, Cell::e_cell_enemy_shot_alpha })
+Alpha::Alpha(const PositionPtr& ptr_position)
+	: Enemy(ptr_position, Cell::e_cell_enemy_alpha, Cell::e_cell_enemy_shot_alpha)
 {
 }
 
-PositionPtr Alpha::GetNextPosition(const PositionPtr& ptr_position_player)
+PositionPtr Alpha::GetNextPosition(const PositionPtr& ptr_position_player, const int i_time_counter)
 {
-	if (mptr_position_current->IsClose(ptr_position_player->GetPosition(), 10))
+	const bool b_player_is_near = mptr_position_current->IsClose(ptr_position_player->GetPosition(), 10);
+	const bool b_time_move = (i_time_counter - mi_time_last_shot) > 0;
+	const bool b_player_is_not_too_near = !mptr_position_current->IsClose(ptr_position_player->GetPosition(), 2);
+	if (b_player_is_near && b_time_move)
 	{
-		if (mptr_position_current->GetPosition().x > ptr_position_player->GetPosition().x)
+		if (mptr_position_current->GetPosition().x > ptr_position_player->GetPosition().x
+		 && b_player_is_not_too_near )
 		{
-			if (mptr_position_current->GetLeftPosition().x != Cell::e_cell_wall &&
-				!mptr_position_current->IsClose(ptr_position_player->GetPosition(), 2))
-			{
 				return std::make_shared<Position>(mptr_position_current->GetLeftPosition());
-			}
-			else if (mptr_position_current->IsClose(ptr_position_player->GetPosition(), 2))
-			{
-				return std::make_shared<Position>(mptr_position_current->GetPosition());
-			}
 		}
-		else if (mptr_position_current->GetPosition().x < ptr_position_player->GetPosition().x)
+		else if (mptr_position_current->GetPosition().x < ptr_position_player->GetPosition().x 
+				 && b_player_is_not_too_near )
 		{
-			if (mptr_position_current->GetRightPosition().x != Cell::e_cell_wall &&
-				!mptr_position_current->IsClose(ptr_position_player->GetPosition(), 2))
-			{
 				return  std::make_shared<Position>(mptr_position_current->GetRightPosition());
-			}
-			else if (mptr_position_current->IsClose(ptr_position_player->GetPosition(), 2))
-			{
-				return  std::make_shared<Position>(mptr_position_current->GetPosition());
-			}
 		}
-		else if (mptr_position_current->GetPosition().y < ptr_position_player->GetPosition().y)
+		else if ( mptr_position_current->GetPosition().y < ptr_position_player->GetPosition().y && 
+				 b_player_is_not_too_near )
 		{
-			if (mptr_position_current->GetDownPosition().y != Cell::e_cell_wall &&
-				!mptr_position_current->IsClose(ptr_position_player->GetPosition(), 2))
-			{
-				return  std::make_shared<Position>(mptr_position_current->GetDownPosition());
-			}
-			else if (mptr_position_current->IsClose(ptr_position_player->GetPosition(), 2))
-			{
-				return  std::make_shared<Position>(mptr_position_current->GetPosition());
-			}
+			return  std::make_shared<Position>(mptr_position_current->GetDownPosition());
 		}
-		else if (mptr_position_current->GetPosition().y > ptr_position_player->GetPosition().y)
+		else if (mptr_position_current->GetPosition().y > ptr_position_player->GetPosition().y 
+				 && b_player_is_not_too_near )
 		{
-			if (mptr_position_current->GetUpPosition().y != Cell::e_cell_wall &&
-				!mptr_position_current->IsClose(ptr_position_player->GetPosition(), 2))
-			{
-				return  std::make_shared<Position>(mptr_position_current->GetUpPosition());
-			}
-			else if (mptr_position_current->IsClose(ptr_position_player->GetPosition(), 2))
-			{
-				return  std::make_shared<Position>(mptr_position_current->GetPosition());
-			}
+			return  std::make_shared<Position>(mptr_position_current->GetUpPosition());
 		}
+		else
+		{
+			return  std::make_shared<Position>(mptr_position_current->GetPosition());
+		}
+		mi_time_last_move = i_time_counter;
 	}
 	return 	std::make_shared<Position>(mptr_position_current->GetPosition());
 }
@@ -66,7 +46,7 @@ PositionPtr Alpha::GetNextPosition(const PositionPtr& ptr_position_player)
 void Alpha::StartShot(const PositionPtr& ptr_position_player, const int i_time_counter)
 {
 	const bool b_player_is_near = mptr_position_current->IsClose(ptr_position_player->GetPosition(), 5);
-	const bool b_time_shot = std::abs(i_time_counter - mi_time_last_shot) > 0;
+	const bool b_time_shot = (i_time_counter - mi_time_last_shot) > 0;
 	if (b_player_is_near && b_time_shot)
 	{
 		mb_is_shot_active = true;

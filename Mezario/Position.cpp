@@ -55,9 +55,29 @@ Position Position::GetRightPosition() const
 	return Position(x + 1 , y);
 }
 
+Position Position::GetRightUpPosition() const
+{
+	return Position(x + 1, y - 1);
+}
+
+Position Position::GetRightDownPosition() const
+{
+	return Position(x + 1, y + 1);
+}
+
+Position Position::GetLeftDownPosition() const
+{
+	return Position(x - 1, y + 1);
+}
+
+Position Position::GetLeftUpPosition() const
+{
+	return Position(x - 1, y - 1);
+}
+
 Position Position::GetRandomNeighbourPosition() const
 {
-	switch ( rand() % 10 )
+	switch ( rand() % 4 )
 	{
 		case 0:
 			{

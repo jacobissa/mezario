@@ -6,6 +6,8 @@
 #include <vector>
 #include <Windows.h>
 
+#include "Gamma.h"
+#include "Beta.h"
 #include "Alpha.h"
 #include "Enemy.h"
 #include "Mezario.h"

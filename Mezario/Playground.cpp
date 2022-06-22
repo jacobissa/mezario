@@ -157,7 +157,25 @@ void Playground::Initialize()
 			{
 				// create the enemies
 				PositionPtr ptr_position_enemy = std::make_shared<Position>(x , y);
-				AlphaPtr ptr_enemy = std::make_shared<Alpha>(ptr_position_enemy);
+				EnemyPtr ptr_enemy;
+				switch ( rand() % 3 )
+				{
+					case 0:
+						{
+							ptr_enemy = std::make_shared<Alpha>(ptr_position_enemy);
+						}
+						break;
+					case 1:
+						{
+							ptr_enemy = std::make_shared<Beta>(ptr_position_enemy);
+						}
+						break;
+					case 2:
+						{
+							ptr_enemy = std::make_shared<Gamma>(ptr_position_enemy);
+						}
+						break;
+				}
 				mvec_enemy.emplace_back(ptr_enemy);
 				SetValue(ptr_position_cell , Cell::e_cell_blank);
 				mi_quantity_enemy--;
@@ -226,7 +244,8 @@ bool Playground::IsInBounds(const PositionPtr& ptr_position) const
 
 void Playground::UpdateEnemyMove(const EnemyPtr& ptr_enemy) const
 {
-	const PositionPtr ptr_position_enemy_next = ptr_enemy->GetNextPosition(mptr_player->GetCurrentPosition());
+
+	const PositionPtr ptr_position_enemy_next = ptr_enemy->GetNextPosition(mptr_player->GetCurrentPosition() , GetTimeCounter());
 	if ( ptr_position_enemy_next && !ptr_enemy->IsShotActive() && IsInBounds(ptr_position_enemy_next) )
 	{
 		// Move the enemy, only when it has no active shot.
@@ -279,6 +298,8 @@ void Playground::UpdateEnemyShot(const EnemyPtr& ptr_enemy)
 					case Cell::e_cell_enemy_beta:
 					case Cell::e_cell_enemy_gamma:
 					case Cell::e_cell_enemy_shot_alpha:
+					case Cell::e_cell_enemy_shot_beta:
+					case Cell::e_cell_enemy_shot_gamma:
 
 						{
 							// remove shot, if faced a wall or another enemy, or another enemy's shot
@@ -361,6 +382,8 @@ void Playground::UpdatePlayerShot()
 						}
 						break;
 					case Cell::e_cell_enemy_shot_alpha:
+					case Cell::e_cell_enemy_shot_beta:
+					case Cell::e_cell_enemy_shot_gamma:
 						{
 							// Player's shot faces an enemy's shot --> delete both shots
 							for ( const EnemyPtr& ptr_enemy : mvec_enemy )
@@ -487,6 +510,8 @@ void Playground::PrintCell(const HANDLE& h_console , const Cell e_cell)
 			}
 			break;
 		case Cell::e_cell_enemy_shot_alpha:
+		case Cell::e_cell_enemy_shot_beta:
+		case Cell::e_cell_enemy_shot_gamma:
 			{
 				SetConsoleTextAttribute(h_console , Color::e_color_light_red);
 				std::cout << e_cell;
@@ -508,3 +533,4 @@ int Playground::GetTimeCounter() const
 	const auto duration_time = std::chrono::duration_cast<std::chrono::duration<int>>( time_current - mtime_start ).count();
 	return duration_time;
 }
+

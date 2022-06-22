@@ -15,6 +15,7 @@ Cell Creature::GetCellCreature() const
 	return me_cell_creature;
 }
 
+
 Cell Creature::GetCellShot() const
 {
 	if ( mb_is_shot_active )
@@ -102,6 +103,26 @@ void Creature::UpdateShot()
 		{
 			mptr_position_shot_previous = mptr_position_shot_current;
 			mptr_position_shot_current = std::make_shared<Position>(mptr_position_shot_current->GetLeftPosition());
+		}
+		else if ( mptr_position_shot_current->Equals(mptr_position_shot_previous->GetRightUpPosition()) )
+		{
+			mptr_position_shot_previous = mptr_position_shot_current;
+			mptr_position_shot_current = std::make_shared<Position>(mptr_position_shot_current->GetRightUpPosition());
+		}
+		else if ( mptr_position_shot_current->Equals(mptr_position_shot_previous->GetRightDownPosition()) )
+		{
+			mptr_position_shot_previous = mptr_position_shot_current;
+			mptr_position_shot_current = std::make_shared<Position>(mptr_position_shot_current->GetRightDownPosition());
+		}
+		else if ( mptr_position_shot_current->Equals(mptr_position_shot_previous->GetLeftDownPosition()) )
+		{
+			mptr_position_shot_previous = mptr_position_shot_current;
+			mptr_position_shot_current = std::make_shared<Position>(mptr_position_shot_current->GetLeftDownPosition());
+		}
+		else if ( mptr_position_shot_current->Equals(mptr_position_shot_previous->GetLeftUpPosition()) )
+		{
+			mptr_position_shot_previous = mptr_position_shot_current;
+			mptr_position_shot_current = std::make_shared<Position>(mptr_position_shot_current->GetLeftUpPosition());
 		}
 	}
 }
