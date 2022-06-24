@@ -265,6 +265,8 @@ void Playground::UpdateEnemyShot(const EnemyPtr& ptr_enemy)
 	}
 	else
 	{
+		char enemy_type = ptr_enemy->GetEnemyType();
+
 		ptr_enemy->UpdateShot();
 
 		const PositionPtr ptr_position_shot_current = ptr_enemy->GetShotCurrentPosition();
@@ -281,7 +283,26 @@ void Playground::UpdateEnemyShot(const EnemyPtr& ptr_enemy)
 			{
 				// enemy's shot touched the player
 				ptr_enemy->StopShot();
-				mi_hearts--;
+				switch ( enemy_type )
+				{
+					case Cell::e_cell_enemy_alpha : 
+					case Cell::e_cell_enemy_beta :
+						{
+							mi_hearts--;
+						}
+						break;
+					case Cell::e_cell_enemy_gamma:
+						{
+							mi_hearts -= 2;
+						}
+						break;
+					case Cell::e_cell_enemy_delta:
+						{
+							mi_hearts = 0;
+						}
+						break;
+				}
+				
 			}
 			else if ( mptr_player->IsShotActive() && ptr_position_shot_current->Equals(mptr_player->GetShotCurrentPosition()->GetPosition()) )
 			{
@@ -300,6 +321,7 @@ void Playground::UpdateEnemyShot(const EnemyPtr& ptr_enemy)
 					case Cell::e_cell_enemy_shot_alpha:
 					case Cell::e_cell_enemy_shot_beta:
 					case Cell::e_cell_enemy_shot_gamma:
+					case Cell::e_cell_enemy_shot_delta:
 
 						{
 							// remove shot, if faced a wall or another enemy, or another enemy's shot
@@ -356,6 +378,7 @@ void Playground::UpdatePlayerShot()
 					case Cell::e_cell_enemy_alpha:
 					case Cell::e_cell_enemy_beta:
 					case Cell::e_cell_enemy_gamma:
+					case Cell::e_cell_enemy_delta:
 						{
 							// Player's Shot kills an enemy
 							mvec_enemy.erase(
@@ -384,6 +407,7 @@ void Playground::UpdatePlayerShot()
 					case Cell::e_cell_enemy_shot_alpha:
 					case Cell::e_cell_enemy_shot_beta:
 					case Cell::e_cell_enemy_shot_gamma:
+					case Cell::e_cell_enemy_shot_delta:
 						{
 							// Player's shot faces an enemy's shot --> delete both shots
 							for ( const EnemyPtr& ptr_enemy : mvec_enemy )
@@ -495,6 +519,7 @@ void Playground::PrintCell(const HANDLE& h_console , const Cell e_cell)
 		case Cell::e_cell_enemy_alpha:
 		case Cell::e_cell_enemy_beta:
 		case Cell::e_cell_enemy_gamma:
+		case Cell::e_cell_enemy_delta:
 			{
 				SetConsoleTextAttribute(h_console , Color::e_color_red);
 				std::cout << e_cell;
@@ -512,6 +537,8 @@ void Playground::PrintCell(const HANDLE& h_console , const Cell e_cell)
 		case Cell::e_cell_enemy_shot_alpha:
 		case Cell::e_cell_enemy_shot_beta:
 		case Cell::e_cell_enemy_shot_gamma:
+		case Cell::e_cell_enemy_shot_delta:
+
 			{
 				SetConsoleTextAttribute(h_console , Color::e_color_light_red);
 				std::cout << e_cell;

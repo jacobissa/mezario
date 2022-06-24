@@ -5,8 +5,7 @@
 #include "Position.h"
 #include "Enemy.h"
 
-class Gamma final :
-    public Enemy
+class Gamma final : public Enemy
 {
 public:
 	Gamma(const PositionPtr& ptr_position);
