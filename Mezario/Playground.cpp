@@ -306,6 +306,10 @@ void Playground::UpdateEnemyShot(const EnemyPtr& ptr_enemy)
 			}
 			else if ( mptr_player->IsShotActive() && ptr_position_shot_current->Equals(mptr_player->GetShotCurrentPosition()->GetPosition()) )
 			{
+				if ( ptr_enemy->GetEnemyType() == Cell::e_cell_enemy_gamma )
+				{
+					SetValue(ptr_position_shot_current, Cell::e_cell_obstacle);
+				}
 				// Enemy's shot faces the player's shot --> delete both shots
 				ptr_enemy->StopShot();
 				mptr_player->StopShot();
