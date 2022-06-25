@@ -13,6 +13,8 @@ public:
 public:
 	PositionPtr GetNextPosition(const PositionPtr& ptr_postion_player, const int i_time_counter) override;
 	void StartShot(const PositionPtr& ptr_position_player, const int i_time_counter) override;
+	const int time_for_explotion = rand() % 5;
+	int timer = 0;
 
 };
 using DeltaPtr = std::shared_ptr<Delta>;

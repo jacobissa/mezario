@@ -267,6 +267,26 @@ void Playground::UpdateEnemyShot(const EnemyPtr& ptr_enemy)
 	{
 		char enemy_type = ptr_enemy->GetEnemyType();
 
+		if ( ptr_enemy->GetEnemyType() == Cell::e_cell_enemy_delta )
+		{
+			std::vector<PositionPtr> ptr_position_shot_all = ptr_enemy->GetAllAroundPosition();
+			for( PositionPtr var : ptr_position_shot_all )
+			{
+				if ( GetValue(var) == Cell::e_cell_wall )
+				{
+					SetValue(var, Cell::e_cell_obstacle);
+				}
+				else
+				{
+					SetValue(var, Cell::e_cell_enemy_shot_delta);
+				}
+			}
+			SetValue(ptr_enemy->GetCurrentPosition(), Cell::e_cell_blank);
+		}
+		else
+		{
+
+		
 		ptr_enemy->UpdateShot();
 
 		const PositionPtr ptr_position_shot_current = ptr_enemy->GetShotCurrentPosition();
@@ -349,6 +369,7 @@ void Playground::UpdateEnemyShot(const EnemyPtr& ptr_enemy)
 			// remove shot, if faced a wall
 			ptr_enemy->StopShot();
 			SetValue(ptr_position_shot_previous , Cell::e_cell_blank);
+		}
 		}
 	}
 }
