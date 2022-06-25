@@ -158,7 +158,7 @@ void Playground::Initialize()
 				// create the enemies
 				PositionPtr ptr_position_enemy = std::make_shared<Position>(x , y);
 				EnemyPtr ptr_enemy;
-				switch ( rand() % 3 )
+				switch ( rand() % 4 )
 				{
 					case 0:
 						{
@@ -173,6 +173,10 @@ void Playground::Initialize()
 					case 2:
 						{
 							ptr_enemy = std::make_shared<Gamma>(ptr_position_enemy);
+						}
+					case 3:
+						{
+							ptr_enemy = std::make_shared<Delta>(ptr_position_enemy);
 						}
 						break;
 				}
@@ -276,6 +280,10 @@ void Playground::UpdateEnemyShot(const EnemyPtr& ptr_enemy)
 				{
 					SetValue(var, Cell::e_cell_obstacle);
 				}
+				else if( GetValue(var) == Cell::e_cell_player )
+				{
+					mi_hearts = 0;
+				}
 				else
 				{
 					SetValue(var, Cell::e_cell_enemy_shot_delta);
@@ -316,11 +324,6 @@ void Playground::UpdateEnemyShot(const EnemyPtr& ptr_enemy)
 							mi_hearts -= 2;
 						}
 						break;
-					case Cell::e_cell_enemy_delta:
-						{
-							mi_hearts = 0;
-						}
-						break;
 				}
 				
 			}
@@ -345,7 +348,6 @@ void Playground::UpdateEnemyShot(const EnemyPtr& ptr_enemy)
 					case Cell::e_cell_enemy_shot_alpha:
 					case Cell::e_cell_enemy_shot_beta:
 					case Cell::e_cell_enemy_shot_gamma:
-					case Cell::e_cell_enemy_shot_delta:
 
 						{
 							// remove shot, if faced a wall or another enemy, or another enemy's shot
