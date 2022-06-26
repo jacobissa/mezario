@@ -530,7 +530,7 @@ int Playground::GetTimeCounter() const
 		return 0;
 	}
 	const auto time_current = std::chrono::steady_clock::now();
-	const auto duration_time = std::chrono::duration_cast<std::chrono::duration<int>>( time_current - mtime_start ).count();
-	return duration_time;
+	const auto duration_time = std::chrono::duration_cast<std::chrono::seconds>( time_current - mtime_start ).count();
+	return static_cast<int>(duration_time);
 }
 
