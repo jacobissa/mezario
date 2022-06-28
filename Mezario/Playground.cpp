@@ -1,5 +1,6 @@
 #include "Playground.h"
 
+#include <cassert>
 #include <iostream>
 
 #include "Alpha.h"
@@ -232,9 +233,8 @@ char Playground::GetValue(const PositionPtr& ptr_position) const
 	{
 		return mptr_matrix[ptr_position->y][ptr_position->x];
 	}
-	std::cout << std::endl << std::endl << "Error: Invalid request to Playground::GetValue." << std::endl;
-	std::cout << "Position (" << ptr_position->x << " , " << ptr_position->y << ") ist out of bounds!" << std::endl;
-	std::exit(EXIT_FAILURE);
+	assert(!"Error: Invalid request to Playground::GetValue. Position is out of bounds!");
+	return {};
 }
 
 bool Playground::IsInBounds(const PositionPtr& ptr_position) const

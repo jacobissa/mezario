@@ -1,5 +1,6 @@
 #include "Creature.h"
 
+#include <cassert>
 #include <iostream>
 
 Creature::Creature(const PositionPtr& ptr_position , const Cell e_cell_creature , const CellShot s_cell_shot)
@@ -37,9 +38,8 @@ Cell Creature::GetCellShot() const
 			return ms_cell_shot.e_cell_shot_right;
 		}
 	}
-	std::cout << std::endl << std::endl << "Error: Invalid request to Creature::GetCellShot." << std::endl;
-	std::cout << "Make sure the shot is active, before calling this function!" << std::endl;
-	std::exit(EXIT_FAILURE);
+	assert(!"Error: Invalid request to Creature::GetCellShot. Make sure the shot is active, before calling this function!");
+	return {};
 }
 
 const PositionPtr& Creature::GetCurrentPosition()
