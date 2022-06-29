@@ -24,6 +24,13 @@ void ConsoleSettings(const HANDLE& h_console)
 	srand(static_cast<unsigned>( time(nullptr) ));
 }
 
+void PrintDateTime(const HANDLE& h_console)
+{
+	SetConsoleTextAttribute(h_console , Color::e_color_white);
+	const auto time_local = std::chrono::zoned_time(std::chrono::current_zone() , std::chrono::system_clock::now());
+	std::cout << std::format("\t{:%d.%m.%Y \t\t %H:%M:%OS}" , time_local) << std::endl << std::endl;
+}
+
 bool PlayGame(const HANDLE& h_console)
 {
 	constexpr int i_width = 50;
@@ -37,6 +44,9 @@ bool PlayGame(const HANDLE& h_console)
 	while ( true )
 	{
 		SetConsoleCursorPosition(h_console , { 0,0 });
+
+		PrintDateTime(h_console);
+
 		while ( _kbhit() )
 		{
 			const Action e_action = static_cast<Action>( _getch() );
