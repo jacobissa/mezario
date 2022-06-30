@@ -11,7 +11,7 @@ enum Cell : char
 	e_cell_coin = static_cast<char>( 248 ) ,
 	e_cell_enemy_alpha = static_cast<char>( 1 ) ,
 	e_cell_enemy_beta = static_cast<char>( 4 ) ,
-	e_cell_enemy_gamma = static_cast<char>( 19 ) ,
+	e_cell_enemy_gamma = static_cast<char>( 6 ) ,
 	e_cell_enemy_delta = static_cast<char>(5),
 	e_cell_player_shot_up = static_cast<char>( 30 ) ,
 	e_cell_player_shot_down = static_cast<char>( 31 ) ,
@@ -19,7 +19,7 @@ enum Cell : char
 	e_cell_player_shot_right = static_cast<char>( 16 ) ,
 	e_cell_enemy_shot_alpha = static_cast<char>( 42 ) ,
 	e_cell_enemy_shot_beta = static_cast<char>( 15 ) ,
-	e_cell_enemy_shot_gamma = static_cast<char>(207),
+	e_cell_enemy_shot_gamma = static_cast<char>(43),
 	e_cell_enemy_shot_delta= static_cast<char>(35),
 
 };
