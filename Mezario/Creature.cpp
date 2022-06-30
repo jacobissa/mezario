@@ -37,6 +37,7 @@ Cell Creature::GetCellShot() const
 		{
 			return ms_cell_shot.e_cell_shot_right;
 		}
+		return ms_cell_shot.e_cell_shot_up;
 	}
 	assert(!"Error: Invalid request to Creature::GetCellShot. Make sure the shot is active, before calling this function!");
 	return {};
