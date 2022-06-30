@@ -75,6 +75,20 @@ Position Position::GetLeftUpPosition() const
 	return Position(x - 1, y - 1);
 }
 
+std::vector<Position> Position::GetAllPosition() const
+{
+	std::vector<Position> all_position={};
+	all_position.emplace_back(Position(x, y + 1));
+	all_position.emplace_back(Position(x, y - 1)); 
+	all_position.emplace_back(Position(x - 1, y)); 
+	all_position.emplace_back(Position(x + 1, y)); 
+	all_position.emplace_back(Position(x - 1, y - 1)); 
+	all_position.emplace_back(Position(x + 1, y - 1)); 
+	all_position.emplace_back(Position(x - 1, y + 1)); 
+	all_position.emplace_back(Position(x + 1, y + 1)); 
+	return all_position;
+}
+
 Position Position::GetRandomNeighbourPosition() const
 {
 	switch ( rand() % 4 )

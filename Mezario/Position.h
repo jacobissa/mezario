@@ -2,6 +2,7 @@
 #define POSITION_H
 
 #include <memory>
+#include <vector>
 
 struct Position
 {
@@ -25,6 +26,7 @@ struct Position
 	Position GetLeftDownPosition() const;
 	Position GetLeftUpPosition() const;
 	Position GetRandomNeighbourPosition() const;
+	std::vector<Position> GetAllPosition() const;
 };
 using PositionPtr = std::shared_ptr<Position>;
 

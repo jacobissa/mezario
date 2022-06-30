@@ -159,7 +159,7 @@ void Playground::Initialize()
 				// create the enemies
 				PositionPtr ptr_position_enemy = std::make_shared<Position>(x , y);
 				EnemyPtr ptr_enemy;
-				switch ( rand() % 3 )
+				switch ( rand() % 4 )
 				{
 					case 0:
 						{
@@ -174,6 +174,11 @@ void Playground::Initialize()
 					case 2:
 						{
 							ptr_enemy = std::make_shared<Gamma>(ptr_position_enemy);
+						}
+						break;
+					case 3:
+						{
+							ptr_enemy = std::make_shared<Delta>(ptr_position_enemy);
 						}
 						break;
 				}
@@ -265,6 +270,32 @@ void Playground::UpdateEnemyShot(const EnemyPtr& ptr_enemy)
 	}
 	else
 	{
+		if ( const auto& ptr_delta = std::dynamic_pointer_cast<Delta>(ptr_enemy) )
+		{
+			if ( !ptr_delta->explosed )
+			{
+				std::vector<PositionPtr> ptr_position_shot_all = ptr_enemy->GetAllAroundPosition();
+				for ( PositionPtr var : ptr_position_shot_all )
+				{
+					if ( GetValue(var) == Cell::e_cell_wall )
+					{
+						SetValue(var, Cell::e_cell_obstacle);
+					}
+					else if ( GetValue(var) == Cell::e_cell_player )
+					{
+						mi_hearts = 0;
+					}
+					else
+					{
+						SetValue(var, Cell::e_cell_enemy_shot_delta);
+					}
+				}
+				SetValue(ptr_enemy->GetCurrentPosition(), Cell::e_cell_blank);
+				ptr_delta->explosed = true;
+			}
+		}
+		else
+		{
 		ptr_enemy->UpdateShot();
 
 		const PositionPtr ptr_position_shot_current = ptr_enemy->GetShotCurrentPosition();
@@ -281,10 +312,29 @@ void Playground::UpdateEnemyShot(const EnemyPtr& ptr_enemy)
 			{
 				// enemy's shot touched the player
 				ptr_enemy->StopShot();
-				mi_hearts--;
+				char enemy_type = ptr_enemy->GetEnemyType();
+				switch ( enemy_type )
+				{
+					case Cell::e_cell_enemy_alpha : 
+					case Cell::e_cell_enemy_beta :
+						{
+							mi_hearts--;
+						}
+						break;
+					case Cell::e_cell_enemy_gamma:
+						{
+							mi_hearts -= 2;
+						}
+						break;
+				}
+				
 			}
 			else if ( mptr_player->IsShotActive() && ptr_position_shot_current->Equals(mptr_player->GetShotCurrentPosition()->GetPosition()) )
 			{
+				if ( ptr_enemy->GetEnemyType() == Cell::e_cell_enemy_gamma )
+				{
+					SetValue(ptr_position_shot_current, Cell::e_cell_obstacle);
+				}
 				// Enemy's shot faces the player's shot --> delete both shots
 				ptr_enemy->StopShot();
 				mptr_player->StopShot();
@@ -297,10 +347,11 @@ void Playground::UpdateEnemyShot(const EnemyPtr& ptr_enemy)
 					case Cell::e_cell_enemy_alpha:
 					case Cell::e_cell_enemy_beta:
 					case Cell::e_cell_enemy_gamma:
+					case Cell::e_cell_enemy_delta:
 					case Cell::e_cell_enemy_shot_alpha:
 					case Cell::e_cell_enemy_shot_beta:
 					case Cell::e_cell_enemy_shot_gamma:
-
+					case Cell::e_cell_enemy_shot_delta:
 						{
 							// remove shot, if faced a wall or another enemy, or another enemy's shot
 							ptr_enemy->StopShot();
@@ -323,6 +374,7 @@ void Playground::UpdateEnemyShot(const EnemyPtr& ptr_enemy)
 			// remove shot, if faced a wall
 			ptr_enemy->StopShot();
 			SetValue(ptr_position_shot_previous , Cell::e_cell_blank);
+		}
 		}
 	}
 }
@@ -356,6 +408,7 @@ void Playground::UpdatePlayerShot()
 					case Cell::e_cell_enemy_alpha:
 					case Cell::e_cell_enemy_beta:
 					case Cell::e_cell_enemy_gamma:
+					case Cell::e_cell_enemy_delta:
 						{
 							// Player's Shot kills an enemy
 							mvec_enemy.erase(
@@ -399,6 +452,7 @@ void Playground::UpdatePlayerShot()
 						break;
 					case Cell::e_cell_obstacle:
 					case Cell::e_cell_heart:
+					case Cell::e_cell_enemy_shot_delta:
 						{
 							SetValue(ptr_position_shot_current , Cell::e_cell_blank);
 							mptr_player->StopShot();
@@ -495,6 +549,7 @@ void Playground::PrintCell(const HANDLE& h_console , const Cell e_cell)
 		case Cell::e_cell_enemy_alpha:
 		case Cell::e_cell_enemy_beta:
 		case Cell::e_cell_enemy_gamma:
+		case Cell::e_cell_enemy_delta:
 			{
 				SetConsoleTextAttribute(h_console , Color::e_color_red);
 				std::cout << e_cell;
@@ -512,6 +567,8 @@ void Playground::PrintCell(const HANDLE& h_console , const Cell e_cell)
 		case Cell::e_cell_enemy_shot_alpha:
 		case Cell::e_cell_enemy_shot_beta:
 		case Cell::e_cell_enemy_shot_gamma:
+		case Cell::e_cell_enemy_shot_delta:
+
 			{
 				SetConsoleTextAttribute(h_console , Color::e_color_light_red);
 				std::cout << e_cell;

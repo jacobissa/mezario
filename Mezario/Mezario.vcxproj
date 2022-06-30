@@ -131,6 +131,7 @@
     <ClCompile Include="Alpha.cpp" />
     <ClCompile Include="Beta.cpp" />
     <ClCompile Include="Creature.cpp" />
+    <ClCompile Include="Delta.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="Gamma.cpp" />
     <ClCompile Include="menu.cpp" />
@@ -143,6 +144,7 @@
     <ClInclude Include="Alpha.h" />
     <ClInclude Include="Beta.h" />
     <ClInclude Include="Creature.h" />
+    <ClInclude Include="Delta.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="Gamma.h" />
     <ClInclude Include="menu.h" />

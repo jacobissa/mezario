@@ -6,6 +6,7 @@
 #include <vector>
 #include <Windows.h>
 
+#include "Delta.h"
 #include "Gamma.h"
 #include "Beta.h"
 #include "Alpha.h"

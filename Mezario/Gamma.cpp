@@ -6,7 +6,7 @@ Gamma::Gamma(const PositionPtr& ptr_position) : Enemy(ptr_position, Cell::e_cell
 
 PositionPtr Gamma::GetNextPosition(const PositionPtr& ptr_position, const int i_timer_counter)
 {
-	return 	std::make_shared<Position>(mptr_position_current->GetPosition());
+	return 	std::make_shared<Position>(mptr_position_current->GetRandomNeighbourPosition());
 }
 
 void Gamma::StartShot(const PositionPtr& ptr_position, const int i_time_counter)
