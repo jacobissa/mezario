@@ -62,7 +62,7 @@ Options Menu::print_menu(const HANDLE& h_console) {
 
     int user_input;
     do {
-        user_input = getch();
+        user_input = _getch();
 
         if (user_input != KEY_UP && user_input != KEY_DOWN) {
             continue;
