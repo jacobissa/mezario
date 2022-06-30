@@ -15,6 +15,7 @@ public:
 	const Cell GetEnemyType();
 	std::vector <PositionPtr> GetAllAroundPosition() const;
 
+
 protected:
 	PositionPtr enemy_position;
 	Cell e_cell_enemy_type;

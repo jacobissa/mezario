@@ -174,6 +174,7 @@ void Playground::Initialize()
 						{
 							ptr_enemy = std::make_shared<Gamma>(ptr_position_enemy);
 						}
+						break;
 					case 3:
 						{
 							ptr_enemy = std::make_shared<Delta>(ptr_position_enemy);
@@ -269,32 +270,32 @@ void Playground::UpdateEnemyShot(const EnemyPtr& ptr_enemy)
 	}
 	else
 	{
-		char enemy_type = ptr_enemy->GetEnemyType();
-
-		if ( ptr_enemy->GetEnemyType() == Cell::e_cell_enemy_delta )
+		if ( const auto& ptr_delta = std::dynamic_pointer_cast<Delta>(ptr_enemy) )
 		{
-			std::vector<PositionPtr> ptr_position_shot_all = ptr_enemy->GetAllAroundPosition();
-			for( PositionPtr var : ptr_position_shot_all )
+			if ( !ptr_delta->explosed )
 			{
-				if ( GetValue(var) == Cell::e_cell_wall )
+				std::vector<PositionPtr> ptr_position_shot_all = ptr_enemy->GetAllAroundPosition();
+				for ( PositionPtr var : ptr_position_shot_all )
 				{
-					SetValue(var, Cell::e_cell_obstacle);
+					if ( GetValue(var) == Cell::e_cell_wall )
+					{
+						SetValue(var, Cell::e_cell_obstacle);
+					}
+					else if ( GetValue(var) == Cell::e_cell_player )
+					{
+						mi_hearts = 0;
+					}
+					else
+					{
+						SetValue(var, Cell::e_cell_enemy_shot_delta);
+					}
 				}
-				else if( GetValue(var) == Cell::e_cell_player )
-				{
-					mi_hearts = 0;
-				}
-				else
-				{
-					SetValue(var, Cell::e_cell_enemy_shot_delta);
-				}
+				SetValue(ptr_enemy->GetCurrentPosition(), Cell::e_cell_blank);
+				ptr_delta->explosed = true;
 			}
-			SetValue(ptr_enemy->GetCurrentPosition(), Cell::e_cell_blank);
 		}
 		else
 		{
-
-		
 		ptr_enemy->UpdateShot();
 
 		const PositionPtr ptr_position_shot_current = ptr_enemy->GetShotCurrentPosition();
@@ -311,6 +312,7 @@ void Playground::UpdateEnemyShot(const EnemyPtr& ptr_enemy)
 			{
 				// enemy's shot touched the player
 				ptr_enemy->StopShot();
+				char enemy_type = ptr_enemy->GetEnemyType();
 				switch ( enemy_type )
 				{
 					case Cell::e_cell_enemy_alpha : 
@@ -345,10 +347,11 @@ void Playground::UpdateEnemyShot(const EnemyPtr& ptr_enemy)
 					case Cell::e_cell_enemy_alpha:
 					case Cell::e_cell_enemy_beta:
 					case Cell::e_cell_enemy_gamma:
+					case Cell::e_cell_enemy_delta:
 					case Cell::e_cell_enemy_shot_alpha:
 					case Cell::e_cell_enemy_shot_beta:
 					case Cell::e_cell_enemy_shot_gamma:
-
+					case Cell::e_cell_enemy_shot_delta:
 						{
 							// remove shot, if faced a wall or another enemy, or another enemy's shot
 							ptr_enemy->StopShot();
@@ -434,7 +437,6 @@ void Playground::UpdatePlayerShot()
 					case Cell::e_cell_enemy_shot_alpha:
 					case Cell::e_cell_enemy_shot_beta:
 					case Cell::e_cell_enemy_shot_gamma:
-					case Cell::e_cell_enemy_shot_delta:
 						{
 							// Player's shot faces an enemy's shot --> delete both shots
 							for ( const EnemyPtr& ptr_enemy : mvec_enemy )
@@ -450,6 +452,7 @@ void Playground::UpdatePlayerShot()
 						break;
 					case Cell::e_cell_obstacle:
 					case Cell::e_cell_heart:
+					case Cell::e_cell_enemy_shot_delta:
 						{
 							SetValue(ptr_position_shot_current , Cell::e_cell_blank);
 							mptr_player->StopShot();
