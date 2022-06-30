@@ -77,15 +77,15 @@ Position Position::GetLeftUpPosition() const
 
 std::vector<Position> Position::GetAllPosition() const
 {
-	std::vector<Position> all_position={};
-	all_position.emplace_back(Position(x, y + 1));
-	all_position.emplace_back(Position(x, y - 1)); 
-	all_position.emplace_back(Position(x - 1, y)); 
-	all_position.emplace_back(Position(x + 1, y)); 
-	all_position.emplace_back(Position(x - 1, y - 1)); 
-	all_position.emplace_back(Position(x + 1, y - 1)); 
-	all_position.emplace_back(Position(x - 1, y + 1)); 
-	all_position.emplace_back(Position(x + 1, y + 1)); 
+	std::vector<Position> all_position;
+	all_position.emplace_back(GetUpPosition());
+	all_position.emplace_back(GetDownPosition()); 
+	all_position.emplace_back(GetRightPosition()); 
+	all_position.emplace_back(GetLeftPosition()); 
+	all_position.emplace_back(GetLeftUpPosition()); 
+	all_position.emplace_back(GetRightUpPosition()); 
+	all_position.emplace_back(GetLeftDownPosition()); 
+	all_position.emplace_back(GetRightDownPosition()); 
 	return all_position;
 }
 
