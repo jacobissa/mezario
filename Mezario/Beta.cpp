@@ -10,9 +10,9 @@ PositionPtr Beta::GetNextPosition(const PositionPtr& ptr_position_player, const 
 	const bool b_time_move = (i_time_counter - mi_time_last_move) > 0;
 	if ( b_player_is_near && b_time_move )
 	{
+		mi_time_last_move = i_time_counter;
 		if ( mptr_position_current->GetPosition().x < ptr_position_player->GetPosition().x 
-			&& mptr_position_current->GetPosition().y > ptr_position_player->GetPosition().y 
-			&& mptr_position_current->GetRightUpPosition().x != Cell::e_cell_wall )
+			&& mptr_position_current->GetPosition().y > ptr_position_player->GetPosition().y)
 		{
 			
 			return std::make_shared<Position>(mptr_position_current->GetRightUpPosition());
@@ -38,7 +38,7 @@ PositionPtr Beta::GetNextPosition(const PositionPtr& ptr_position_player, const 
 				return  std::make_shared<Position>(mptr_position_current->GetLeftUpPosition());
 			
 		}
-		mi_time_last_move = i_time_counter;
+		
 	}
 	return 	std::make_shared<Position>(mptr_position_current->GetPosition());
 }
