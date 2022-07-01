@@ -258,6 +258,10 @@ void Playground::UpdateEnemyMove(const EnemyPtr& ptr_enemy) const
 		{
 			ptr_enemy->MoveTo(ptr_position_enemy_next);
 		}
+		else if ( const auto& ptr_delta = std::dynamic_pointer_cast<Delta>(ptr_enemy) )
+		{
+			ptr_delta->get_another_position ++;
+		}
 	}
 }
 
@@ -359,8 +363,17 @@ void Playground::UpdateEnemyShot(const EnemyPtr& ptr_enemy)
 						break;
 					case Cell::e_cell_obstacle:
 					case Cell::e_cell_heart:
+					case Cell::e_cell_coin:
+
 						{
-							SetValue(ptr_position_shot_current , Cell::e_cell_blank);
+							if ( ptr_enemy->GetEnemyType() == Cell::e_cell_enemy_gamma )
+							{
+								SetValue(ptr_position_shot_current, Cell::e_cell_obstacle);
+							}
+							else
+							{
+								SetValue(ptr_position_shot_current, Cell::e_cell_blank);
+							}
 							ptr_enemy->StopShot();
 						}
 						break;

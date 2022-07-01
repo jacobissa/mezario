@@ -13,7 +13,8 @@ public:
 public:
 	PositionPtr GetNextPosition(const PositionPtr& ptr_postion_player, const int i_time_counter) override;
 	void StartShot(const PositionPtr& ptr_position_player, const int i_time_counter) override;
-	
+	int get_another_position = -1;
+
 };
 using AlphaPtr = std::shared_ptr<Alpha>;
 
