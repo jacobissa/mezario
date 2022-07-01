@@ -317,8 +317,7 @@ void Playground::UpdateEnemyShot(const EnemyPtr& ptr_enemy)
 			{
 				// enemy's shot touched the player
 				ptr_enemy->StopShot();
-				char enemy_type = ptr_enemy->GetEnemyType();
-				switch ( enemy_type )
+				switch ( ptr_enemy->GetEnemyType() )
 				{
 					case Cell::e_cell_enemy_alpha : 
 					case Cell::e_cell_enemy_beta :
