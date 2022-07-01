@@ -123,7 +123,7 @@ bool Playground::IsWin() const
 
 bool Playground::IsLose() const
 {
-	return mi_hearts == 0 || GetTimeCounter() >= mi_time_max;
+	return mi_hearts < 0 || GetTimeCounter() >= mi_time_max;
 }
 
 void Playground::Initialize()
