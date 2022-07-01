@@ -31,11 +31,12 @@ public:
 	int GetEnemies() const;
 	bool IsWin() const;
 	bool IsLose() const;
+	char GetValue(const PositionPtr& ptr_position) const;
+
 
 private:
 	void Initialize();
 	void SetValue(const PositionPtr& ptr_position , const Cell e_cell) const;
-	char GetValue(const PositionPtr& ptr_position) const;
 	bool IsInBounds(const PositionPtr& ptr_position) const;
 	void UpdateEnemyMove(const EnemyPtr& ptr_enemy) const;
 	void UpdateEnemyShot(const EnemyPtr& ptr_enemy);

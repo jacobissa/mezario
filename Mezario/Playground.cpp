@@ -72,14 +72,14 @@ void Playground::PlayerShot() const
 
 void Playground::UpdateCreatures()
 {
+	UpdatePlayerShot();
+	UpdateCreature(mptr_player);
 	for ( const EnemyPtr& ptr_enemy : mvec_enemy )
 	{
 		UpdateEnemyMove(ptr_enemy);
 		UpdateEnemyShot(ptr_enemy);
 		UpdateCreature(ptr_enemy);
 	}
-	UpdatePlayerShot();
-	UpdateCreature(mptr_player);
 }
 
 void Playground::PrintToConsole(const HANDLE& h_console) const
@@ -258,6 +258,11 @@ void Playground::UpdateEnemyMove(const EnemyPtr& ptr_enemy) const
 		{
 			ptr_enemy->MoveTo(ptr_position_enemy_next);
 		}
+		else if ( const auto& ptr_alpha = std::dynamic_pointer_cast<Alpha>(ptr_enemy) )
+		{
+			// try to move in other position when the next position is wall.
+			ptr_alpha->get_another_position ++;
+		}
 	}
 }
 
@@ -274,7 +279,7 @@ void Playground::UpdateEnemyShot(const EnemyPtr& ptr_enemy)
 		{
 			if ( !ptr_delta->explosed )
 			{
-				std::vector<PositionPtr> ptr_position_shot_all = ptr_enemy->GetAllAroundPosition();
+				std::vector<PositionPtr> ptr_position_shot_all = ptr_delta->GetAllAroundPosition();
 				for ( PositionPtr var : ptr_position_shot_all )
 				{
 					if ( GetValue(var) == Cell::e_cell_wall )
@@ -311,9 +316,7 @@ void Playground::UpdateEnemyShot(const EnemyPtr& ptr_enemy)
 			else if ( ptr_position_shot_current->Equals(mptr_player->GetCurrentPosition()->GetPosition()) )
 			{
 				// enemy's shot touched the player
-				ptr_enemy->StopShot();
-				char enemy_type = ptr_enemy->GetEnemyType();
-				switch ( enemy_type )
+				switch ( ptr_enemy->GetEnemyType() )
 				{
 					case Cell::e_cell_enemy_alpha : 
 					case Cell::e_cell_enemy_beta :
@@ -327,6 +330,9 @@ void Playground::UpdateEnemyShot(const EnemyPtr& ptr_enemy)
 						}
 						break;
 				}
+				SetValue(ptr_position_shot_previous , Cell::e_cell_blank);
+				SetValue(ptr_position_shot_current , Cell::e_cell_blank);
+				ptr_enemy->StopShot();
 				
 			}
 			else if ( mptr_player->IsShotActive() && ptr_position_shot_current->Equals(mptr_player->GetShotCurrentPosition()->GetPosition()) )
@@ -360,12 +366,20 @@ void Playground::UpdateEnemyShot(const EnemyPtr& ptr_enemy)
 						break;
 					case Cell::e_cell_obstacle:
 					case Cell::e_cell_heart:
+					case Cell::e_cell_coin:
+					default:
 						{
-							SetValue(ptr_position_shot_current , Cell::e_cell_blank);
+							if ( ptr_enemy->GetEnemyType() == Cell::e_cell_enemy_gamma )
+							{
+								SetValue(ptr_position_shot_current, Cell::e_cell_obstacle);
+							}
+							else
+							{
+								SetValue(ptr_position_shot_current, Cell::e_cell_blank);
+							}
 							ptr_enemy->StopShot();
 						}
 						break;
-					default:;
 				}
 			}
 			SetValue(ptr_position_shot_previous , Cell::e_cell_blank);

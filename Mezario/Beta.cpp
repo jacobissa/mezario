@@ -52,42 +52,42 @@ void Beta::StartShot(const PositionPtr& ptr_position_player, const int i_time_co
 		mb_is_shot_active = true;
 		if ( ptr_position_player->x == mptr_position_current->x && ptr_position_player->y < mptr_position_current->y )
 		{
-			mptr_position_shot_current = std::make_shared<Position>(mptr_position_current->GetPosition());
-			mptr_position_shot_previous = std::make_shared<Position>(mptr_position_current->GetDownPosition());
+			mptr_position_shot_current = std::make_shared<Position>(mptr_position_current->GetUpPosition());
+			mptr_position_shot_previous = std::make_shared<Position>(mptr_position_current->GetUpPosition());
 		}
 		else if ( ptr_position_player->x == mptr_position_current->x && ptr_position_player->y > mptr_position_current->y )
 		{
-			mptr_position_shot_current = std::make_shared<Position>(mptr_position_current->GetPosition());
-			mptr_position_shot_previous = std::make_shared<Position>(mptr_position_current->GetUpPosition());
+			mptr_position_shot_current = std::make_shared<Position>(mptr_position_current->GetDownPosition());
+			mptr_position_shot_previous = std::make_shared<Position>(mptr_position_current->GetDownPosition());
 		}
 		else if ( ptr_position_player->x < mptr_position_current->x && ptr_position_player->y == mptr_position_current->y )
 		{
-			mptr_position_shot_current = std::make_shared<Position>(mptr_position_current->GetPosition());
-			mptr_position_shot_previous = std::make_shared<Position>(mptr_position_current->GetRightPosition());
+			mptr_position_shot_current = std::make_shared<Position>(mptr_position_current->GetLeftPosition());
+			mptr_position_shot_previous = std::make_shared<Position>(mptr_position_current->GetLeftPosition());
 		}
 		else if ( ptr_position_player->x > mptr_position_current->x && ptr_position_player->y == mptr_position_current->y )
 		{
-			mptr_position_shot_current = std::make_shared<Position>(mptr_position_current->GetPosition());
-			mptr_position_shot_previous = std::make_shared<Position>(mptr_position_current->GetLeftPosition());
+			mptr_position_shot_current = std::make_shared<Position>(mptr_position_current->GetRightPosition());
+			mptr_position_shot_previous = std::make_shared<Position>(mptr_position_current->GetRightPosition());
 		}
 		else if ( ptr_position_player->x > mptr_position_current->x && ptr_position_player->y < mptr_position_current->y )
 		{
-			mptr_position_shot_current = std::make_shared<Position>(mptr_position_current->GetPosition());
+			mptr_position_shot_current = std::make_shared<Position>(mptr_position_current->GetRightUpPosition());
 			mptr_position_shot_previous = std::make_shared<Position>(mptr_position_previous->GetRightUpPosition());
 		}
 		else if ( ptr_position_player->x > mptr_position_current->x && ptr_position_player->y > mptr_position_current->y )
 		{
-			mptr_position_shot_current = std::make_shared<Position>(mptr_position_current->GetPosition());
+			mptr_position_shot_current = std::make_shared<Position>(mptr_position_current->GetRightDownPosition());
 			mptr_position_shot_previous = std::make_shared<Position>(mptr_position_previous->GetRightDownPosition());
 		}
 		else if ( ptr_position_player->x < mptr_position_current->x && ptr_position_player->y > mptr_position_current->y )
 		{
-			mptr_position_shot_current = std::make_shared<Position>(mptr_position_current->GetPosition());
+			mptr_position_shot_current = std::make_shared<Position>(mptr_position_current->GetLeftDownPosition());
 			mptr_position_shot_previous = std::make_shared<Position>(mptr_position_previous->GetLeftDownPosition());
 		}
 		else if ( ptr_position_player->x < mptr_position_current->x && ptr_position_player->y < mptr_position_current->y )
 		{
-			mptr_position_shot_current = std::make_shared<Position>(mptr_position_current->GetPosition());
+			mptr_position_shot_current = std::make_shared<Position>(mptr_position_current->GetLeftUpPosition());
 			mptr_position_shot_previous = std::make_shared<Position>(mptr_position_previous->GetLeftUpPosition());
 		}
 		else

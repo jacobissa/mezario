@@ -16,6 +16,7 @@ public:
 	int time_for_explotion = -1;
 	int timer = -1;
 	bool explosed = false;
+	std::vector <PositionPtr> GetAllAroundPosition() const;
 
 };
 using DeltaPtr = std::shared_ptr<Delta>;

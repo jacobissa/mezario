@@ -125,5 +125,6 @@ void Creature::UpdateShot()
 			mptr_position_shot_previous = mptr_position_shot_current;
 			mptr_position_shot_current = std::make_shared<Position>(mptr_position_shot_current->GetLeftUpPosition());
 		}
+
 	}
 }

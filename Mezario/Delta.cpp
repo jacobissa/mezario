@@ -32,3 +32,13 @@ void Delta::StartShot(const PositionPtr& ptr_position_player, const int i_time_c
 		mb_is_shot_active = false;
 	}
 }
+
+std::vector <PositionPtr> Delta::GetAllAroundPosition() const
+{
+	std::vector <PositionPtr> enemy_all_position;
+	for ( Position psn : enemy_position->GetAllPosition() )
+	{
+		enemy_all_position.emplace_back(std::make_shared<Position>(psn));
+	}
+	return enemy_all_position;
+}
