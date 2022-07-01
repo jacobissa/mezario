@@ -4,7 +4,8 @@
 enum Cell : char
 {
 	e_cell_blank = ' ' ,
-	e_cell_wall = static_cast<char>( 219 ) ,
+	e_cell_bound = static_cast<char>( 219 ) ,
+	e_cell_wall = static_cast<char>( 178 ) ,
 	e_cell_obstacle = static_cast<char>( 176 ) ,
 	e_cell_player = static_cast<char>( 2 ) ,
 	e_cell_heart = static_cast<char>( 3 ) ,
