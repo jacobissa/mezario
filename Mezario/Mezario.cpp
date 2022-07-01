@@ -43,8 +43,6 @@ bool PlayGame(const HANDLE& h_console)
 	bool b_start_play = false;
 	while ( true )
 	{
-		Sleep(15);
-
 		SetConsoleCursorPosition(h_console , { 0,0 });
 
 		PrintDateTime(h_console);
