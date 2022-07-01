@@ -151,8 +151,8 @@ void Playground::Initialize()
 			}
 			else if ( x == 0 || x == mi_width - 1 || y == 0 || y == mi_height - 1 )
 			{
-				// draw the walls on bounds
-				SetValue(ptr_position_cell , Cell::e_cell_wall);
+				// draw the bounds on bounds
+				SetValue(ptr_position_cell , Cell::e_cell_bound);
 			}
 			else if ( i_counter % i_enemy_position == i_probability_enemy_position && mi_quantity_enemy > 0 )
 			{
@@ -290,7 +290,7 @@ void Playground::UpdateEnemyShot(const EnemyPtr& ptr_enemy)
 					{
 						mi_hearts = 0;
 					}
-					else
+					else if ( GetValue(var) != Cell::e_cell_bound )
 					{
 						SetValue(var, Cell::e_cell_enemy_shot_delta);
 					}
@@ -348,6 +348,7 @@ void Playground::UpdateEnemyShot(const EnemyPtr& ptr_enemy)
 			{
 				switch ( GetValue(ptr_position_shot_current) )
 				{
+					case Cell::e_cell_bound:
 					case Cell::e_cell_wall:
 					case Cell::e_cell_enemy_alpha:
 					case Cell::e_cell_enemy_beta:
@@ -383,12 +384,6 @@ void Playground::UpdateEnemyShot(const EnemyPtr& ptr_enemy)
 			}
 			SetValue(ptr_position_shot_previous , Cell::e_cell_blank);
 		}
-		if ( ptr_position_shot_current && IsInBounds(ptr_position_shot_current) && GetValue(ptr_position_shot_current) == Cell::e_cell_wall )
-		{
-			// remove shot, if faced a wall
-			ptr_enemy->StopShot();
-			SetValue(ptr_position_shot_previous , Cell::e_cell_blank);
-		}
 		}
 	}
 }
@@ -413,6 +408,7 @@ void Playground::UpdatePlayerShot()
 			{
 				switch ( GetValue(ptr_position_shot_current) )
 				{
+					case Cell::e_cell_bound:
 					case Cell::e_cell_wall:
 						{
 							// remove shot, if faced a wall
@@ -530,6 +526,7 @@ void Playground::PrintCell(const HANDLE& h_console , const Cell e_cell)
 				std::cout << e_cell;
 			}
 			break;
+		case Cell::e_cell_bound:
 		case Cell::e_cell_wall:
 			{
 				SetConsoleTextAttribute(h_console , Color::e_color_brown);
