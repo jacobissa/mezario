@@ -251,7 +251,7 @@ void Playground::UpdateEnemyMove(const EnemyPtr& ptr_enemy) const
 {
 
 	const PositionPtr ptr_position_enemy_next = ptr_enemy->GetNextPosition(mptr_player->GetCurrentPosition() , GetTimeCounter());
-	if ( ptr_position_enemy_next && !ptr_enemy->IsShotActive() && IsInBounds(ptr_position_enemy_next) )
+	if ( ptr_position_enemy_next && IsInBounds(ptr_position_enemy_next) )
 	{
 		// Move the enemy, only when it has no active shot.
 		if ( GetValue(ptr_position_enemy_next) == Cell::e_cell_blank || GetValue(ptr_position_enemy_next) == Cell::e_cell_heart || GetValue(ptr_position_enemy_next) == Cell::e_cell_coin )
