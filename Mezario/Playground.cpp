@@ -316,7 +316,6 @@ void Playground::UpdateEnemyShot(const EnemyPtr& ptr_enemy)
 			else if ( ptr_position_shot_current->Equals(mptr_player->GetCurrentPosition()->GetPosition()) )
 			{
 				// enemy's shot touched the player
-				ptr_enemy->StopShot();
 				switch ( ptr_enemy->GetEnemyType() )
 				{
 					case Cell::e_cell_enemy_alpha : 
@@ -331,6 +330,9 @@ void Playground::UpdateEnemyShot(const EnemyPtr& ptr_enemy)
 						}
 						break;
 				}
+				SetValue(ptr_position_shot_previous , Cell::e_cell_blank);
+				SetValue(ptr_position_shot_current , Cell::e_cell_blank);
+				ptr_enemy->StopShot();
 				
 			}
 			else if ( mptr_player->IsShotActive() && ptr_position_shot_current->Equals(mptr_player->GetShotCurrentPosition()->GetPosition()) )
@@ -365,7 +367,6 @@ void Playground::UpdateEnemyShot(const EnemyPtr& ptr_enemy)
 					case Cell::e_cell_obstacle:
 					case Cell::e_cell_heart:
 					case Cell::e_cell_coin:
-
 						{
 							if ( ptr_enemy->GetEnemyType() == Cell::e_cell_enemy_gamma )
 							{
