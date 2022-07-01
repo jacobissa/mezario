@@ -159,7 +159,7 @@ void Playground::Initialize()
 				// create the enemies
 				PositionPtr ptr_position_enemy = std::make_shared<Position>(x , y);
 				EnemyPtr ptr_enemy;
-				switch ( rand() % 4 )
+				switch ( mi_quantity_enemy % 4 )
 				{
 					case 0:
 						{
