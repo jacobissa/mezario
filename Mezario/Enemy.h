@@ -13,7 +13,7 @@ public:
 	virtual PositionPtr GetNextPosition(const PositionPtr& ptr_position_player, const int i_time_counter) = 0;
 	virtual void StartShot(const PositionPtr& ptr_position_player, const int i_time_counter) = 0;
 	const Cell GetEnemyType();
-	std::vector <PositionPtr> GetAllAroundPosition() const;
+	
 
 
 protected:

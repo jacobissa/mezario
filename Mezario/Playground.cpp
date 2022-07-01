@@ -258,9 +258,10 @@ void Playground::UpdateEnemyMove(const EnemyPtr& ptr_enemy) const
 		{
 			ptr_enemy->MoveTo(ptr_position_enemy_next);
 		}
-		else if ( const auto& ptr_delta = std::dynamic_pointer_cast<Delta>(ptr_enemy) )
+		else if ( const auto& ptr_alpha = std::dynamic_pointer_cast<Alpha>(ptr_enemy) )
 		{
-			ptr_delta->get_another_position ++;
+			// try to move in other position when the next position is wall.
+			ptr_alpha->get_another_position ++;
 		}
 	}
 }
@@ -278,7 +279,7 @@ void Playground::UpdateEnemyShot(const EnemyPtr& ptr_enemy)
 		{
 			if ( !ptr_delta->explosed )
 			{
-				std::vector<PositionPtr> ptr_position_shot_all = ptr_enemy->GetAllAroundPosition();
+				std::vector<PositionPtr> ptr_position_shot_all = ptr_delta->GetAllAroundPosition();
 				for ( PositionPtr var : ptr_position_shot_all )
 				{
 					if ( GetValue(var) == Cell::e_cell_wall )
