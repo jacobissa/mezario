@@ -367,6 +367,7 @@ void Playground::UpdateEnemyShot(const EnemyPtr& ptr_enemy)
 					case Cell::e_cell_obstacle:
 					case Cell::e_cell_heart:
 					case Cell::e_cell_coin:
+					default:
 						{
 							if ( ptr_enemy->GetEnemyType() == Cell::e_cell_enemy_gamma )
 							{
@@ -379,7 +380,6 @@ void Playground::UpdateEnemyShot(const EnemyPtr& ptr_enemy)
 							ptr_enemy->StopShot();
 						}
 						break;
-					default:;
 				}
 			}
 			SetValue(ptr_position_shot_previous , Cell::e_cell_blank);
