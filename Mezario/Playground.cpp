@@ -72,14 +72,14 @@ void Playground::PlayerShot() const
 
 void Playground::UpdateCreatures()
 {
+	UpdatePlayerShot();
+	UpdateCreature(mptr_player);
 	for ( const EnemyPtr& ptr_enemy : mvec_enemy )
 	{
 		UpdateEnemyMove(ptr_enemy);
 		UpdateEnemyShot(ptr_enemy);
 		UpdateCreature(ptr_enemy);
 	}
-	UpdatePlayerShot();
-	UpdateCreature(mptr_player);
 }
 
 void Playground::PrintToConsole(const HANDLE& h_console) const
