@@ -103,7 +103,7 @@ int Playground::GetTimeLeft() const
 
 int Playground::GetHearts() const
 {
-	return mi_hearts;
+	return (mi_hearts < 0) ? 0 : mi_hearts;
 }
 
 int Playground::GetCoins() const
@@ -123,7 +123,7 @@ bool Playground::IsWin() const
 
 bool Playground::IsLose() const
 {
-	return mi_hearts < 0 || GetTimeCounter() >= mi_time_max;
+	return mi_hearts <= 0 || GetTimeCounter() >= mi_time_max;
 }
 
 void Playground::Initialize()
