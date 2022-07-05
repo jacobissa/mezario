@@ -5,7 +5,7 @@
 #include <iostream>
 #include <conio.h>
 
-int Menu::currently_selected[] = {1, 0};
+int Menu::currently_selected[] = {1, 0, 0};
 
 void Menu::print_menu_option(const HANDLE& h_console, std::string option, bool is_selected) {
     if (is_selected) {
@@ -22,10 +22,18 @@ void Menu::print_menu_option(const HANDLE& h_console, std::string option, bool i
 void Menu::cycle(int user_input) {
     if (currently_selected[0] == 1) {
         currently_selected[0] = 0;
-        currently_selected[1] = 1;
-    } else if (currently_selected[1] == 1) {
-        currently_selected[0] = 1;
+        currently_selected[1] = (user_input == KEY_DOWN) ? 1 : 0;
+        currently_selected[2] = (user_input == KEY_UP) ? 1 : 0;
+    }
+    else if (currently_selected[1] == 1) {
+        currently_selected[0] = (user_input == KEY_UP) ? 1 : 0;
         currently_selected[1] = 0;
+        currently_selected[2] = (user_input == KEY_DOWN) ? 1 : 0;
+    }
+    else { // [2] == 1
+        currently_selected[0] = (user_input == KEY_DOWN) ? 1 : 0;
+        currently_selected[1] = (user_input == KEY_UP) ? 1 : 0;
+        currently_selected[2] = 0;
     }
 }
 
@@ -46,13 +54,23 @@ void Menu::draw(const HANDLE& h_console) {
 
         // new player does not have a highscore yet
         file.write_file(PLAYER_HIGHSCORE, "0");
+        file.write_file(PLAYER_LEVEL, "1");
     }
 
     system("cls");
     std::cout << "Welcome to Mezario, " << file.get_name_of_player() << "!\n\n";
 
-    print_menu_option(h_console, "Play Mezario", currently_selected[0]);
-    print_menu_option(h_console, "Exit", currently_selected[1]);
+    int current_level = file.get_current_level();
+    
+    if (current_level == 1) {
+        print_menu_option(h_console, "Play Mezario", currently_selected[0]);
+    } else {
+        std::string option = std::string("Continue playing on level ").append(std::to_string(current_level));
+        print_menu_option(h_console, option, currently_selected[0]);
+    }
+
+    print_menu_option(h_console, "Level Select", currently_selected[1]);
+    print_menu_option(h_console, "Exit", currently_selected[2]);
 
     SetConsoleTextAttribute(h_console, Color::e_color_cyan);
     std::cout << "\n\nYour highscore: " << file.get_highscore_of_player();
@@ -63,6 +81,8 @@ Options Menu::evaluate_player_input() {
 
     if (currently_selected[0] == 1) {
         return PLAY_GAME;
+    } else if (currently_selected[1] == 2) {
+        return LEVEL_SELECT;
     }
 
     return EXIT;

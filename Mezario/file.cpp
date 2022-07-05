@@ -43,9 +43,37 @@ void File::write_file(const FILE_OPTIONS key, std::string value)
 		information << "player.name:";
 	} else if (key == PLAYER_HIGHSCORE) {
 		information << "player.highscore:";
+	} else if (key == PLAYER_LEVEL) {
+		information << "player.level:";
 	}
 
 	information << value << "\n";
+}
+
+void File::update_key(const std::string key, const std::string value) {
+	std::ifstream information(this->filepath);
+
+	std::ofstream information_new;
+	information_new.open("info.mezario.tmp", std::ios_base::app);
+
+	for (std::string line; getline(information, line); )
+	{
+		std::string delimiter = ":";
+		std::string search = line.substr(0, line.find(delimiter));
+
+		if (key != search) {
+			information_new << line << "\n";
+		}
+		else {
+			information_new << key << ":" << value << "\n";
+		}
+	}
+
+	information.close();
+	std::remove("info.mezario");
+
+	information_new.close();
+	rename("info.mezario.tmp", "info.mezario");
 }
 
 void File::update_highscore(std::string new_highscore)
@@ -58,29 +86,16 @@ void File::update_highscore(std::string new_highscore)
 		return;
 	}
 
-	std::ifstream information(this->filepath);
+	update_key("player.highscore", new_highscore);
+}
 
-	std::ofstream information_new;
-	information_new.open("info.mezario.tmp", std::ios_base::app);
-
-	for (std::string line; getline(information, line); )
-	{
-		std::string delimiter = ":";
-		std::string key = line.substr(0, line.find(delimiter));
-
-		if (key != "player.highscore") {
-			information_new << line << "\n";
-		}
-		else {
-			information_new << "player.highscore:" << new_highscore << "\n";
-		}
+void File::update_level(int new_level)
+{
+	if (new_level < 1 || new_level > 5) {
+		return;
 	}
 
-	information.close();
-	std::remove("info.mezario");
-
-	information_new.close();
-	rename("info.mezario.tmp", "info.mezario");
+	update_key("player.level", std::to_string(new_level));
 }
 
 bool File::file_exists()
@@ -103,4 +118,9 @@ std::string File::get_name_of_player() {
 std::string File::get_highscore_of_player() {
 	std::string saved = read_file("player.highscore");
 	return tidy(saved);
+}
+
+int File::get_current_level() {
+	std::string saved = read_file("player.level");
+	return std::stoi(tidy(saved));
 }

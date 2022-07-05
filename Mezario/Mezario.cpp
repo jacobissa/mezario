@@ -80,11 +80,15 @@ bool PlayGame(const HANDLE& h_console)
 		std::cout << "\tHEARTS:  " << ptr_playground->GetHearts() << "   " << std::endl;
 		std::cout << "\tENEMIES: " << ptr_playground->GetEnemies() << "   " << std::endl;
 		std::cout << "\tHIGHSCORE: " << file.get_highscore_of_player() << "   " << "\n";
+		std::cout << "\tCURRENT LEVEL: " << file.get_current_level() << "   " << "\n";
 
 		if (ptr_playground->IsWin() || ptr_playground->IsLose()) {
 			file.update_highscore(std::to_string(ptr_playground->GetCoins()));
 
 			if (ptr_playground->IsWin()) {
+				int current_level = file.get_current_level();
+				file.update_level(current_level + 1);
+
 				return true;
 			}
 
