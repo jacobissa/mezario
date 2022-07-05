@@ -133,6 +133,7 @@
     <ClCompile Include="Creature.cpp" />
     <ClCompile Include="Delta.cpp" />
     <ClCompile Include="Enemy.cpp" />
+    <ClCompile Include="file.cpp" />
     <ClCompile Include="Gamma.cpp" />
     <ClCompile Include="menu.cpp" />
     <ClCompile Include="Mezario.cpp" />
@@ -146,6 +147,7 @@
     <ClInclude Include="Creature.h" />
     <ClInclude Include="Delta.h" />
     <ClInclude Include="Enemy.h" />
+    <ClInclude Include="file.h" />
     <ClInclude Include="Gamma.h" />
     <ClInclude Include="menu.h" />
     <ClInclude Include="Mezario.h" />
