@@ -35,10 +35,6 @@ PositionPtr Alpha::GetNextPosition(const PositionPtr& ptr_position_player, const
 		{
 			return  std::make_shared<Position>(mptr_position_current->GetUpPosition());
 		}
-		else
-		{
-			return  std::make_shared<Position>(mptr_position_current->GetPosition());
-		}
 	}
 	return 	std::make_shared<Position>(mptr_position_current->GetPosition());
 }
