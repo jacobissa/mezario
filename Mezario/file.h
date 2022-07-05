@@ -17,6 +17,6 @@ public:
 	std::string get_highscore_of_player();
 
 	void write_file(const FILE_OPTIONS key, std::string value);
+	void update_highscore(std::string new_highscore);
 	bool file_exists();
-
 };

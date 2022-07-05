@@ -48,6 +48,34 @@ void File::write_file(const FILE_OPTIONS key, std::string value)
 	information << value << "\n";
 }
 
+void File::update_highscore(std::string new_highscore)
+{
+	std::ifstream information(this->filepath);
+
+	std::ofstream information_new;
+	information_new.open("info.mezario.tmp", std::ios_base::app);
+
+	for (std::string line; getline(information, line); )
+	{
+		std::string delimiter = ":";
+		std::string key = line.substr(0, line.find(delimiter));
+
+		if (key != "player.highscore") {
+			information_new << line << "\n";
+		}
+		else {
+			information_new << "player.highscore:" << new_highscore << "\n";
+		}
+	}
+
+	information.close();
+	std::remove("info.mezario");
+
+	information_new.close();
+	rename("info.mezario.tmp", "info.mezario");
+
+}
+
 bool File::file_exists()
 {
 	std::ifstream infile(this->filepath);
