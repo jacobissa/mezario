@@ -28,7 +28,8 @@ void ConsoleSettings(const HANDLE& h_console)
 void PrintDateTime(const HANDLE& h_console)
 {
 	SetConsoleTextAttribute(h_console , Color::e_color_white);
-	const auto time_local = std::chrono::zoned_time(std::chrono::current_zone() , std::chrono::system_clock::now());
+	const std::chrono::time_point time_universal = std::chrono::system_clock::now();
+	const auto time_local = std::chrono::zoned_time(std::chrono::current_zone() , time_universal);
 	std::cout << std::format("\t{:%d.%m.%Y \t\t %H:%M:%OS}" , time_local) << std::endl << std::endl;
 }
 
