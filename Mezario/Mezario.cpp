@@ -142,7 +142,6 @@ int main()
 
     bool b_play_game = false;
 
-    // TODO: include OPTIONS
     Options player_choice = Menu::print_menu(h_console);
     if (player_choice == PLAY_GAME) {
         b_play_game = true;

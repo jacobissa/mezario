@@ -4,7 +4,7 @@
 #include <iostream>
 #include <conio.h>
 
-int Menu::currently_selected[] = {1, 0, 0};
+int Menu::currently_selected[] = {1, 0};
 
 void Menu::print_menu_option(const HANDLE& h_console, std::string option, bool is_selected) {
     if (is_selected) {
@@ -21,16 +21,10 @@ void Menu::print_menu_option(const HANDLE& h_console, std::string option, bool i
 void Menu::cycle(int user_input) {
     if (currently_selected[0] == 1) {
         currently_selected[0] = 0;
-        currently_selected[1] = (user_input == KEY_DOWN) ? 1 : 0;
-        currently_selected[2] = (user_input == KEY_UP) ? 1 : 0;
+        currently_selected[1] = 1;
     } else if (currently_selected[1] == 1) {
-        currently_selected[0] = (user_input == KEY_UP) ? 1 : 0;
+        currently_selected[0] = 1;
         currently_selected[1] = 0;
-        currently_selected[2] = (user_input == KEY_DOWN) ? 1 : 0;
-    } else { // [2] == 1
-        currently_selected[0] = (user_input == KEY_DOWN) ? 1 : 0;
-        currently_selected[1] = (user_input == KEY_UP) ? 1 : 0;
-        currently_selected[2] = 0;
     }
 }
 
@@ -40,8 +34,7 @@ void Menu::draw(const HANDLE& h_console) {
     std::cout << "Welcome to Mezario!\n\n";
 
     print_menu_option(h_console, "Play Mezario", currently_selected[0]);
-    print_menu_option(h_console, "Options", currently_selected[1]);
-    print_menu_option(h_console, "Exit", currently_selected[2]);
+    print_menu_option(h_console, "Exit", currently_selected[1]);
 }
 
 Options Menu::evaluate_player_input() {
@@ -49,8 +42,6 @@ Options Menu::evaluate_player_input() {
 
     if (currently_selected[0] == 1) {
         return PLAY_GAME;
-    } else if (currently_selected[1] == 1) {
-        return OPTIONS;
     }
 
     return EXIT;
