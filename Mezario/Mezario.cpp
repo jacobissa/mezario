@@ -34,16 +34,22 @@ void PrintDateTime(const HANDLE& h_console)
 
 bool PlayGame(const HANDLE& h_console)
 {
+	File file("info.mezario");
+
 	constexpr int i_width = 50;
 	constexpr int i_height = 25;
 	constexpr int i_hearts = 5;
 	constexpr int i_probability_wall = 20;
-	constexpr int i_quantity_enemy = 16;
 	constexpr int i_time_max = 90;
+
+	int i_quantity_enemy = 16 * file.get_current_level() / 2;
+
 	const PlaygroundPtr ptr_playground = std::make_shared<Playground>(i_height , i_width , i_hearts , i_probability_wall , i_quantity_enemy , i_time_max);
 	bool b_start_play = false;
+	
 	while ( true )
 	{
+
 		SetConsoleCursorPosition(h_console , { 0,0 });
 
 		PrintDateTime(h_console);
@@ -73,7 +79,6 @@ bool PlayGame(const HANDLE& h_console)
 		ptr_playground->UpdateCreatures();
 		ptr_playground->PrintToConsole(h_console);
 
-		File file("info.mezario");
 
         std::cout << "\tTIME:    " << ptr_playground->GetTimeLeft() << "   " << std::endl;
 		std::cout << "\tCOINS:   " << ptr_playground->GetCoins() << "   " << std::endl;
