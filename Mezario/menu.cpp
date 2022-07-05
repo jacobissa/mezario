@@ -76,12 +76,32 @@ void Menu::draw(const HANDLE& h_console) {
     std::cout << "\n\nYour highscore: " << file.get_highscore_of_player();
 }
 
+void Menu::draw_lvl_select(const HANDLE& h_console, const int selected_lvl)
+{
+    system("cls");
+    File file("info.mezario");
+
+    SetConsoleTextAttribute(h_console, Color::e_color_yellow);
+
+
+    std::cout << file.get_name_of_player() << "... choose a level you want to play!\n";
+    std::cout << "You can only play levels you already completed.\n\n";
+
+    print_menu_option(h_console, "Level 1", selected_lvl == 1);
+    print_menu_option(h_console, "Level 2", selected_lvl == 2);
+    print_menu_option(h_console, "Level 3", selected_lvl == 3);
+    print_menu_option(h_console, "Level 4", selected_lvl == 4);
+    print_menu_option(h_console, "Level 5", selected_lvl == 5);
+
+    std::cout << "\n\nConfirm your choice with (ENTER).\n";
+}
+
 Options Menu::evaluate_player_input() {
     system("cls");
 
     if (currently_selected[0] == 1) {
         return PLAY_GAME;
-    } else if (currently_selected[1] == 2) {
+    } else if (currently_selected[1] == 1) {
         return LEVEL_SELECT;
     }
 
@@ -89,6 +109,8 @@ Options Menu::evaluate_player_input() {
 }
 
 Options Menu::print_menu(const HANDLE& h_console) {
+    File file("info.mezario");
+
     // Initial draw
     draw(h_console);
 
@@ -104,5 +126,30 @@ Options Menu::print_menu(const HANDLE& h_console) {
         draw(h_console);
     } while(user_input != ENTER);
 
-    return evaluate_player_input();
+    Options player_choice = evaluate_player_input();
+
+    if (player_choice == LEVEL_SELECT) {
+        draw_lvl_select(h_console, file.get_current_level());
+
+        int user_input;
+        int lvl;
+        do {
+            user_input = _getch();
+            
+            if (user_input <= 0 + 48 || user_input > 6 + 48) {
+                continue;
+            } else {
+                lvl = user_input - 48;
+            }
+
+            draw_lvl_select(h_console, user_input - 48);
+        } while (user_input != ENTER);
+
+        file.update_level(lvl);
+        system("cls");
+
+        return PLAY_GAME;
+    }
+
+    return player_choice;
 }

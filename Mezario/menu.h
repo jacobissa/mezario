@@ -17,8 +17,10 @@ class Menu
 private:
      static int currently_selected[];
      static void print_menu_option(const HANDLE& h_console, std::string option,  bool is_selected);
+
      static void cycle(int user_input);
      static void draw(const HANDLE& h_console);
+     static void draw_lvl_select(const HANDLE& h_console, int selected_lvl);
      static Options evaluate_player_input();
 
 public:

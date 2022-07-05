@@ -164,7 +164,7 @@ int main()
     Options player_choice = Menu::print_menu(h_console);
     if (player_choice == PLAY_GAME) {
         b_play_game = true;
-    } else if (player_choice == EXIT) {
+	} else if (player_choice == EXIT) {
         return 0; // exit program on users behalve
     }
 
