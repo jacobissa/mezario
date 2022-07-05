@@ -85,7 +85,8 @@ void Menu::draw_lvl_select(const HANDLE& h_console, const int selected_lvl)
     SetConsoleTextAttribute(h_console, Color::e_color_yellow);
 
     std::cout << file.get_name_of_player() << "... choose a level you want to play!\n";
-    std::cout << "You can only play levels you already completed.\n\n";
+    std::cout << "You can only play levels you already completed.\n";
+    std::cout << "Choose with the corresponding number on your keyboard.\n\n";
 
     for (int i = 1; i <= 5; i++) {
         if (i > file.get_reached_level()) {
@@ -151,6 +152,7 @@ Options Menu::print_menu(const HANDLE& h_console) {
         file.update_level(lvl);
         system("cls");
 
+        // want to play after level select
         return PLAY_GAME;
     }
 
