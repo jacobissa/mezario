@@ -136,7 +136,7 @@ Options Menu::print_menu(const HANDLE& h_console) {
         draw_lvl_select(h_console, file.get_current_level());
 
         int user_input;
-        int lvl;
+        int lvl{};
         do {
             user_input = _getch();
             
