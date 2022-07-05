@@ -50,6 +50,14 @@ void File::write_file(const FILE_OPTIONS key, std::string value)
 
 void File::update_highscore(std::string new_highscore)
 {
+	int current_highscore = std::stoi(get_highscore_of_player());
+	int new_highscore_int = std::stoi(new_highscore);
+
+	if (current_highscore >= new_highscore_int) {
+		// no updating the highscore if it is not a HIGHscore ;)
+		return;
+	}
+
 	std::ifstream information(this->filepath);
 
 	std::ofstream information_new;
@@ -73,7 +81,6 @@ void File::update_highscore(std::string new_highscore)
 
 	information_new.close();
 	rename("info.mezario.tmp", "info.mezario");
-
 }
 
 bool File::file_exists()
