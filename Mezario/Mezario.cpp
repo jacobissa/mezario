@@ -35,16 +35,22 @@ void PrintDateTime(const HANDLE& h_console)
 
 bool PlayGame(const HANDLE& h_console)
 {
+	File file("info.mezario");
+
 	constexpr int i_width = 50;
 	constexpr int i_height = 25;
 	constexpr int i_hearts = 5;
 	constexpr int i_probability_wall = 20;
-	constexpr int i_quantity_enemy = 16;
 	constexpr int i_time_max = 90;
+
+	const int i_quantity_enemy = 6 * file.get_current_level();
+
 	const PlaygroundPtr ptr_playground = std::make_shared<Playground>(i_height , i_width , i_hearts , i_probability_wall , i_quantity_enemy , i_time_max);
 	bool b_start_play = false;
+	
 	while ( true )
 	{
+
 		SetConsoleCursorPosition(h_console , { 0,0 });
 
 		PrintDateTime(h_console);
@@ -74,19 +80,23 @@ bool PlayGame(const HANDLE& h_console)
 		ptr_playground->UpdateCreatures();
 		ptr_playground->PrintToConsole(h_console);
 
-		File file("info.mezario");
-
 		SetConsoleTextAttribute(h_console , Color::e_color_white);
-		std::cout << "\tTIME:      " << ptr_playground->GetTimeLeft() << "   " << std::endl;
-		std::cout << "\tCOINS:     " << ptr_playground->GetCoins() << "   " << std::endl;
-		std::cout << "\tHEARTS:    " << ptr_playground->GetHearts() << "   " << std::endl;
-		std::cout << "\tENEMIES:   " << ptr_playground->GetEnemies() << "   " << std::endl;
-		std::cout << "\tHIGHSCORE: " << file.get_highscore_of_player() << "   " << "\n";
+
+		std::cout << "\tCURRENT LEVEL: " << file.get_current_level() << "   " << "\n";
+        std::cout << "\tTIME:          " << ptr_playground->GetTimeLeft() << "   " << std::endl;
+		std::cout << "\tCOINS:         " << ptr_playground->GetCoins() << "   " << std::endl;
+		std::cout << "\tHEARTS:        " << ptr_playground->GetHearts() << "   " << std::endl;
+		std::cout << "\tENEMIES:       " << ptr_playground->GetEnemies() << "   " << std::endl;
+		std::cout << "\tHIGHSCORE:     " << file.get_highscore_of_player() << "   " << "\n";
 
 		if (ptr_playground->IsWin() || ptr_playground->IsLose()) {
 			file.update_highscore(std::to_string(ptr_playground->GetCoins()));
 
 			if (ptr_playground->IsWin()) {
+				int current_level = file.get_current_level();
+				file.update_level(current_level + 1);
+				file.update_reached_level(current_level + 1);
+
 				return true;
 			}
 
@@ -120,8 +130,6 @@ bool PlayGame(const HANDLE& h_console)
 
 bool PlayAgain(const bool b_win)
 { 
-	
-
 	if ( b_win )
 	{
 		std::cout << "You Win! Do you want to play again? (Y/N)" << std::endl;
@@ -162,7 +170,7 @@ int main()
     Options player_choice = Menu::print_menu(h_console);
     if (player_choice == PLAY_GAME) {
         b_play_game = true;
-    } else if (player_choice == EXIT) {
+	} else if (player_choice == EXIT) {
         return 0; // exit program on users behalve
     }
 
