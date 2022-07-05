@@ -6,7 +6,7 @@ Beta::Beta(const PositionPtr& ptr_position) : Enemy(ptr_position, Cell::e_cell_e
 
 PositionPtr Beta::GetNextPosition(const PositionPtr& ptr_position_player, const int i_time_counter)
 {
-	const bool b_player_is_near = mptr_position_current->IsClose(ptr_position_player->GetPosition(), 10);
+	const bool b_player_is_near = mptr_position_current->IsClose(ptr_position_player->GetPosition(), 8);
 	const bool b_time_move = (i_time_counter - mi_time_last_move) > 0;
 	if ( b_player_is_near && b_time_move )
 	{

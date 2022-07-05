@@ -598,8 +598,9 @@ int Playground::GetTimeCounter() const
 	{
 		return 0;
 	}
-	const auto time_current = std::chrono::steady_clock::now();
-	const std::chrono::seconds duration_time = std::chrono::duration_cast<std::chrono::seconds>( time_current - mtime_start );
-	return static_cast<int>( duration_time.count() );
+	const std::chrono::steady_clock::time_point time_current = std::chrono::steady_clock::now();
+	const std::chrono::duration time_duration = time_current - mtime_start;
+	const std::chrono::seconds time_duration_sec = std::chrono::duration_cast<std::chrono::seconds>( time_duration );
+	return static_cast<int>( time_duration_sec.count() );
 }
 

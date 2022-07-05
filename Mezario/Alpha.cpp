@@ -14,6 +14,7 @@ PositionPtr Alpha::GetNextPosition(const PositionPtr& ptr_position_player, const
 	const bool b_player_is_not_too_near = !mptr_position_current->IsClose(ptr_position_player->GetPosition(), 2);
 	if (b_player_is_near && b_time_move)
 	{
+		mi_time_last_move = i_time_counter;
 		if (mptr_position_current->GetPosition().x > ptr_position_player->GetPosition().x
 		 && b_player_is_not_too_near && (get_another_position % 4 == 0) )
 		{
@@ -38,7 +39,6 @@ PositionPtr Alpha::GetNextPosition(const PositionPtr& ptr_position_player, const
 		{
 			return  std::make_shared<Position>(mptr_position_current->GetPosition());
 		}
-		mi_time_last_move = i_time_counter;
 	}
 	return 	std::make_shared<Position>(mptr_position_current->GetPosition());
 }
