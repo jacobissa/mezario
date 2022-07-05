@@ -76,7 +76,8 @@ bool PlayGame(const HANDLE& h_console)
 
 		File file("info.mezario");
 
-        std::cout << "\tTIME:      " << ptr_playground->GetTimeLeft() << "   " << std::endl;
+		SetConsoleTextAttribute(h_console , Color::e_color_white);
+		std::cout << "\tTIME:      " << ptr_playground->GetTimeLeft() << "   " << std::endl;
 		std::cout << "\tCOINS:     " << ptr_playground->GetCoins() << "   " << std::endl;
 		std::cout << "\tHEARTS:    " << ptr_playground->GetHearts() << "   " << std::endl;
 		std::cout << "\tENEMIES:   " << ptr_playground->GetEnemies() << "   " << std::endl;
