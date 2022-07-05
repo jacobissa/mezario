@@ -76,10 +76,10 @@ bool PlayGame(const HANDLE& h_console)
 
 		File file("info.mezario");
 
-        std::cout << "\tTIME:    " << ptr_playground->GetTimeLeft() << "   " << std::endl;
-		std::cout << "\tCOINS:   " << ptr_playground->GetCoins() << "   " << std::endl;
-		std::cout << "\tHEARTS:  " << ptr_playground->GetHearts() << "   " << std::endl;
-		std::cout << "\tENEMIES: " << ptr_playground->GetEnemies() << "   " << std::endl;
+        std::cout << "\tTIME:      " << ptr_playground->GetTimeLeft() << "   " << std::endl;
+		std::cout << "\tCOINS:     " << ptr_playground->GetCoins() << "   " << std::endl;
+		std::cout << "\tHEARTS:    " << ptr_playground->GetHearts() << "   " << std::endl;
+		std::cout << "\tENEMIES:   " << ptr_playground->GetEnemies() << "   " << std::endl;
 		std::cout << "\tHIGHSCORE: " << file.get_highscore_of_player() << "   " << "\n";
 
 		if (ptr_playground->IsWin() || ptr_playground->IsLose()) {
