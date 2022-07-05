@@ -80,12 +80,14 @@ bool PlayGame(const HANDLE& h_console)
 		ptr_playground->UpdateCreatures();
 		ptr_playground->PrintToConsole(h_console);
 
+		SetConsoleTextAttribute(h_console , Color::e_color_white);
+
 		std::cout << "\tCURRENT LEVEL: " << file.get_current_level() << "   " << "\n";
-        std::cout << "\tTIME:    " << ptr_playground->GetTimeLeft() << "   " << std::endl;
-		std::cout << "\tCOINS:   " << ptr_playground->GetCoins() << "   " << std::endl;
-		std::cout << "\tHEARTS:  " << ptr_playground->GetHearts() << "   " << std::endl;
-		std::cout << "\tENEMIES: " << ptr_playground->GetEnemies() << "   " << std::endl;
-		std::cout << "\tHIGHSCORE: " << file.get_highscore_of_player() << "   " << "\n";
+        std::cout << "\tTIME:          " << ptr_playground->GetTimeLeft() << "   " << std::endl;
+		std::cout << "\tCOINS:         " << ptr_playground->GetCoins() << "   " << std::endl;
+		std::cout << "\tHEARTS:        " << ptr_playground->GetHearts() << "   " << std::endl;
+		std::cout << "\tENEMIES:       " << ptr_playground->GetEnemies() << "   " << std::endl;
+		std::cout << "\tHIGHSCORE:     " << file.get_highscore_of_player() << "   " << "\n";
 
 		if (ptr_playground->IsWin() || ptr_playground->IsLose()) {
 			file.update_highscore(std::to_string(ptr_playground->GetCoins()));
