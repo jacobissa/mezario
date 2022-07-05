@@ -45,6 +45,8 @@ void File::write_file(const FILE_OPTIONS key, std::string value)
 		information << "player.highscore:";
 	} else if (key == PLAYER_LEVEL) {
 		information << "player.level:";
+	} else if (key == PLAYER_REACHED_LEVEL) {
+		information << "player.reached_level:";
 	}
 
 	information << value << "\n";
@@ -98,6 +100,15 @@ void File::update_level(int new_level)
 	update_key("player.level", std::to_string(new_level));
 }
 
+void File::update_reached_level(int new_level)
+{
+	if (new_level < 1 || new_level > 5) {
+		return;
+	}
+
+	update_key("player.reached_level", std::to_string(new_level));
+}
+
 bool File::file_exists()
 {
 	std::ifstream infile(this->filepath);
@@ -122,5 +133,10 @@ std::string File::get_highscore_of_player() {
 
 int File::get_current_level() {
 	std::string saved = read_file("player.level");
+	return std::stoi(tidy(saved));
+}
+
+int File::get_reached_level() {
+	std::string saved = read_file("player.reached_level");
 	return std::stoi(tidy(saved));
 }

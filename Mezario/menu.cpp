@@ -55,6 +55,7 @@ void Menu::draw(const HANDLE& h_console) {
         // new player does not have a highscore yet
         file.write_file(PLAYER_HIGHSCORE, "0");
         file.write_file(PLAYER_LEVEL, "1");
+        file.write_file(PLAYER_REACHED_LEVEL, "1");
     }
 
     system("cls");
@@ -83,16 +84,18 @@ void Menu::draw_lvl_select(const HANDLE& h_console, const int selected_lvl)
 
     SetConsoleTextAttribute(h_console, Color::e_color_yellow);
 
-
     std::cout << file.get_name_of_player() << "... choose a level you want to play!\n";
     std::cout << "You can only play levels you already completed.\n\n";
 
-    print_menu_option(h_console, "Level 1", selected_lvl == 1);
-    print_menu_option(h_console, "Level 2", selected_lvl == 2);
-    print_menu_option(h_console, "Level 3", selected_lvl == 3);
-    print_menu_option(h_console, "Level 4", selected_lvl == 4);
-    print_menu_option(h_console, "Level 5", selected_lvl == 5);
+    for (int i = 1; i <= 5; i++) {
+        if (i > file.get_reached_level()) {
+            SetConsoleTextAttribute(h_console, Color::e_color_red);
+        }
 
+        print_menu_option(h_console, "Level " + std::to_string(i), selected_lvl == i);
+    }
+
+    SetConsoleTextAttribute(h_console, Color::e_color_yellow);
     std::cout << "\n\nConfirm your choice with (ENTER).\n";
 }
 
@@ -136,7 +139,7 @@ Options Menu::print_menu(const HANDLE& h_console) {
         do {
             user_input = _getch();
             
-            if (user_input <= 0 + 48 || user_input > 6 + 48) {
+            if ((user_input <= 0 + 48 || user_input > 6 + 48) || user_input - 48 > file.get_reached_level()) {
                 continue;
             } else {
                 lvl = user_input - 48;

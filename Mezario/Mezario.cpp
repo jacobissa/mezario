@@ -88,6 +88,7 @@ bool PlayGame(const HANDLE& h_console)
 			if (ptr_playground->IsWin()) {
 				int current_level = file.get_current_level();
 				file.update_level(current_level + 1);
+				file.update_reached_level(current_level + 1);
 
 				return true;
 			}
