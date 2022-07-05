@@ -1,4 +1,5 @@
 #include "menu.h"
+#include "file.h"
 #include "Mezario.h"
 
 #include <iostream>
@@ -31,10 +32,30 @@ void Menu::cycle(int user_input) {
 void Menu::draw(const HANDLE& h_console) {
     system("cls");
     SetConsoleTextAttribute(h_console , Color::e_color_yellow);
-    std::cout << "Welcome to Mezario!\n\n";
+
+    File file("info.mezario");
+    if (!file.file_exists()) {
+        std::cout << "It seems like it's your first time here." << "\n";
+        std::cout << "Please tell me your name: ";
+
+        std::string user_name;
+        std::cin >> user_name;
+
+        std::cout << user_name;
+        file.write_file(PLAYER_NAME, user_name);
+
+        // new player does not have a highscore yet
+        file.write_file(PLAYER_HIGHSCORE, "0");
+    }
+
+    system("cls");
+    std::cout << "Welcome to Mezario, " << file.get_name_of_player() << "!\n\n";
 
     print_menu_option(h_console, "Play Mezario", currently_selected[0]);
     print_menu_option(h_console, "Exit", currently_selected[1]);
+
+    SetConsoleTextAttribute(h_console, Color::e_color_cyan);
+    std::cout << "\n\nYour highscore: " << file.get_highscore_of_player();
 }
 
 Options Menu::evaluate_player_input() {
