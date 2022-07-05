@@ -6,6 +6,7 @@
 
 #include "Playground.h"
 #include "menu.h"
+#include "file.h"
 
 void ConsoleSettings(const HANDLE& h_console)
 {
@@ -71,13 +72,25 @@ bool PlayGame(const HANDLE& h_console)
 		}
 		ptr_playground->UpdateCreatures();
 		ptr_playground->PrintToConsole(h_console);
+
+		File file("info.mezario");
+
         std::cout << "\tTIME:    " << ptr_playground->GetTimeLeft() << "   " << std::endl;
 		std::cout << "\tCOINS:   " << ptr_playground->GetCoins() << "   " << std::endl;
 		std::cout << "\tHEARTS:  " << ptr_playground->GetHearts() << "   " << std::endl;
 		std::cout << "\tENEMIES: " << ptr_playground->GetEnemies() << "   " << std::endl;
+		std::cout << "\tHIGHSCORE: " << file.get_highscore_of_player() << "   " << "\n";
 
-		if ( ptr_playground->IsWin() ) return true;
-		if ( ptr_playground->IsLose() ) return false;
+		if (ptr_playground->IsWin() || ptr_playground->IsLose()) {
+			file.update_highscore(std::to_string(ptr_playground->GetCoins()));
+
+			if (ptr_playground->IsWin()) {
+				return true;
+			}
+
+			// IsLose()
+			return false;
+		}
 
 		while ( !b_start_play )
 		{
@@ -104,7 +117,9 @@ bool PlayGame(const HANDLE& h_console)
 }
 
 bool PlayAgain(const bool b_win)
-{
+{ 
+	
+
 	if ( b_win )
 	{
 		std::cout << "You Win! Do you want to play again? (Y/N)" << std::endl;
@@ -142,7 +157,6 @@ int main()
 
     bool b_play_game = false;
 
-    // TODO: include OPTIONS
     Options player_choice = Menu::print_menu(h_console);
     if (player_choice == PLAY_GAME) {
         b_play_game = true;

@@ -4,7 +4,7 @@
 #include <Windows.h>
 #include <string>
 
-enum Options { PLAY_GAME, OPTIONS, EXIT };
+enum Options { PLAY_GAME, EXIT };
 
 enum UserInput {
     ENTER = 13,
