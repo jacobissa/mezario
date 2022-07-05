@@ -127,8 +127,6 @@ bool PlayGame(const HANDLE& h_console)
 
 bool PlayAgain(const bool b_win)
 { 
-	
-
 	if ( b_win )
 	{
 		std::cout << "You Win! Do you want to play again? (Y/N)" << std::endl;
