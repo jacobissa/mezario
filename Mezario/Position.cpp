@@ -91,7 +91,7 @@ std::vector<Position> Position::GetAllPosition() const
 
 Position Position::GetRandomNeighbourPosition() const
 {
-	switch ( rand() % 4 )
+	switch ( rand() % 8 )
 	{
 		case 0:
 			{
@@ -111,6 +111,26 @@ Position Position::GetRandomNeighbourPosition() const
 		case 3:
 			{
 				return GetRightPosition();
+			}
+			break;
+		case 4:
+			{
+				return GetRightUpPosition();
+			}
+			break;
+		case 5:
+			{
+				return GetRightDownPosition();
+			}
+			break;
+		case 6:
+			{
+				return GetLeftDownPosition();
+			}
+			break;
+		case 7:
+			{
+				return GetLeftUpPosition();
 			}
 			break;
 	}
