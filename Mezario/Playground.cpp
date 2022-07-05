@@ -319,12 +319,12 @@ void Playground::UpdateEnemyShot(const EnemyPtr& ptr_enemy)
 				switch ( ptr_enemy->GetEnemyType() )
 				{
 					case Cell::e_cell_enemy_alpha : 
-					case Cell::e_cell_enemy_beta :
+					case Cell::e_cell_enemy_gamma:
 						{
 							mi_hearts--;
 						}
 						break;
-					case Cell::e_cell_enemy_gamma:
+					case Cell::e_cell_enemy_beta:
 						{
 							mi_hearts -= 2;
 						}

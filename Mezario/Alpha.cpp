@@ -12,26 +12,26 @@ PositionPtr Alpha::GetNextPosition(const PositionPtr& ptr_position_player, const
 	const bool b_player_is_near = mptr_position_current->IsClose(ptr_position_player->GetPosition(), 10);
 	const bool b_time_move = (i_time_counter - mi_time_last_shot) > 0;
 	const bool b_player_is_not_too_near = !mptr_position_current->IsClose(ptr_position_player->GetPosition(), 2);
-	if (b_player_is_near && b_time_move)
+	if (b_player_is_near && b_time_move && b_player_is_not_too_near )
 	{
 		mi_time_last_move = i_time_counter;
 		if (mptr_position_current->GetPosition().x > ptr_position_player->GetPosition().x
-		 && b_player_is_not_too_near && (get_another_position % 4 == 0) )
+		  && (get_another_position % 4 == 0) )
 		{
 				return std::make_shared<Position>(mptr_position_current->GetLeftPosition());
 		}
 		else if (mptr_position_current->GetPosition().x < ptr_position_player->GetPosition().x 
-				 && b_player_is_not_too_near && get_another_position % 4 == 1 )
+				 && get_another_position % 4 == 1 )
 		{
 				return  std::make_shared<Position>(mptr_position_current->GetRightPosition());
 		}
 		else if ( mptr_position_current->GetPosition().y < ptr_position_player->GetPosition().y && 
-				 b_player_is_not_too_near && get_another_position % 4 == 2 )
+				  get_another_position % 4 == 2 )
 		{
 			return  std::make_shared<Position>(mptr_position_current->GetDownPosition());
 		}
 		else if (mptr_position_current->GetPosition().y > ptr_position_player->GetPosition().y 
-				 && b_player_is_not_too_near && get_another_position % 4 == 3 )
+				 && get_another_position % 4 == 3 )
 		{
 			return  std::make_shared<Position>(mptr_position_current->GetUpPosition());
 		}
