@@ -7,10 +7,11 @@ enum FILE_OPTIONS { PLAYER_NAME, PLAYER_HIGHSCORE };
 class File {
 private:
 	static std::string filepath;
-	void read_file();
+	std::string read_file(const std::string search);
+	std::string tidy(const std::string dirty);
 
 public:
-	File(std::string filepath);
+	File(const std::string filepath);
 
 	std::string get_name_of_player();
 	std::string get_highscore_of_player();
